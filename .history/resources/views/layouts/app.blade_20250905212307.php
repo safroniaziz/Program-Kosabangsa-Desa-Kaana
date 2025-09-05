@@ -625,7 +625,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize AOS with settings compatible with all pages

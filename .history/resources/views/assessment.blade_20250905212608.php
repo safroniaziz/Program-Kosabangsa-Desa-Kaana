@@ -128,19 +128,6 @@
             </p>
         </div>
 
-        <!-- Progress Bar -->
-        <div class="mb-8" data-aos="fade-up" data-aos-delay="50">
-            <div class="max-w-2xl mx-auto">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-medium text-gray-600">Progress Assessment</span>
-                    <span class="text-sm font-medium text-gray-600" id="progress-text">0%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div id="progress-bar" class="bg-gradient-to-r from-blue-600 to-indigo-600 h-3 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-
         <!-- Assessment Form -->
         <form id="disasterAssessmentForm" class="space-y-8">
             <!-- Personal Info -->
@@ -157,12 +144,11 @@
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
-                        <input type="text" id="nama" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300" required>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="nama-error"></div>
+                        <input type="text" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300" required>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Usia</label>
-                        <select id="usia" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white" required>
+                        <select class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white" required>
                             <option value="">Pilih rentang usia</option>
                             <option value="<18">Dibawah 18 tahun</option>
                             <option value="18-25">18-25 tahun</option>
@@ -171,7 +157,6 @@
                             <option value="46-55">46-55 tahun</option>
                             <option value=">55">Diatas 55 tahun</option>
                         </select>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="usia-error"></div>
                     </div>
                 </div>
             </div>
@@ -189,119 +174,74 @@
 
                 <div class="space-y-6">
                     <!-- Question 1 -->
-                    <div class="question-group" data-question="1">
+                    <div>
                         <p class="text-gray-700 font-medium mb-4">1. Bagaimana perasaan Anda ketika mendengar peringatan bencana?</p>
                         <div class="space-y-3">
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q1" value="3" class="mr-3 text-blue-600" required>
                                 <span>Tenang dan siap menghadapi situasi</span>
                             </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q1" value="2" class="mr-3 text-blue-600">
                                 <span>Sedikit cemas tapi masih terkontrol</span>
                             </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q1" value="1" class="mr-3 text-blue-600">
                                 <span>Sangat panik dan tidak tahu harus berbuat apa</span>
                             </label>
                         </div>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="q1-error"></div>
                     </div>
 
                     <!-- Question 2 -->
-                    <div class="question-group" data-question="2">
+                    <div>
                         <p class="text-gray-700 font-medium mb-4">2. Apakah Anda memiliki rencana evakuasi keluarga?</p>
                         <div class="space-y-3">
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q2" value="3" class="mr-3 text-blue-600" required>
                                 <span>Ya, lengkap dengan jalur dan titik kumpul</span>
                             </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q2" value="2" class="mr-3 text-blue-600">
                                 <span>Ada rencana sederhana</span>
                             </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q2" value="1" class="mr-3 text-blue-600">
                                 <span>Belum memiliki rencana</span>
                             </label>
                         </div>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="q2-error"></div>
                     </div>
 
                     <!-- Question 3 -->
-                    <div class="question-group" data-question="3">
+                    <div>
                         <p class="text-gray-700 font-medium mb-4">3. Bagaimana Anda mengelola stress dalam situasi darurat?</p>
                         <div class="space-y-3">
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q3" value="3" class="mr-3 text-blue-600" required>
                                 <span>Memiliki teknik relaksasi yang efektif</span>
                             </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q3" value="2" class="mr-3 text-blue-600">
                                 <span>Berusaha tetap tenang meski sulit</span>
                             </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
+                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                                 <input type="radio" name="q3" value="1" class="mr-3 text-blue-600">
                                 <span>Mudah panik dan kehilangan kontrol</span>
                             </label>
                         </div>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="q3-error"></div>
                     </div>
 
-                    <!-- Question 4 -->
-                    <div class="question-group" data-question="4">
-                        <p class="text-gray-700 font-medium mb-4">4. Apakah Anda memiliki tas siaga bencana?</p>
-                        <div class="space-y-3">
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
-                                <input type="radio" name="q4" value="3" class="mr-3 text-blue-600" required>
-                                <span>Ya, lengkap dan siap digunakan</span>
-                            </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
-                                <input type="radio" name="q4" value="2" class="mr-3 text-blue-600">
-                                <span>Ada beberapa perlengkapan darurat</span>
-                            </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
-                                <input type="radio" name="q4" value="1" class="mr-3 text-blue-600">
-                                <span>Belum memiliki persiapan</span>
-                            </label>
-                        </div>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="q4-error"></div>
-                    </div>
-
-                    <!-- Question 5 -->
-                    <div class="question-group" data-question="5">
-                        <p class="text-gray-700 font-medium mb-4">5. Seberapa sering Anda mengikuti simulasi tanggap bencana?</p>
-                        <div class="space-y-3">
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
-                                <input type="radio" name="q5" value="3" class="mr-3 text-blue-600" required>
-                                <span>Rutin mengikuti setiap ada kesempatan</span>
-                            </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
-                                <input type="radio" name="q5" value="2" class="mr-3 text-blue-600">
-                                <span>Pernah beberapa kali</span>
-                            </label>
-                            <label class="flex items-center p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer radio-option">
-                                <input type="radio" name="q5" value="1" class="mr-3 text-blue-600">
-                                <span>Belum pernah mengikuti</span>
-                            </label>
-                        </div>
-                        <div class="error-message hidden mt-2 text-red-600 text-sm" id="q5-error"></div>
-                    </div>
+                    <!-- More questions can be added here -->
                 </div>
             </div>
 
             <!-- Submit Button -->
             <div class="text-center" data-aos="fade-up" data-aos-delay="300">
-                <button type="submit" id="submit-btn" class="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed">
+                <button type="submit" class="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                     <span class="relative z-10 flex items-center justify-center">
-                        <svg class="w-6 h-6 mr-2 loading-icon hidden animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <svg class="w-6 h-6 mr-2 submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                         </svg>
-                        <span class="button-text">Lihat Hasil Assessment</span>
+                        Lihat Hasil Assessment
                     </span>
                     <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </button>
@@ -357,196 +297,56 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
-    let totalQuestions = 5;
-
-    // Smooth scrolling for anchor links
-    $('a[href^="#"]').on('click', function(e) {
-        e.preventDefault();
-        const target = $($(this).attr('href'));
-        if (target.length) {
-            $('html, body').animate({
-                scrollTop: target.offset().top - 80
-            }, 800);
-        }
-    });
-
-    // Progress tracking
-    function updateProgress() {
-        let answered = 0;
-        for (let i = 1; i <= totalQuestions; i++) {
-            if ($(`input[name="q${i}"]:checked`).length > 0) {
-                answered++;
-            }
-        }
-
-        // Include personal info
-        if ($('#nama').val().trim() !== '') answered += 0.5;
-        if ($('#usia').val() !== '') answered += 0.5;
-
-        const totalItems = totalQuestions + 1; // 5 questions + personal info
-        const progress = Math.round((answered / totalItems) * 100);
-
-        $('#progress-bar').css('width', progress + '%');
-        $('#progress-text').text(progress + '%');
-    }
-
-    // Real-time progress update
-    $('input[type="radio"], #nama, #usia').on('change input', function() {
-        updateProgress();
-
-        // Clear error for this field
-        const name = $(this).attr('name') || $(this).attr('id');
-        $(`#${name}-error`).addClass('hidden');
-        $(this).closest('.radio-option').removeClass('border-red-300');
-    });
-
-    // Enhanced radio button styling
-    $('.radio-option').on('click', function() {
-        const radio = $(this).find('input[type="radio"]');
-        const questionGroup = $(this).closest('.question-group');
-
-        // Remove selection from siblings
-        questionGroup.find('.radio-option').removeClass('border-blue-500 bg-blue-50');
-
-        // Add selection to current
-        if (radio.prop('checked')) {
-            $(this).addClass('border-blue-500 bg-blue-50');
-        }
-    });
-
-    // Form validation
-    function validateForm() {
-        let isValid = true;
-
-        // Validate personal info
-        if ($('#nama').val().trim() === '') {
-            $('#nama-error').text('Nama lengkap harus diisi').removeClass('hidden');
-            isValid = false;
-        }
-
-        if ($('#usia').val() === '') {
-            $('#usia-error').text('Usia harus dipilih').removeClass('hidden');
-            isValid = false;
-        }
-
-        // Validate questions
-        for (let i = 1; i <= totalQuestions; i++) {
-            if ($(`input[name="q${i}"]:checked`).length === 0) {
-                $(`#q${i}-error`).text('Pertanyaan ini harus dijawab').removeClass('hidden');
-                isValid = false;
-            }
-        }
-
-        return isValid;
-    }
-
     // Form submission
     $('#disasterAssessmentForm').on('submit', function(e) {
         e.preventDefault();
-
-        // Clear previous errors
-        $('.error-message').addClass('hidden');
-
-        if (!validateForm()) {
-            // Scroll to first error
-            const firstError = $('.error-message:not(.hidden)').first();
-            if (firstError.length) {
-                $('html, body').animate({
-                    scrollTop: firstError.offset().top - 100
-                }, 500);
-            }
-            return;
-        }
-
-        // Show loading state
-        const submitBtn = $('#submit-btn');
-        const buttonText = $('.button-text');
-        const loadingIcon = $('.loading-icon');
-        const submitIcon = $('.submit-icon');
-
-        submitBtn.prop('disabled', true);
-        buttonText.text('Memproses...');
-        loadingIcon.removeClass('hidden');
-        submitIcon.addClass('hidden');
-
-        // Simulate processing time
-        setTimeout(() => {
-            // Calculate score
-            let totalScore = 0;
-            let questionCount = 0;
-
-            $(this).find('input[type="radio"]:checked').each(function() {
-                totalScore += parseInt($(this).val());
-                questionCount++;
-            });
-
-            const averageScore = totalScore / questionCount;
-            const nama = $('#nama').val();
-            const usia = $('#usia').val();
-
-            // Show results
-            showResults(averageScore, nama, usia);
-
-            // Reset button
-            submitBtn.prop('disabled', false);
-            buttonText.text('Lihat Hasil Assessment');
-            loadingIcon.addClass('hidden');
-            submitIcon.removeClass('hidden');
-        }, 2000);
+        
+        // Calculate score
+        let totalScore = 0;
+        let questionCount = 0;
+        
+        $(this).find('input[type="radio"]:checked').each(function() {
+            totalScore += parseInt($(this).val());
+            questionCount++;
+        });
+        
+        const averageScore = totalScore / questionCount;
+        
+        // Show results
+        showResults(averageScore);
     });
-
-    function showResults(score, nama, usia) {
-        let status, statusClass, statusIcon, recommendation, additionalInfo;
-
+    
+    function showResults(score) {
+        let status, statusClass, statusIcon, recommendation;
+        
         if (score >= 2.5) {
             status = 'AMAN';
             statusClass = 'bg-green-500';
             statusIcon = '✓';
             recommendation = 'Mental Anda dalam kondisi baik dan siap menghadapi situasi darurat. Tetap pertahankan kesiapan ini dengan latihan rutin.';
-            additionalInfo = 'Kondisi mental Anda menunjukkan kesiapan yang baik dalam menghadapi bencana.';
         } else if (score >= 1.5) {
             status = 'WASPADA';
             statusClass = 'bg-yellow-500';
             statusIcon = '!';
             recommendation = 'Anda perlu meningkatkan kesiapan mental. Ikuti pelatihan tanggap darurat dan konsultasi dengan konselor jika diperlukan.';
-            additionalInfo = 'Diperlukan perhatian khusus untuk meningkatkan kesiapan mental Anda.';
         } else {
             status = 'KRITIS';
             statusClass = 'bg-red-500';
             statusIcon = '✕';
             recommendation = 'Segera hubungi konselor profesional untuk mendapatkan bantuan. Kondisi mental Anda memerlukan perhatian khusus.';
-            additionalInfo = 'Kondisi mental Anda memerlukan intervensi profesional segera.';
         }
-
+        
         const resultsHTML = `
             <div class="text-center">
-                <button onclick="$('#resultsModal').addClass('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-
-                <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Hasil Assessment</h3>
-                    <p class="text-gray-600">Nama: ${nama} | Usia: ${usia}</p>
-                </div>
-
-                <div class="${statusClass} w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-4xl font-bold shadow-lg animate-pulse">
+                <div class="${statusClass} w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-4xl font-bold">
                     ${statusIcon}
                 </div>
-
                 <h3 class="text-3xl font-bold text-gray-900 mb-2">Status Mental: ${status}</h3>
-                <p class="text-gray-600 mb-4">${additionalInfo}</p>
-
                 <div class="w-full bg-gray-200 rounded-full h-4 mb-6">
-                    <div class="${statusClass} h-4 rounded-full transition-all duration-1000 ease-out" style="width: ${(score/3)*100}%"></div>
+                    <div class="${statusClass} h-4 rounded-full transition-all duration-1000" style="width: ${(score/3)*100}%"></div>
                 </div>
-
-                <div class="text-left bg-gray-50 rounded-xl p-6 mb-6">
-                    <h4 class="font-semibold text-gray-900 mb-3">Rekomendasi</h4>
-                    <p class="text-gray-700">${recommendation}</p>
-                </div>
-
+                <p class="text-gray-600 mb-8">${recommendation}</p>
+                
                 ${score < 2.5 ? `
                     <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
                         <h4 class="font-semibold text-blue-900 mb-3">Konseling Virtual Tersedia</h4>
@@ -556,48 +356,9 @@ $(document).ready(function() {
                         </button>
                     </div>
                 ` : ''}
-
-                <div class="bg-gray-50 rounded-xl p-6 mb-6">
-                    <h4 class="font-semibold text-gray-900 mb-3">Tips Meningkatkan Kesiapan Mental</h4>
-                    <ul class="text-left text-gray-700 space-y-2">
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>Ikuti pelatihan tanggap darurat secara rutin</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>Siapkan tas siaga bencana untuk keluarga</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>Pelajari teknik relaksasi dan manajemen stress</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>Komunikasi dengan keluarga tentang rencana darurat</span>
-                        </li>
-                    </ul>
-                </div>
-
+                
                 <div class="flex gap-4 justify-center">
-                    <button onclick="window.print()" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
-                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                        </svg>
-                        Cetak Hasil
-                    </button>
                     <button onclick="location.reload()" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
-                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
                         Ulangi Assessment
                     </button>
                     <button onclick="$('#resultsModal').addClass('hidden')" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
@@ -606,29 +367,146 @@ $(document).ready(function() {
                 </div>
             </div>
         `;
-
+        
         $('#modalContent').html(resultsHTML);
         $('#resultsModal').removeClass('hidden');
-
+        
         // Animate modal
         setTimeout(() => {
             $('#modalContent').removeClass('scale-95 opacity-0').addClass('scale-100 opacity-100');
         }, 100);
     }
-
-    // Close modal when clicking outside
-    $('#resultsModal').on('click', function(e) {
-        if (e.target === this) {
-            $(this).addClass('hidden');
-        }
-    });
-
-    // Keyboard navigation
-    $(document).on('keydown', function(e) {
-        if (e.key === 'Escape' && !$('#resultsModal').hasClass('hidden')) {
-            $('#resultsModal').addClass('hidden');
-        }
-    });
 });
+</script>
+@endsection
+        alert('Mohon pilih minimal satu bidang minat.');
+        $('input[name="interests"]').first().focus();
+        return false;
+    }
+
+    // Check career goals
+    if (!$('#career_goals').val().trim()) {
+        alert('Mohon jelaskan tujuan karir Anda.');
+        $('#career_goals').focus();
+        return false;
+    }
+
+    return true;
+}
+
+function generateResults() {
+    const formData = {
+        name: $('#fullName').val(),
+        age: $('#age').val(),
+        education: $('#education').val(),
+        currentJob: $('#currentJob').val(),
+        decisionMaking: $('input[name="decision_making"]:checked').val(),
+        socialPreference: $('input[name="social_preference"]:checked').val(),
+        problemSolving: $('input[name="problem_solving"]:checked').val(),
+        interests: $('input[name="interests"]:checked').map(function() { return this.value; }).get(),
+        careerGoals: $('#career_goals').val(),
+        workEnvironment: $('input[name="work_environment"]:checked').val()
+    };
+
+    // Generate personality type
+    let personalityType = "Strategis";
+    if (formData.decisionMaking === "intuitive" && formData.socialPreference === "large_group") {
+        personalityType = "Inspiratif";
+    } else if (formData.problemSolving === "creative" && formData.socialPreference === "small_group") {
+        personalityType = "Kreatif";
+    } else if (formData.decisionMaking === "analytical" && formData.problemSolving === "systematic") {
+        personalityType = "Analitis";
+    } else if (formData.socialPreference === "one_on_one" || formData.socialPreference === "alone") {
+        personalityType = "Reflektif";
+    }
+
+    // Generate career recommendations based on interests
+    const careerRecommendations = [];
+    formData.interests.forEach(interest => {
+        switch(interest) {
+            case 'technology':
+                careerRecommendations.push('Pengembang Website', 'Digital Marketing Specialist');
+                break;
+            case 'business':
+                careerRecommendations.push('Konsultan UMKM', 'Manajer Bisnis Desa');
+                break;
+            case 'arts':
+                careerRecommendations.push('Desainer Grafis', 'Content Creator');
+                break;
+            case 'education':
+                careerRecommendations.push('Fasilitator Pelatihan', 'Guru/Instruktur');
+                break;
+            case 'agriculture':
+                careerRecommendations.push('Ahli Pertanian Modern', 'Pengelola Agrowisata');
+                break;
+            case 'healthcare':
+                careerRecommendations.push('Konselor Kesehatan', 'Koordinator Posyandu');
+                break;
+            case 'tourism':
+                careerRecommendations.push('Pemandu Wisata', 'Pengelola Homestay');
+                break;
+            case 'social':
+                careerRecommendations.push('Fasilitator Masyarakat', 'Koordinator Program Sosial');
+                break;
+        }
+    });
+
+    // Remove duplicates and limit to 3
+    const uniqueRecommendations = [...new Set(careerRecommendations)].slice(0, 3);
+
+    // Generate results HTML
+    const resultsHTML = `
+        <div class="bg-blue-50 rounded-xl p-6 mb-6">
+            <h4 class="text-lg font-semibold text-blue-900 mb-3">Profil Kepribadian</h4>
+            <div class="flex items-center">
+                <div class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <span class="text-white font-bold">${personalityType.charAt(0)}</span>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-900">Tipe ${personalityType}</p>
+                    <p class="text-gray-600 text-sm">Berdasarkan pola jawaban Anda</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-green-50 rounded-xl p-6 mb-6">
+            <h4 class="text-lg font-semibold text-green-900 mb-3">Rekomendasi Karir</h4>
+            <div class="space-y-3">
+                ${uniqueRecommendations.map(career => `
+                    <div class="flex items-center p-3 bg-white rounded-lg">
+                        <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-gray-700">${career}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div class="bg-purple-50 rounded-xl p-6 mb-6">
+            <h4 class="text-lg font-semibold text-purple-900 mb-3">Area Pengembangan</h4>
+            <div class="space-y-2">
+                <p class="text-gray-700">• Tingkatkan keterampilan ${formData.interests.includes('technology') ? 'digital' : 'komunikasi'}</p>
+                <p class="text-gray-700">• Kembangkan kemampuan ${formData.problemSolving === 'systematic' ? 'analitis' : 'kreatif'}</p>
+                <p class="text-gray-700">• Perkuat jaringan ${formData.socialPreference === 'large_group' ? 'profesional' : 'personal'}</p>
+            </div>
+        </div>
+
+        <div class="bg-yellow-50 rounded-xl p-6">
+            <h4 class="text-lg font-semibold text-yellow-900 mb-3">Langkah Selanjutnya</h4>
+            <div class="space-y-2">
+                <p class="text-gray-700">1. Ikuti kursus yang relevan di platform LMS kami</p>
+                <p class="text-gray-700">2. Bergabung dengan komunitas sesuai minat Anda</p>
+                <p class="text-gray-700">3. Konsultasi lebih lanjut dengan mentor karir</p>
+            </div>
+        </div>
+    `;
+
+    $('#resultsContent').html(resultsHTML);
+}
+
+function closeModal() {
+    $('#resultsModal').addClass('hidden').removeClass('flex');
+}
 </script>
 @endsection

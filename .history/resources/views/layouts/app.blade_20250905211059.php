@@ -81,127 +81,16 @@
             box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.5);
         }
 
-        /* Global Styles for Consistency */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --dark-gradient: linear-gradient(to br, #0f172a, #1e293b);
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 1000;
-            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
-        }
-
-        .back-to-top svg {
-            width: 24px;
-            height: 24px;
-            color: white;
-            transition: transform 0.3s ease;
-        }
-
-        .back-to-top:hover svg {
-            transform: translateY(-2px);
-        }
-
-        /* Shimmer Effect */
-        @keyframes shimmer {
-            0% {
-                background-position: -1000px 0;
-            }
-            100% {
-                background-position: 1000px 0;
-            }
-        }
-
-        .shimmer {
-            animation: shimmer 3s infinite linear;
-            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
-            background-size: 1000px 100%;
-        }
-
-        /* Professional CTA Styles */
-        .cta-section {
-            position: relative;
-            padding: 80px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow: hidden;
-        }
-
-        .cta-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.1;
-            background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* Floating animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            33% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-            66% {
-                transform: translateY(-10px) rotate(-5deg);
-            }
-        }
-
         .floating-element {
-            animation: float 6s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
         }
 
-        /* Glass morphism card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+        .floating-element:nth-child(2) {
+            animation-delay: -1s;
         }
 
-        /* Section divider */
-        .section-divider {
-            height: 100px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-divider::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+        .floating-element:nth-child(3) {
+            animation-delay: -2s;
         }
 
         /* Enhanced Navbar Styles */
@@ -614,13 +503,6 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" aria-label="Back to top">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-        </svg>
-    </button>
-
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -799,20 +681,6 @@
                 $(this).text('');
                 typeWriter(this, text, 100);
             });
-        });
-
-        // Back to Top functionality
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 300) {
-                $('#backToTop').addClass('show');
-            } else {
-                $('#backToTop').removeClass('show');
-            }
-        });
-
-        $('#backToTop').click(function(e) {
-            e.preventDefault();
-            $('html, body').animate({scrollTop: 0}, 800, 'easeInOutCubic');
         });
     </script>
 

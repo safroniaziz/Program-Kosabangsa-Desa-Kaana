@@ -26,9 +26,9 @@
     <!-- Subtle overlay -->
     <div class="absolute inset-0 bg-black/20"></div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-h-screen flex items-center max-w-7xl">
+    <div class="container mx-auto px-4 relative z-10 min-h-screen flex items-center">
 
-        <div class="mx-auto w-full">
+        <div class="max-w-7xl mx-auto w-full">
             <!-- Main content grid -->
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <!-- Left content -->
@@ -221,8 +221,8 @@
         <div class="absolute top-1/2 left-1/3 w-48 h-48 bg-gradient-to-br from-green-100/40 to-cyan-200/40 rounded-full blur-2xl animate-float" style="animation-delay: -4s;"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
-        <div class="mx-auto text-center mb-16">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center mb-16">
             <div data-aos="fade-up">
                 <div class="inline-block mb-4">
                     <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 tracking-wider uppercase animate-shimmer">Pembelajaran Komprehensif</span>
@@ -239,7 +239,7 @@
         </div>
 
         <!-- Learning outcomes grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             @php
             $outcomes = [
                 [
@@ -297,7 +297,7 @@
         </div>
 
         <!-- Call to action dengan animasi -->
-        <div class="max-w-7xl mx-auto text-center mt-16" data-aos="fade-up" data-aos-delay="800">
+        <div class="max-w-3xl mx-auto text-center mt-16" data-aos="fade-up" data-aos-delay="800">
             <div class="bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200/50 rounded-2xl p-8 relative overflow-hidden">
                 <!-- Background decorative gradient -->
                 <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5"></div>
@@ -343,9 +343,9 @@
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-green-200/30 to-cyan-300/30 rounded-full blur-3xl animate-float" style="animation-delay: -6s;"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+    <div class="container mx-auto px-4 relative z-10">
         <!-- Section header with animations -->
-        <div class="mx-auto text-center mb-20">
+        <div class="max-w-4xl mx-auto text-center mb-20">
             <div data-aos="fade-up">
                 <div class="inline-block mb-6">
                     <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wider uppercase">Kurikulum Terbaik</span>
@@ -365,7 +365,7 @@
         </div>
 
         <!-- Progress overview dengan glass effect -->
-        <div class="max-w-7xl mx-auto mb-20" data-aos="flip-up" data-aos-delay="600">
+        <div class="max-w-3xl mx-auto mb-20" data-aos="flip-up" data-aos-delay="600">
             <div class="glass border border-white/20 rounded-2xl p-8 text-center shadow-xl">
                 <div class="flex items-center justify-between mb-6">
                     <span class="text-lg font-bold text-slate-800">Progress Keseluruhan</span>
@@ -691,8 +691,8 @@
         <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-500/10 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
-        <div class="mx-auto text-center mb-20" data-aos="fade-up" data-aos-duration="600">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center mb-20" data-aos="fade-up" data-aos-duration="600">
             <div class="inline-block mb-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-blue-200/50 rounded-full px-6 py-3 shadow-lg">
                     <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-pulse"></div>
@@ -706,7 +706,7 @@
                     Terstruktur
                 </span>
             </h2>
-            <p class="text-xl lg:text-2xl text-slate-600 leading-relaxed max-w-7xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p class="text-xl lg:text-2xl text-slate-600 leading-relaxed max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
                 Ikuti jalur pembelajaran yang telah dirancang khusus untuk mengoptimalkan proses belajar Anda
                 <span class="block mt-2 text-lg text-blue-600 font-semibold">dari pemula hingga expert developer</span>
             </p>
@@ -790,8 +790,8 @@
                     </div>
 
                     <!-- Enhanced Content card -->
-                    <div class="w-full {{ $path['position'] === 'left' ? 'pr-1 md:pr-2' : 'pl-1 md:pl-2' }} {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }}">
-                        <div class="roadmap-card bg-gradient-to-br {{ $path['bgColor'] }} backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 {{ $path['position'] === 'left' ? 'md:text-right' : '' }} max-w-sm {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }} group hover:border-white/80 relative overflow-hidden">
+                    <div class="w-full {{ $path['position'] === 'left' ? 'pr-2 md:pr-4' : 'pl-2 md:pl-4' }} {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }}">
+                        <div class="roadmap-card bg-gradient-to-br {{ $path['bgColor'] }} backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 {{ $path['position'] === 'left' ? 'md:text-right' : '' }} max-w-md {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }} group hover:border-white/80 relative overflow-hidden">
 
                             <!-- Background decoration -->
                             <div class="absolute top-0 {{ $path['position'] === 'left' ? 'left-0' : 'right-0' }} w-24 h-24 bg-gradient-to-br {{ $path['color'] }} opacity-10 rounded-full blur-3xl transform {{ $path['position'] === 'left' ? '-translate-x-6' : 'translate-x-6' }} -translate-y-6 float-animation-reverse"></div>
@@ -958,7 +958,7 @@
                     <!-- Template untuk text content -->
                     <template id="textContentTemplate">
                         <div class="w-full h-full bg-white/70 backdrop-blur-sm overflow-y-auto">
-                            <div class="max-w-7xl mx-auto p-8">
+                            <div class="max-w-4xl mx-auto p-8">
                                 <!-- Material Header -->
                                 <div class="mb-8">
                                     <div class="flex items-center gap-4 mb-6">

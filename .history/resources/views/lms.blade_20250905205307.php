@@ -26,7 +26,7 @@
     <!-- Subtle overlay -->
     <div class="absolute inset-0 bg-black/20"></div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-h-screen flex items-center max-w-7xl">
+    <div class="container mx-auto px-4 relative z-10 min-h-screen flex items-center max-w-7xl">
 
         <div class="mx-auto w-full">
             <!-- Main content grid -->
@@ -221,7 +221,7 @@
         <div class="absolute top-1/2 left-1/3 w-48 h-48 bg-gradient-to-br from-green-100/40 to-cyan-200/40 rounded-full blur-2xl animate-float" style="animation-delay: -4s;"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+    <div class="container mx-auto px-4 relative z-10 max-w-7xl">
         <div class="mx-auto text-center mb-16">
             <div data-aos="fade-up">
                 <div class="inline-block mb-4">
@@ -343,7 +343,7 @@
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-green-200/30 to-cyan-300/30 rounded-full blur-3xl animate-float" style="animation-delay: -6s;"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+    <div class="container mx-auto px-4 relative z-10 max-w-7xl">
         <!-- Section header with animations -->
         <div class="mx-auto text-center mb-20">
             <div data-aos="fade-up">
@@ -691,7 +691,7 @@
         <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-500/10 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+    <div class="container mx-auto px-4 relative z-10 max-w-7xl">
         <div class="mx-auto text-center mb-20" data-aos="fade-up" data-aos-duration="600">
             <div class="inline-block mb-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-blue-200/50 rounded-full px-6 py-3 shadow-lg">

@@ -201,12 +201,12 @@
     .roadmap-timeline::before {
         left: 0.75rem;
     }
-
+    
     .timeline-dot {
         left: 0.75rem !important;
         transform: translateX(-50%) !important;
     }
-
+    
     .roadmap-card {
         margin-left: 1.5rem;
         max-width: none;

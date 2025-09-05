@@ -279,7 +279,7 @@
                     <div class="flex flex-wrap justify-center gap-4 text-sm">
                         <div class="flex items-center gap-2 bg-blue-100/60 backdrop-blur-sm border border-blue-200/50 rounded-full px-4 py-2 shadow-sm">
                             <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                            <span class="text-blue-700">Web-Based</span>
+                            <span class="text-blue-700">AI-Powered</span>
                         </div>
                         <div class="flex items-center gap-2 bg-purple-100/60 backdrop-blur-sm border border-purple-200/50 rounded-full px-4 py-2 shadow-sm">
                             <div class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
@@ -287,7 +287,7 @@
                         </div>
                         <div class="flex items-center gap-2 bg-emerald-100/60 backdrop-blur-sm border border-emerald-200/50 rounded-full px-4 py-2 shadow-sm">
                             <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                            <span class="text-emerald-700">Interactive Dashboard</span>
+                            <span class="text-emerald-700">Smart Analytics</span>
                         </div>
                     </div>
                 </div>
@@ -316,7 +316,7 @@
                             </div>
 
                             <h3 class="text-3xl font-black text-white mb-3">Assessment Konseling</h3>
-                            <p class="text-blue-100/90 text-lg leading-relaxed">Platform evaluasi kesiapan mental dengan sistem kuesioner terstruktur untuk tanggap bencana</p>
+                            <p class="text-blue-100/90 text-lg leading-relaxed">Platform evaluasi kesiapan mental dengan AI analytics untuk optimalisasi tanggap bencana</p>
                         </div>
 
                         <!-- Floating particles -->
@@ -330,15 +330,15 @@
                         <div class="space-y-4 mb-8">
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
                                 <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Digital Mental Health Check</span>
+                                <span class="text-slate-700 font-medium">AI Mental Health Screening</span>
                             </div>
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
                                 <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Disaster Preparedness Test</span>
+                                <span class="text-slate-700 font-medium">Smart Disaster Preparedness</span>
                             </div>
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
                                 <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Automated Report System</span>
+                                <span class="text-slate-700 font-medium">Personalized Guidance System</span>
                             </div>
                         </div>
 
@@ -371,7 +371,7 @@
                             </div>
 
                             <h3 class="text-3xl font-black text-white mb-3">Learning Management</h3>
-                            <p class="text-emerald-100/90 text-lg leading-relaxed">Platform pembelajaran digital dengan materi terstruktur dan sistem sertifikat online</p>
+                            <p class="text-emerald-100/90 text-lg leading-relaxed">Ekosistem pembelajaran digital dengan teknologi adaptive learning dan certification system</p>
                         </div>
 
                         <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
@@ -382,15 +382,15 @@
                         <div class="space-y-4 mb-8">
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
                                 <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Learning Modules</span>
+                                <span class="text-slate-700 font-medium">50+ Interactive Modules</span>
                             </div>
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
                                 <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Video & Materials</span>
+                                <span class="text-slate-700 font-medium">500+ Premium Materials</span>
                             </div>
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
                                 <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Digital Certificate</span>
+                                <span class="text-slate-700 font-medium">Certified Achievement System</span>
                             </div>
                         </div>
 
@@ -422,7 +422,7 @@
                             </div>
 
                             <h3 class="text-3xl font-black text-white mb-3">Pemetaan Potensi</h3>
-                            <p class="text-purple-100/90 text-lg leading-relaxed">Dashboard analytics dengan visualisasi data interaktif dan laporan komprehensif</p>
+                            <p class="text-purple-100/90 text-lg leading-relaxed">Dashboard analytics canggih dengan real-time visualization dan predictive intelligence</p>
                         </div>
 
                         <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
@@ -433,15 +433,15 @@
                         <div class="space-y-4 mb-8">
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
                                 <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Real-time Data</span>
+                                <span class="text-slate-700 font-medium">Live Data Streaming</span>
                             </div>
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
                                 <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Interactive Charts</span>
+                                <span class="text-slate-700 font-medium">3D Interactive Visualizations</span>
                             </div>
                             <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
                                 <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Data Analytics</span>
+                                <span class="text-slate-700 font-medium">Predictive Analytics Engine</span>
                             </div>
                         </div>
 
@@ -478,7 +478,7 @@
                         </h3>
 
                         <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-                            Mulai perjalanan transformasi digital Anda dengan platform terintegrasi dan dashboard analytics modern
+                            Mulai perjalanan transformasi digital Anda dengan platform terintegrasi yang didukung AI dan analytics canggih
                         </p>
 
                         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -492,6 +492,217 @@
                                 </span>
                             </button>
                             <a href="#" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors font-medium">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15"/>
+                                </svg>
+                                Pelajari Lebih Lanjut
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Premium Service Cards Grid -->
+        <div class="grid lg:grid-cols-3 gap-8 mb-20">
+            <!-- Assessment Card - Enhanced -->
+            <div class="group relative" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-all duration-500 animate-pulse"></div>
+                <div class="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl overflow-hidden hover:border-blue-500/50 transition-all duration-500 group-hover:transform group-hover:scale-105 group-hover:rotate-1">
+                    <!-- Glassmorphism overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+
+                    <!-- Card header with premium design -->
+                    <div class="relative p-8 bg-gradient-to-br from-blue-600/90 to-indigo-700/90 backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div class="relative z-10">
+                            <!-- Premium icon container -->
+                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.414.414a2 2 0 00-2.828-2.828L11 14.172l-2.586-2.586a2 2 0 00-2.828 2.828l4 4a2 2 0 002.828 0l9-9z"/>
+                                </svg>
+                            </div>
+
+                            <h3 class="text-3xl font-black text-white mb-3 group-hover:text-blue-100 transition-colors">Assessment Konseling</h3>
+                            <p class="text-blue-100/90 text-lg leading-relaxed">Platform evaluasi kesiapan mental dengan AI analytics untuk optimalisasi tanggap bencana</p>
+                        </div>
+
+                        <!-- Floating particles -->
+                        <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
+                        <div class="absolute bottom-6 left-6 w-2 h-2 bg-blue-300/60 rounded-full animate-pulse"></div>
+                    </div>
+
+                    <!-- Card content with premium features -->
+                    <div class="relative p-8">
+                        <!-- Feature list -->
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
+                                <div class="w-3 h-3 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">AI Mental Health Screening</span>
+                            </div>
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
+                                <div class="w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">Smart Disaster Preparedness</span>
+                            </div>
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
+                                <div class="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">Personalized Guidance System</span>
+                            </div>
+                        </div>
+
+                        <!-- Premium CTA button -->
+                        <a href="{{ route('assessment') }}" class="group/btn relative w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                            <span class="relative z-10">Mulai Assessment</span>
+                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LMS Card - Enhanced -->
+            <div class="group relative" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-all duration-500 animate-pulse"></div>
+                <div class="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl overflow-hidden hover:border-emerald-500/50 transition-all duration-500 group-hover:transform group-hover:scale-105 group-hover:-rotate-1">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+
+                    <div class="relative p-8 bg-gradient-to-br from-emerald-600/90 to-teal-700/90 backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+
+                            <h3 class="text-3xl font-black text-white mb-3 group-hover:text-emerald-100 transition-colors">Learning Management</h3>
+                            <p class="text-emerald-100/90 text-lg leading-relaxed">Ekosistem pembelajaran digital dengan teknologi adaptive learning dan certification system</p>
+                        </div>
+
+                        <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
+                        <div class="absolute bottom-6 left-6 w-2 h-2 bg-emerald-300/60 rounded-full animate-pulse"></div>
+                    </div>
+
+                    <div class="relative p-8">
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
+                                <div class="w-3 h-3 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">50+ Interactive Modules</span>
+                            </div>
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
+                                <div class="w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">500+ Premium Materials</span>
+                            </div>
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
+                                <div class="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">Certified Achievement System</span>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('lms') }}" class="group/btn relative w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/25 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                            <span class="relative z-10">Akses Pembelajaran</span>
+                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapping Card - Enhanced -->
+            <div class="group relative" data-aos="fade-up" data-aos-delay="300">
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-all duration-500 animate-pulse"></div>
+                <div class="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl overflow-hidden hover:border-purple-500/50 transition-all duration-500 group-hover:transform group-hover:scale-105 group-hover:rotate-1">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+
+                    <div class="relative p-8 bg-gradient-to-br from-purple-600/90 to-pink-700/90 backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+
+                            <h3 class="text-3xl font-black text-white mb-3 group-hover:text-purple-100 transition-colors">Pemetaan Potensi</h3>
+                            <p class="text-purple-100/90 text-lg leading-relaxed">Dashboard analytics canggih dengan real-time visualization dan predictive intelligence</p>
+                        </div>
+
+                        <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
+                        <div class="absolute bottom-6 left-6 w-2 h-2 bg-purple-300/60 rounded-full animate-pulse"></div>
+                    </div>
+
+                    <div class="relative p-8">
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
+                                <div class="w-3 h-3 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">Live Data Streaming</span>
+                            </div>
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
+                                <div class="w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">3D Interactive Visualizations</span>
+                            </div>
+                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
+                                <div class="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full animate-pulse"></div>
+                                <span class="text-slate-300 font-medium">Predictive Analytics Engine</span>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('mapping') }}" class="group/btn relative w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                            <span class="relative z-10">Lihat Dashboard</span>
+                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Premium Call-to-Action -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="relative group max-w-4xl mx-auto">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-all duration-500"></div>
+                <div class="relative bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-12 hover:border-blue-500/50 transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl"></div>
+
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-blue-500/30 rounded-full px-4 py-2 mb-6">
+                            <svg class="w-4 h-4 text-blue-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span class="text-blue-300 font-semibold text-sm">Transformasi Digital Dimulai Sekarang</span>
+                        </div>
+
+                        <h3 class="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                            Siap Bergabung dengan
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Revolusi Digital?</span>
+                        </h3>
+
+                        <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                            Mulai perjalanan transformasi digital Anda dengan platform terintegrasi yang didukung AI dan analytics canggih
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <button class="group/cta relative bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-bold text-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"></div>
+                                <span class="relative z-10 flex items-center gap-3">
+                                    <svg class="w-6 h-6 animate-electric-bolt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                    Mulai Sekarang
+                                </span>
+                            </button>
+                            <a href="#" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors font-medium">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15"/>
                                 </svg>

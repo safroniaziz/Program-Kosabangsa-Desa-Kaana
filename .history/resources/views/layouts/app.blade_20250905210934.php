@@ -81,127 +81,16 @@
             box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.5);
         }
 
-        /* Global Styles for Consistency */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --dark-gradient: linear-gradient(to br, #0f172a, #1e293b);
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 1000;
-            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
-        }
-
-        .back-to-top svg {
-            width: 24px;
-            height: 24px;
-            color: white;
-            transition: transform 0.3s ease;
-        }
-
-        .back-to-top:hover svg {
-            transform: translateY(-2px);
-        }
-
-        /* Shimmer Effect */
-        @keyframes shimmer {
-            0% {
-                background-position: -1000px 0;
-            }
-            100% {
-                background-position: 1000px 0;
-            }
-        }
-
-        .shimmer {
-            animation: shimmer 3s infinite linear;
-            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
-            background-size: 1000px 100%;
-        }
-
-        /* Professional CTA Styles */
-        .cta-section {
-            position: relative;
-            padding: 80px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow: hidden;
-        }
-
-        .cta-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.1;
-            background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* Floating animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            33% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-            66% {
-                transform: translateY(-10px) rotate(-5deg);
-            }
-        }
-
         .floating-element {
-            animation: float 6s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
         }
 
-        /* Glass morphism card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+        .floating-element:nth-child(2) {
+            animation-delay: -1s;
         }
 
-        /* Section divider */
-        .section-divider {
-            height: 100px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-divider::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+        .floating-element:nth-child(3) {
+            animation-delay: -2s;
         }
 
         /* Enhanced Navbar Styles */
@@ -358,7 +247,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-
+                            
                             <!-- Dropdown Menu - Cleaner Design -->
                             <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
                                 <div class="px-4 py-3 border-b border-gray-100 bg-gray-50">
@@ -465,7 +354,7 @@
     <footer class="footer-gradient relative">
         <!-- Subtle gradient overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
-
+        
         <div class="relative z-10">
             <!-- Main Footer Content -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -614,18 +503,11 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" aria-label="Back to top">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-        </svg>
-    </button>
-
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize AOS with settings compatible with all pages
@@ -800,22 +682,151 @@
                 typeWriter(this, text, 100);
             });
         });
+    </script>
 
-        // Back to Top functionality
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 300) {
-                $('#backToTop').addClass('show');
-            } else {
-                $('#backToTop').removeClass('show');
+</body>
+</html>
+                closeIcon.toggleClass('hidden');
+
+                // Add animation class
+                if (!mobileMenu.hasClass('hidden')) {
+                    mobileMenu.addClass('animate-fade-in-down');
+                } else {
+                    mobileMenu.removeClass('animate-fade-in-down');
+                }
+            });
+
+            // User menu toggle with enhanced animation
+            $('#userMenuButton').click(function(e) {
+                e.stopPropagation();
+                const userMenu = $('#userMenu');
+                const arrow = $('#userMenuArrow');
+
+                userMenu.toggleClass('hidden');
+                arrow.toggleClass('rotate-180');
+
+                if (!userMenu.hasClass('hidden')) {
+                    userMenu.addClass('animate-fade-in-down');
+                } else {
+                    userMenu.removeClass('animate-fade-in-down');
+                }
+            });
+
+            // Close user menu when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#userMenuButton, #userMenu').length) {
+                    $('#userMenu').addClass('hidden').removeClass('animate-fade-in-down');
+                    $('#userMenuArrow').removeClass('rotate-180');
+                }
+            });
+
+            // Enhanced smooth scrolling for anchor links
+            $('a[href^="#"]').on('click', function(event) {
+                var target = $(this.getAttribute('href'));
+                if( target.length ) {
+                    event.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 100
+                    }, 800, 'easeInOutCubic');
+                }
+            });
+
+            // Navbar scroll effect
+            $(window).scroll(function() {
+                const scroll = $(window).scrollTop();
+                const navbar = $('nav');
+
+                if (scroll >= 50) {
+                    navbar.addClass('shadow-xl').removeClass('shadow-lg');
+                } else {
+                    navbar.addClass('shadow-lg').removeClass('shadow-xl');
+                }
+            });
+
+            // Enhanced scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, observerOptions);
+
+            $('.animate-on-scroll').each(function() {
+                observer.observe(this);
+            });
+
+            // Card hover effects with enhanced animations
+            $('.feature-card, .card-hover').hover(
+                function() {
+                    $(this).addClass('transform scale-105 shadow-2xl -translate-y-2');
+                },
+                function() {
+                    $(this).removeClass('transform scale-105 shadow-2xl -translate-y-2');
+                }
+            );
+
+            // Newsletter subscription
+            $('form').on('submit', function(e) {
+                const submitBtn = $(this).find('button[type="submit"]');
+                const originalText = submitBtn.text();
+
+                submitBtn.html('<svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>')
+                          .prop('disabled', true);
+
+                setTimeout(() => {
+                    submitBtn.text(originalText).prop('disabled', false);
+                }, 2000);
+            });
+
+            // Add loading states for buttons
+            $('.btn-primary, .btn-secondary').click(function() {
+                const $this = $(this);
+                const originalText = $this.text();
+
+                $this.html('<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>')
+                     .prop('disabled', true);
+
+                setTimeout(() => {
+                    $this.text(originalText).prop('disabled', false);
+                }, 1000);
+            });
+
+            // Add parallax effect to background elements
+            $(window).scroll(function() {
+                const scroll = $(window).scrollTop();
+                $('.floating-element').each(function() {
+                    const rate = scroll * -0.5;
+                    $(this).css('transform', `translateY(${rate}px)`);
+                });
+            });
+
+            // Add typing effect for dynamic text
+            function typeWriter(element, text, speed = 50) {
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    }
+                }
+                type();
             }
-        });
 
-        $('#backToTop').click(function(e) {
-            e.preventDefault();
-            $('html, body').animate({scrollTop: 0}, 800, 'easeInOutCubic');
+            // Initialize typing effect for hero text
+            $('.typing-effect').each(function() {
+                const text = $(this).text();
+                $(this).text('');
+                typeWriter(this, text, 100);
+            });
         });
     </script>
 
-    @yield('scripts')
 </body>
 </html>

@@ -857,558 +857,558 @@
                 @endforeach
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Learning Modal - Ultra Modern Design -->
-<div id="learningModal" class="fixed inset-0 bg-black/70 backdrop-blur-xl z-50 hidden opacity-0 transition-all duration-500">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="modal-content bg-white/95 backdrop-blur-sm rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-white/20 transform scale-95 transition-all duration-500">
-            <!-- Modal header with glass effect -->
-            <div class="relative gradient-bg-1 text-white p-8 overflow-hidden">
-                <!-- Background pattern -->
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px); background-size: 30px 30px;"></div>
-                </div>
-
-                <div class="relative z-10 flex items-center justify-between">
-                    <div>
-                        <h2 id="modalTitle" class="text-3xl font-black mb-2">HTML & CSS Fundamentals</h2>
-                        <div class="flex items-center gap-6 text-white/90">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <span class="font-medium">12 jam pembelajaran</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                <span class="font-medium">8 materi</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="closeModal()" class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 hover:bg-white/30 transition-all group">
-                        <svg class="w-6 h-6 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        <!-- Call to action -->
+        <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="600">
+            <div class="glass border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto hover:shadow-2xl transition-all duration-300 group">
+                <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors duration-300" data-aos="fade-up" data-aos-delay="700">
+                    Siap Memulai Perjalanan Anda?
+                </h3>
+                <p class="text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="800">
+                    Bergabunglah dengan ribuan developer yang telah memulai karir mereka dengan kursus ini.
+                </p>
+                <button class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all group-hover:scale-105 animate-electric-glow" data-aos="zoom-in" data-aos-delay="900">
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 animate-electric-bolt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
-                    </button>
-                </div>
-
-                <!-- Progress bar dengan gradient -->
-                <div class="mt-6">
-                    <div class="flex justify-between text-sm mb-2">
-                        <span class="font-medium">Progress Modul</span>
-                        <span id="currentProgress" class="font-bold">0 dari 8 materi</span>
-                    </div>
-                    <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden">
-                        <div id="modalProgressBar" class="bg-gradient-to-r from-white via-white/80 to-white/60 h-3 rounded-full transition-all duration-1000 shadow-lg" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal content with improved design -->
-            <div class="flex h-[calc(90vh-180px)]">
-                <!-- Materials sidebar dengan glass effect -->
-                <div class="w-80 bg-slate-50/80 backdrop-blur-sm border-r border-slate-200/50 overflow-y-auto">
-                    <div class="p-6">
-                        <h3 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-                                </svg>
-                            </div>
-                            <span>Daftar Materi</span>
-                        </h3>
-
-                        <div id="materialsList" class="space-y-3">
-                            <!-- Materials akan diisi oleh JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Content area dengan design modern -->
-                <div class="flex-1 flex flex-col">
-                    <!-- Content Display Area -->
-                    <div class="flex-1 bg-white/70 backdrop-blur-sm relative overflow-y-auto">
-                        <div id="contentArea" class="w-full h-full">
-                            <!-- Default state dengan design yang lebih menarik -->
-                            <div class="flex items-center justify-center h-full">
-                                <div class="text-center max-w-md mx-auto p-8">
-                                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Mulai Pembelajaran Anda</h3>
-                                    <p class="text-slate-600 leading-relaxed">
-                                        Pilih salah satu materi di sidebar untuk memulai perjalanan belajar yang menakjubkan!
-                                    </p>
-                                    <div class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200/50">
-                                        <p class="text-sm text-slate-700">
-                                            💡 <strong>Tips:</strong> Selesaikan materi secara berurutan untuk hasil pembelajaran yang optimal
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Template untuk text content -->
-                    <template id="textContentTemplate">
-                        <div class="w-full h-full bg-white/70 backdrop-blur-sm overflow-y-auto">
-                            <div class="max-w-7xl mx-auto p-8">
-                                <!-- Material Header -->
-                                <div class="mb-8">
-                                    <div class="flex items-center gap-4 mb-6">
-                                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                                            <span class="material-number text-white font-bold text-lg"></span>
-                                        </div>
-                                        <div>
-                                            <h1 class="material-title text-3xl font-black text-slate-900 mb-2"></h1>
-                                            <div class="flex items-center gap-4 text-slate-600">
-                                                <span class="flex items-center gap-2">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>
-                                                    <span class="material-duration"></span>
-                                                </span>
-                                                <span class="w-1 h-1 bg-slate-400 rounded-full"></span>
-                                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                                                    📖 Teks
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Progress indicator -->
-                                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/50 rounded-xl p-4 mb-8">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="text-sm font-medium text-slate-700">Progress Materi</span>
-                                            <span class="material-progress text-sm font-bold text-blue-600"></span>
-                                        </div>
-                                        <div class="w-full bg-white/80 rounded-full h-2">
-                                            <div class="material-progress-bar bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Content Body -->
-                                <div class="prose prose-lg max-w-none">
-                                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-6 rounded-r-xl mb-8">
-                                        <h4 class="text-xl font-bold text-blue-900 mb-3 flex items-center gap-2">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                            </svg>
-                                            Tentang Materi Ini
-                                        </h4>
-                                        <p class="material-description text-blue-800 leading-relaxed"></p>
-                                    </div>
-
-                                    <div class="material-content text-slate-700 leading-relaxed text-lg mb-8 space-y-6"></div>
-
-                                    <!-- Additional resources section -->
-                                    <div class="border-t pt-8 mt-8">
-                                        <h3 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                                            <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                                </svg>
-                                            </div>
-                                            Sumber Belajar Tambahan
-                                        </h3>
-                                        <div class="additional-resources grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-
-                                        <!-- Tips section -->
-                                        <div class="mt-8 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6">
-                                            <h5 class="font-bold text-green-900 mb-3 flex items-center gap-2">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                                                </svg>
-                                                💡 Tips Belajar
-                                            </h5>
-                                            <p class="learning-tips text-green-800 leading-relaxed"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Template untuk video resource -->
-                    <template id="videoResourceTemplate">
-                        <div class="glass border border-white/20 rounded-2xl p-6 hover:shadow-xl transition-all group">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-slate-900">Video Pembelajaran</h4>
-                                    <p class="text-sm text-slate-600">Tonton untuk pemahaman lebih dalam</p>
-                                </div>
-                            </div>
-                            <button class="video-btn w-full bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all group-hover:scale-105">
-                                ▶️ Tonton Video
-                            </button>
-                        </div>
-                    </template>
-
-                    <!-- Template untuk file resource -->
-                    <template id="fileResourceTemplate">
-                        <div class="glass border border-white/20 rounded-2xl p-6 hover:shadow-xl transition-all group">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-slate-900">File Pendukung</h4>
-                                    <p class="file-name text-sm text-slate-600"></p>
-                                </div>
-                            </div>
-                            <button class="download-btn w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all group-hover:scale-105">
-                                📥 Download File
-                            </button>
-                        </div>
-                    </template>
-
-                    <!-- Template untuk video player -->
-                    <template id="videoPlayerTemplate">
-                        <div class="video-player-container">
-                            <div class="video-wrapper">
-                                <div class="video-frame">
-                                    <iframe class="video-iframe" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                </div>
-                            </div>
-                            <div class="video-controls">
-                                <p class="video-message">Tonton video dengan seksama dan jangan ragu untuk pause jika diperlukan</p>
-                                <button class="back-to-material-btn">← Kembali ke Materi</button>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Template untuk toast notification -->
-                    <template id="toastTemplate">
-                        <div class="toast success">
-                            <div class="toast-content">
-                                <svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path class="toast-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                </svg>
-                                <span class="toast-message"></span>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Template untuk material item -->
-                    <template id="materialItemTemplate">
-                        <div class="material-item">
-                            <div class="material-icon">
-                                <svg class="material-svg w-4 h-4" viewBox="0 0 24 24">
-                                    <path class="material-svg-path"></path>
-                                </svg>
-                            </div>
-                            <div class="material-info">
-                                <div class="material-title"></div>
-                                <div class="material-duration"></div>
-                                <div class="material-badges"></div>
-                            </div>
-                            <div class="active-indicator hidden"></div>
-                        </div>
-                    </template>
-
-                    <!-- Material Info & Navigation dengan design yang lebih menarik -->
-                    <div class="bg-white/90 backdrop-blur-sm border-t border-slate-200/50 p-6">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <h4 id="currentMaterialTitle" class="text-xl font-bold text-slate-900 mb-2">Pilih materi untuk memulai</h4>
-                                <div class="flex items-center gap-4 text-sm">
-                                    <span id="currentMaterialDuration" class="text-slate-600">Durasi akan ditampilkan di sini</span>
-                                    <span id="currentMaterialType" class="hidden px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-slate-700 rounded-full text-xs font-medium border border-blue-200"></span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <button id="prevBtn" onclick="previousMaterial()" class="flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed group" disabled>
-                                    <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                                    </svg>
-                                    <span>Sebelumnya</span>
-                                </button>
-
-                                <button id="nextBtn" onclick="nextMaterial()" class="flex items-center gap-2 btn-primary text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg group">
-                                    <span>Selanjutnya</span>
-                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        Mulai Sekarang - Gratis!
+                    </span>
+                </button>
             </div>
         </div>
     </div>
-</div>
-@endsection
+</section>
 
-@section('scripts')
-<script>
-// Global variables for learning modal
-let currentModule = null;
-let currentMaterialIndex = 0;
-let currentMaterials = [];
+<!-- Learning Path Section -->
+<section class="py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-indigo-400/15 to-cyan-500/15 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-500/10 rounded-full blur-3xl"></div>
+    </div>
 
-// Function to scroll to modules section
-function scrollToModules() {
-    document.getElementById('modules').scrollIntoView({
-        behavior: 'smooth'
-    });
-}
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <div class="mx-auto text-center mb-20" data-aos="fade-up" data-aos-duration="600">
+            <div class="inline-block mb-6" data-aos="zoom-in" data-aos-delay="100">
+                <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-blue-200/50 rounded-full px-6 py-3 shadow-lg">
+                    <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-pulse"></div>
+                    <span class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-wider uppercase">Roadmap Pembelajaran</span>
+                    <div class="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                </div>
+            </div>
+            <h2 class="text-5xl lg:text-6xl font-black text-slate-900 mb-8" data-aos="fade-up" data-aos-delay="150">
+                Path Pembelajaran
+                <span class="block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    Terstruktur
+                </span>
+            </h2>
+            <p class="text-xl lg:text-2xl text-slate-600 leading-relaxed max-w-7xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Ikuti jalur pembelajaran yang telah dirancang khusus untuk mengoptimalkan proses belajar Anda
+                <span class="block mt-2 text-lg text-blue-600 font-semibold">dari pemula hingga expert developer</span>
+            </p>
+        </div>
 
-// Toggle materials visibility
-function toggleMaterials(moduleNumber) {
-    const materialsDiv = document.getElementById(`materials-${moduleNumber}`);
-    const arrow = document.getElementById(`arrow-${moduleNumber}`);
+        <!-- Learning timeline -->
+        <div class="max-w-7xl mx-auto">
+            <div class="relative roadmap-timeline">
+                <!-- Modern vertical line with glow effect -->
+                <div class="absolute left-1/2 transform -translate-x-px h-full w-1 bg-gradient-to-b from-blue-400 via-indigo-500 to-purple-600 rounded-full shadow-lg">
+                    <div class="absolute inset-0 bg-gradient-to-b from-blue-400 via-indigo-500 to-purple-600 rounded-full blur-sm opacity-50"></div>
+                </div>
 
-    if (materialsDiv.classList.contains('hidden')) {
-        materialsDiv.classList.remove('hidden');
-        arrow.style.transform = 'rotate(180deg)';
-    } else {
-        materialsDiv.classList.add('hidden');
-        arrow.style.transform = 'rotate(0deg)';
-    }
-}
+                @php
+                $learningPath = [
+                    [
+                        'phase' => 'Foundation',
+                        'title' => 'Dasar-dasar Web Development',
+                        'duration' => '4-6 minggu',
+                        'modules' => ['HTML & CSS Fundamentals', 'JavaScript Essentials', 'Git & Version Control'],
+                        'description' => 'Membangun fondasi yang kuat dengan mempelajari teknologi dasar web development yang solid dan modern.',
+                        'position' => 'left',
+                        'color' => 'from-blue-500 to-indigo-600',
+                        'bgColor' => 'from-blue-50 to-indigo-50',
+                        'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                        'progress' => 85
+                    ],
+                    [
+                        'phase' => 'Frontend',
+                        'title' => 'Pengembangan Frontend Modern',
+                        'duration' => '6-8 minggu',
+                        'modules' => ['React.js Development', 'Advanced CSS', 'Frontend Tools'],
+                        'description' => 'Kuasai pengembangan antarmuka pengguna yang interaktif, responsif, dan mengikuti best practices terkini.',
+                        'position' => 'right',
+                        'color' => 'from-emerald-500 to-teal-600',
+                        'bgColor' => 'from-emerald-50 to-teal-50',
+                        'icon' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+                        'progress' => 60
+                    ],
+                    [
+                        'phase' => 'Backend',
+                        'title' => 'Server-side Development',
+                        'duration' => '6-8 minggu',
+                        'modules' => ['Node.js & Express', 'Database & MongoDB', 'API Development'],
+                        'description' => 'Pelajari pengembangan backend yang robust untuk membangun aplikasi yang scalable dan secure.',
+                        'position' => 'left',
+                        'color' => 'from-orange-500 to-red-600',
+                        'bgColor' => 'from-orange-50 to-red-50',
+                        'icon' => 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01',
+                        'progress' => 35
+                    ],
+                    [
+                        'phase' => 'Integration',
+                        'title' => 'Full-Stack Integration',
+                        'duration' => '4-6 minggu',
+                        'modules' => ['Authentication & Security', 'Deployment & DevOps', 'Final Projects'],
+                        'description' => 'Integrasikan semua komponen menjadi aplikasi full-stack yang production-ready dan professional.',
+                        'position' => 'right',
+                        'color' => 'from-purple-500 to-pink-600',
+                        'bgColor' => 'from-purple-50 to-pink-50',
+                        'icon' => 'M13 10V3L4 14h7v7l9-11h-7z',
+                        'progress' => 0
+                    ]
+                ];
+                @endphp
 
-// Open module function with enhanced animations - now receives module data from PHP
-function openModule(moduleNumber, moduleData) {
-    currentModule = moduleData;
-    if (!currentModule) return;
+                @foreach($learningPath as $index => $path)
+                <div class="relative flex items-center mb-14 last:mb-0" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                    <!-- Enhanced Timeline dot with number and glow -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 z-20 timeline-dot">
+                        <div class="relative">
+                            <!-- Outer glow ring -->
+                            <div class="w-16 h-16 bg-gradient-to-br {{ $path['color'] }} rounded-full absolute inset-0 blur-lg opacity-30 animate-pulse float-animation"></div>
+                            <!-- Main circle -->
+                            <div class="w-12 h-12 bg-gradient-to-br {{ $path['color'] }} rounded-full border-4 border-white shadow-2xl flex items-center justify-center relative transform hover:scale-110 transition-all duration-500 glow-blue">
+                                <span class="text-white font-black text-lg">{{ $index + 1 }}</span>
+                                <!-- Inner highlight -->
+                                <div class="absolute inset-2 bg-white/20 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
 
-    currentMaterials = currentModule.materials_list || [];
-    currentMaterialIndex = 0;
+                    <!-- Enhanced Content card -->
+                    <div class="w-full {{ $path['position'] === 'left' ? 'pr-1 md:pr-2' : 'pl-1 md:pl-2' }} {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }}">
+                        <div class="roadmap-card bg-gradient-to-br {{ $path['bgColor'] }} backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 {{ $path['position'] === 'left' ? 'md:text-right' : '' }} max-w-sm {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }} group hover:border-white/80 relative overflow-hidden">
 
-    // Update modal title
-    document.getElementById('modalTitle').textContent = currentModule.title;
+                            <!-- Background decoration -->
+                            <div class="absolute top-0 {{ $path['position'] === 'left' ? 'left-0' : 'right-0' }} w-24 h-24 bg-gradient-to-br {{ $path['color'] }} opacity-10 rounded-full blur-3xl transform {{ $path['position'] === 'left' ? '-translate-x-6' : 'translate-x-6' }} -translate-y-6 float-animation-reverse"></div>
 
-    // Populate materials list
-    populateMaterialsList();
+                            <div class="relative z-10">
+                                <!-- Enhanced Phase badge with icon -->
+                                <div class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-700 px-4 py-2 rounded-full text-xs font-bold mb-4 shadow-lg border border-white/50 group-hover:scale-105 transition-all duration-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $path['icon'] }}"/>
+                                    </svg>
+                                    <span class="bg-gradient-to-r {{ $path['color'] }} bg-clip-text text-transparent">{{ $path['phase'] }}</span>
+                                    <span class="text-slate-400">•</span>
+                                    <span class="text-slate-600">{{ $path['duration'] }}</span>
+                                </div>
 
-    // Show modal with stunning animation
-    const modal = document.getElementById('learningModal');
-    const modalContent = modal.querySelector('.modal-content');
+                                <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:{{ $path['color'] }} group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+                                    {{ $path['title'] }}
+                                </h3>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">{{ $path['description'] }}</p>
 
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+                                <!-- Progress bar -->
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-semibold text-slate-700">Progress</span>
+                                        <span class="text-xs font-bold bg-gradient-to-r {{ $path['color'] }} bg-clip-text text-transparent">{{ $path['progress'] }}%</span>
+                                    </div>
+                                    <div class="w-full bg-white/60 rounded-full h-2 overflow-hidden shadow-inner progress-bar">
+                                        <div class="bg-gradient-to-r {{ $path['color'] }} h-2 rounded-full transition-all duration-1000 shadow-lg" style="width: {{ $path['progress'] }}%"></div>
+                                    </div>
+                                </div>
 
-    // Trigger animations
-    setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        modalContent.classList.remove('scale-95');
-        modalContent.classList.add('show');
-    }, 10);
+                                <!-- Enhanced Modules list -->
+                                <div class="space-y-2">
+                                    <h4 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Modul</h4>
+                                    @foreach($path['modules'] as $moduleIndex => $module)
+                                    <div class="flex items-center gap-2 text-xs {{ $path['position'] === 'left' ? 'md:justify-end' : '' }} module-item transition-transform duration-300" style="animation-delay: {{ $moduleIndex * 100 }}ms;">
+                                        <div class="w-2 h-2 bg-gradient-to-r {{ $path['color'] }} rounded-full shadow-lg"></div>
+                                        <span class="text-slate-700 font-medium group-hover:bg-gradient-to-r group-hover:{{ $path['color'] }} group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">{{ $module }}</span>
+                                    </div>
+                                    @endforeach
+                                </div>
 
-    // Load first material if available
-    if (currentMaterials.length > 0) {
-        loadMaterial(0);
-    }
+                                <!-- CTA Button -->
+                                <div class="mt-6 {{ $path['position'] === 'left' ? 'md:text-right' : '' }}">
+                                    <button class="btn-roadmap inline-flex items-center gap-2 bg-gradient-to-r {{ $path['color'] }} text-white px-4 py-2 rounded-full font-bold text-xs shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                                        @if($path['progress'] > 0)
+                                            <span>Lanjutkan Belajar</span>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-2-9a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        @else
+                                            <span>Mulai Belajar</span>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                            </svg>
+                                        @endif
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
 
-    // Add keyboard event listener
-    document.addEventListener('keydown', handleModalKeyboard);
-}
+        <!-- Call to action -->
+        <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="600">
+            <div class="glass border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto hover:shadow-2xl transition-all duration-300 group">
+                <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors duration-300" data-aos="fade-up" data-aos-delay="700">
+                    Siap Memulai Perjalanan Anda?
+                </h3>
+                <p class="text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="800">
+                    Bergabunglah dengan ribuan developer yang telah memulai karir mereka dengan kursus ini.
+                </p>
+                <button class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all group-hover:scale-105 animate-electric-glow" data-aos="zoom-in" data-aos-delay="900">
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 animate-electric-bolt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Mulai Sekarang - Gratis!
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
 
-// Close modal function with smooth animation
-function closeModal() {
-    const modal = document.getElementById('learningModal');
-    const modalContent = modal.querySelector('.modal-content');
+<!-- Learning Path Section -->
+<section class="py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-indigo-400/15 to-cyan-500/15 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-500/10 rounded-full blur-3xl"></div>
+    </div>
 
-    // Animate modal disappearance
-    modal.classList.add('opacity-0');
-    modalContent.classList.add('scale-95');
-    modalContent.classList.remove('show');
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <div class="mx-auto text-center mb-20" data-aos="fade-up" data-aos-duration="600">
+            <div class="inline-block mb-6" data-aos="zoom-in" data-aos-delay="100">
+                <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-blue-200/50 rounded-full px-6 py-3 shadow-lg">
+                    <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-pulse"></div>
+                    <span class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-wider uppercase">Roadmap Pembelajaran</span>
+                    <div class="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                </div>
+            </div>
+            <h2 class="text-5xl lg:text-6xl font-black text-slate-900 mb-8" data-aos="fade-up" data-aos-delay="150">
+                Path Pembelajaran
+                <span class="block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    Terstruktur
+                </span>
+            </h2>
+            <p class="text-xl lg:text-2xl text-slate-600 leading-relaxed max-w-7xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Ikuti jalur pembelajaran yang telah dirancang khusus untuk mengoptimalkan proses belajar Anda
+                <span class="block mt-2 text-lg text-blue-600 font-semibold">dari pemula hingga expert developer</span>
+            </p>
+        </div>
 
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
-        document.removeEventListener('keydown', handleModalKeyboard);
-    }, 300);
-}
+        <!-- Learning timeline -->
+        <div class="max-w-7xl mx-auto">
+            <div class="relative roadmap-timeline">
+                <!-- Modern vertical line with glow effect -->
+                <div class="absolute left-1/2 transform -translate-x-px h-full w-1 bg-gradient-to-b from-blue-400 via-indigo-500 to-purple-600 rounded-full shadow-lg">
+                    <div class="absolute inset-0 bg-gradient-to-b from-blue-400 via-indigo-500 to-purple-600 rounded-full blur-sm opacity-50"></div>
+                </div>
 
-// Enhanced keyboard navigation
-function handleModalKeyboard(e) {
-    if (document.getElementById('learningModal').classList.contains('hidden')) return;
+                @php
+                $learningPath = [
+                    [
+                        'phase' => 'Foundation',
+                        'title' => 'Dasar-dasar Web Development',
+                        'duration' => '4-6 minggu',
+                        'modules' => ['HTML & CSS Fundamentals', 'JavaScript Essentials', 'Git & Version Control'],
+                        'description' => 'Membangun fondasi yang kuat dengan mempelajari teknologi dasar web development yang solid dan modern.',
+                        'position' => 'left',
+                        'color' => 'from-blue-500 to-indigo-600',
+                        'bgColor' => 'from-blue-50 to-indigo-50',
+                        'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                        'progress' => 85
+                    ],
+                    [
+                        'phase' => 'Frontend',
+                        'title' => 'Pengembangan Frontend Modern',
+                        'duration' => '6-8 minggu',
+                        'modules' => ['React.js Development', 'Advanced CSS', 'Frontend Tools'],
+                        'description' => 'Kuasai pengembangan antarmuka pengguna yang interaktif, responsif, dan mengikuti best practices terkini.',
+                        'position' => 'right',
+                        'color' => 'from-emerald-500 to-teal-600',
+                        'bgColor' => 'from-emerald-50 to-teal-50',
+                        'icon' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+                        'progress' => 60
+                    ],
+                    [
+                        'phase' => 'Backend',
+                        'title' => 'Server-side Development',
+                        'duration' => '6-8 minggu',
+                        'modules' => ['Node.js & Express', 'Database & MongoDB', 'API Development'],
+                        'description' => 'Pelajari pengembangan backend yang robust untuk membangun aplikasi yang scalable dan secure.',
+                        'position' => 'left',
+                        'color' => 'from-orange-500 to-red-600',
+                        'bgColor' => 'from-orange-50 to-red-50',
+                        'icon' => 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01',
+                        'progress' => 35
+                    ],
+                    [
+                        'phase' => 'Integration',
+                        'title' => 'Full-Stack Integration',
+                        'duration' => '4-6 minggu',
+                        'modules' => ['Authentication & Security', 'Deployment & DevOps', 'Final Projects'],
+                        'description' => 'Integrasikan semua komponen menjadi aplikasi full-stack yang production-ready dan professional.',
+                        'position' => 'right',
+                        'color' => 'from-purple-500 to-pink-600',
+                        'bgColor' => 'from-purple-50 to-pink-50',
+                        'icon' => 'M13 10V3L4 14h7v7l9-11h-7z',
+                        'progress' => 0
+                    ]
+                ];
+                @endphp
 
-    switch(e.key) {
-        case 'ArrowLeft':
-            e.preventDefault();
-            previousMaterial();
-            break;
-        case 'ArrowRight':
-            e.preventDefault();
-            nextMaterial();
-            break;
-        case 'Escape':
-            e.preventDefault();
-            closeModal();
-            break;
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-            e.preventDefault();
-            const materialIndex = parseInt(e.key) - 1;
-            if (materialIndex < currentMaterials.length) {
-                loadMaterial(materialIndex);
-            }
-            break;
-    }
-}
+                @foreach($learningPath as $index => $path)
+                <div class="relative flex items-center mb-14 last:mb-0" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                    <!-- Enhanced Timeline dot with number and glow -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 z-20 timeline-dot">
+                        <div class="relative">
+                            <!-- Outer glow ring -->
+                            <div class="w-16 h-16 bg-gradient-to-br {{ $path['color'] }} rounded-full absolute inset-0 blur-lg opacity-30 animate-pulse float-animation"></div>
+                            <!-- Main circle -->
+                            <div class="w-12 h-12 bg-gradient-to-br {{ $path['color'] }} rounded-full border-4 border-white shadow-2xl flex items-center justify-center relative transform hover:scale-110 transition-all duration-500 glow-blue">
+                                <span class="text-white font-black text-lg">{{ $index + 1 }}</span>
+                                <!-- Inner highlight -->
+                                <div class="absolute inset-2 bg-white/20 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
 
-// Populate materials list - cleaned up, using template
-function populateMaterialsList() {
-    const materialsList = document.getElementById('materialsList');
-    materialsList.innerHTML = '';
+                    <!-- Enhanced Content card -->
+                    <div class="w-full {{ $path['position'] === 'left' ? 'pr-1 md:pr-2' : 'pl-1 md:pl-2' }} {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }}">
+                        <div class="roadmap-card bg-gradient-to-br {{ $path['bgColor'] }} backdrop-blur-sm border border-white/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 {{ $path['position'] === 'left' ? 'md:text-right' : '' }} max-w-sm {{ $path['position'] === 'right' ? 'md:ml-auto' : '' }} group hover:border-white/80 relative overflow-hidden">
 
-    currentMaterials.forEach((material, index) => {
-        const template = document.getElementById('materialItemTemplate');
-        const content = template.content.cloneNode(true);
-        const materialItem = content.querySelector('.material-item');
+                            <!-- Background decoration -->
+                            <div class="absolute top-0 {{ $path['position'] === 'left' ? 'left-0' : 'right-0' }} w-24 h-24 bg-gradient-to-br {{ $path['color'] }} opacity-10 rounded-full blur-3xl transform {{ $path['position'] === 'left' ? '-translate-x-6' : 'translate-x-6' }} -translate-y-6 float-animation-reverse"></div>
 
-        // Set active state
-        if (index === currentMaterialIndex) {
-            materialItem.classList.add('active');
-            content.querySelector('.active-indicator').classList.remove('hidden');
-        }
+                            <div class="relative z-10">
+                                <!-- Enhanced Phase badge with icon -->
+                                <div class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-700 px-4 py-2 rounded-full text-xs font-bold mb-4 shadow-lg border border-white/50 group-hover:scale-105 transition-all duration-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $path['icon'] }}"/>
+                                    </svg>
+                                    <span class="bg-gradient-to-r {{ $path['color'] }} bg-clip-text text-transparent">{{ $path['phase'] }}</span>
+                                    <span class="text-slate-400">•</span>
+                                    <span class="text-slate-600">{{ $path['duration'] }}</span>
+                                </div>
 
-        // Set click handler
-        materialItem.onclick = () => loadMaterial(index);
+                                <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:{{ $path['color'] }} group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+                                    {{ $path['title'] }}
+                                </h3>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">{{ $path['description'] }}</p>
 
-        // Configure icon based on type
-        const icon = content.querySelector('.material-icon');
-        const svg = content.querySelector('.material-svg');
-        const path = content.querySelector('.material-svg-path');
+                                <!-- Progress bar -->
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-semibold text-slate-700">Progress</span>
+                                        <span class="text-xs font-bold bg-gradient-to-r {{ $path['color'] }} bg-clip-text text-transparent">{{ $path['progress'] }}%</span>
+                                    </div>
+                                    <div class="w-full bg-white/60 rounded-full h-2 overflow-hidden shadow-inner progress-bar">
+                                        <div class="bg-gradient-to-r {{ $path['color'] }} h-2 rounded-full transition-all duration-1000 shadow-lg" style="width: {{ $path['progress'] }}%"></div>
+                                    </div>
+                                </div>
 
-        if (material.type === 'text') {
-            icon.classList.add('text-icon');
-            svg.setAttribute('fill', 'none');
-            svg.setAttribute('stroke', 'currentColor');
-            path.setAttribute('stroke-linecap', 'round');
-            path.setAttribute('stroke-linejoin', 'round');
-            path.setAttribute('stroke-width', '2');
-            path.setAttribute('d', 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z');
-        } else {
-            icon.classList.add('video-icon');
-            svg.setAttribute('fill', 'currentColor');
-            path.setAttribute('d', 'M8 5v14l11-7z');
-        }
+                                <!-- Enhanced Modules list -->
+                                <div class="space-y-2">
+                                    <h4 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Modul</h4>
+                                    @foreach($path['modules'] as $moduleIndex => $module)
+                                    <div class="flex items-center gap-2 text-xs {{ $path['position'] === 'left' ? 'md:justify-end' : '' }} module-item transition-transform duration-300" style="animation-delay: {{ $moduleIndex * 100 }}ms;">
+                                        <div class="w-2 h-2 bg-gradient-to-r {{ $path['color'] }} rounded-full shadow-lg"></div>
+                                        <span class="text-slate-700 font-medium group-hover:bg-gradient-to-r group-hover:{{ $path['color'] }} group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">{{ $module }}</span>
+                                    </div>
+                                    @endforeach
+                                </div>
 
-        // Set material info
-        content.querySelector('.material-title').textContent = material.title;
-        content.querySelector('.material-duration').textContent = material.duration;
+                                <!-- CTA Button -->
+                                <div class="mt-6 {{ $path['position'] === 'left' ? 'md:text-right' : '' }}">
+                                    <button class="btn-roadmap inline-flex items-center gap-2 bg-gradient-to-r {{ $path['color'] }} text-white px-4 py-2 rounded-full font-bold text-xs shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                                        @if($path['progress'] > 0)
+                                            <span>Lanjutkan Belajar</span>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-2-9a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        @else
+                                            <span>Mulai Belajar</span>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                            </svg>
+                                        @endif
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
 
-        // Set badges
-        const badgesContainer = content.querySelector('.material-badges');
-        if (material.optional_video) {
-            const videoBadge = document.createElement('span');
-            videoBadge.className = 'badge video-badge';
-            videoBadge.textContent = 'Video';
-            badgesContainer.appendChild(videoBadge);
-        }
-        if (material.optional_file) {
-            const fileBadge = document.createElement('span');
-            fileBadge.className = 'badge file-badge';
-            fileBadge.textContent = 'File';
-            badgesContainer.appendChild(fileBadge);
-        }
+        <!-- Call to action -->
+        <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="600">
+            <div class="glass border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto hover:shadow-2xl transition-all duration-300 group">
+                <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors duration-300" data-aos="fade-up" data-aos-delay="700">
+                    Siap Memulai Perjalanan Anda?
+                </h3>
+                <p class="text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="800">
+                    Bergabunglah dengan ribuan developer yang telah memulai karir mereka dengan kursus ini.
+                </p>
+                <button class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all group-hover:scale-105 animate-electric-glow" data-aos="zoom-in" data-aos-delay="900">
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 animate-electric-bolt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Mulai Sekarang - Gratis!
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
 
-        materialsList.appendChild(content);
-    });
+<!-- NEW: Instructor Section -->
+<section class="py-20 bg-white relative overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-sm font-bold text-blue-600 tracking-wider uppercase">Belajar dari yang Terbaik</span>
+            <h2 class="text-4xl lg:text-5xl font-black text-slate-900 mt-4 mb-6">
+                Instruktur
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Berpengalaman</span>
+            </h2>
+        </div>
 
-    // Update progress
-    updateProgress();
-}
+        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            @php
+            $instructors = [
+                [
+                    'name' => 'Ahmad Rizki',
+                    'role' => 'Senior Full-Stack Developer',
+                    'experience' => '10+ tahun',
+                    'students' => '5000+',
+                    'rating' => '4.9',
+                    'image' => 'https://ui-avatars.com/api/?name=Ahmad+Rizki&background=3b82f6&color=fff&size=200',
+                    'expertise' => ['React.js', 'Node.js', 'MongoDB']
+                ],
+                [
+                    'name' => 'Sarah Putri',
+                    'role' => 'Frontend Specialist',
+                    'experience' => '8+ tahun',
+                    'students' => '3500+',
+                    'rating' => '4.8',
+                    'image' => 'https://ui-avatars.com/api/?name=Sarah+Putri&background=8b5cf6&color=fff&size=200',
+                    'expertise' => ['UI/UX', 'React', 'CSS']
+                ],
+                [
+                    'name' => 'Budi Santoso',
+                    'role' => 'Backend Architect',
+                    'experience' => '12+ tahun',
+                    'students' => '4200+',
+                    'rating' => '4.9',
+                    'image' => 'https://ui-avatars.com/api/?name=Budi+Santoso&background=10b981&color=fff&size=200',
+                    'expertise' => ['Node.js', 'Database', 'DevOps']
+                ]
+            ];
+            @endphp
 
-// Load material content - use templates instead of complex innerHTML
-function loadMaterial(index) {
-    currentMaterialIndex = index;
-    const material = currentMaterials[index];
-    const contentArea = document.getElementById('contentArea');
+            @foreach($instructors as $index => $instructor)
+            <div class="text-center group" data-aos="zoom-in" data-aos-delay="{{ $index * 100 }}">
+                <div class="relative mb-6">
+                    <img src="{{ $instructor['image'] }}" alt="{{ $instructor['name'] }}"
+                         class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-xl group-hover:scale-110 transition-transform duration-300">
+                    <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        {{ $instructor['rating'] }}
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-1">{{ $instructor['name'] }}</h3>
+                <p class="text-sm text-slate-600 mb-3">{{ $instructor['role'] }}</p>
+                <div class="flex justify-center gap-4 text-xs text-slate-500 mb-4">
+                    <span class="flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        {{ $instructor['experience'] }}
+                    </span>
+                    <span class="flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        {{ $instructor['students'] }} siswa
+                    </span>
+                </div>
+                <div class="flex justify-center gap-2">
+                    @foreach($instructor['expertise'] as $skill)
+                    <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">{{ $skill }}</span>
+                    @endforeach
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 
-    // Update material info
-    document.getElementById('currentMaterialTitle').textContent = material.title;
-    document.getElementById('currentMaterialDuration').textContent = material.duration;
+<!-- NEW: Testimonials Section -->
+<section class="py-20 bg-gradient-to-br from-slate-50 to-blue-50 relative overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-sm font-bold text-blue-600 tracking-wider uppercase">Testimoni</span>
+            <h2 class="text-4xl lg:text-5xl font-black text-slate-900 mt-4 mb-6">
+                Kata Mereka yang Telah
+                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Berhasil</span>
+            </h2>
+        </div>
 
-    const typeSpan = document.getElementById('currentMaterialType');
-    typeSpan.textContent = material.type === 'text' ? 'Materi Teks' : 'Video';
-    typeSpan.classList.remove('hidden');
+        <div class="grid md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200">
+            @php
+            $testimonials = [
+                [
+                    'name' => 'Andi Wijaya',
+                    'role' => 'Frontend Developer di Tokopedia',
+                    'content' => 'Kursus ini benar-benar mengubah karir saya. Dari yang tidak tahu coding sama sekali, sekarang saya bekerja di perusahaan tech terkemuka.',
+                    'rating' => 5,
+                    'image' => 'https://ui-avatars.com/api/?name=Andi+Wijaya&background=3b82f6&color=fff'
+                ],
+                [
+                    'name' => 'Rina Susanti',
+                    'role' => 'Full-Stack Developer di Gojek',
+                    'content' => 'Materinya sangat terstruktur dan mudah dipahami. Mentor sangat responsif dan membantu. Highly recommended!',
+                    'rating' => 5,
+                    'image' => 'https://ui-avatars.com/api/?name=Rina+Susanti&background=ec4899&color=fff'
+                ],
+                [
+                    'name' => 'Dimas Prasetyo',
+                    'role' => 'Freelance Developer',
+                    'content' => 'Setelah menyelesaikan kursus ini, saya berhasil mendapatkan beberapa project freelance dengan bayaran yang memuaskan.',
+                    'rating' => 5,
+                    'image' => 'https://ui-avatars.com/api/?name=Dimas+Prasetyo&background=10b981&color=fff'
+                ]
+            ];
+            @endphp
 
-    // Update navigation buttons
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === currentMaterials.length - 1;
-
-    // Use template for content presentation
-    if (material.type === 'text') {
-        const template = document.getElementById('textContentTemplate');
-        const content = template.content.cloneNode(true);
-
-        // Populate template with data
-        content.querySelector('.material-number').textContent = index + 1;
-        content.querySelector('.material-title').textContent = material.title;
-        content.querySelector('.material-duration').textContent = material.duration;
-        content.querySelector('.material-progress').textContent = `${index + 1} dari ${currentMaterials.length}`;
-        content.querySelector('.material-progress-bar').style.width = `${((index + 1) / currentMaterials.length) * 100}%`;
-        content.querySelector('.material-description').textContent = getMaterialDescription(material.title);
-        content.querySelector('.material-content').innerHTML = getEnhancedContent(material.title);
-        content.querySelector('.learning-tips').textContent = getLearningTips(material.title);
-
-        // Handle additional resources
-        const resourcesContainer = content.querySelector('.additional-resources');
-        if (material.optional_video) {
-            const videoTemplate = document.getElementById('videoResourceTemplate');
-            const videoContent = videoTemplate.content.cloneNode(true);
-            videoContent.querySelector('.video-btn').onclick = () => showVideo(material.optional_video);
-            resourcesContainer.appendChild(videoContent);
-        }
-
-        if (material.optional_file) {
-            const fileTemplate = document.getElementById('fileResourceTemplate');
-            const fileContent = fileTemplate.content.cloneNode(true);
-            fileContent.querySelector('.file-name').textContent = material.optional_file;
-            fileContent.querySelector('.download-btn').onclick = () => downloadFile(material.optional_file);
-            resourcesContainer.appendChild(fileContent);
-        }
-
-        // Replace content
-        contentArea.innerHTML = '';
-        contentArea.appendChild(content);
-    }
-
-    // Update materials list UI
-    populateMaterialsList();
-
-    // Smooth scroll to top of content
-    contentArea.scrollTop = 0;
-}
-
-// Helper functions for enhanced content
-function getMaterialDescription(title) {
-    const descriptions = {
-        'Pengenalan HTML5': 'Dalam materi ini, Anda akan mempelajari dasar-dasar HTML5, struktur dokumen, dan elemen-elemen semantic yang akan menjadi foundation untuk pengembangan web modern.',
-        'Semantic Elements': 'Pelajari elemen-elemen semantic HTML5 yang memberikan makna pada struktur halaman web, meningkatkan SEO dan accessibility.',
-        'CSS Selectors & Properties': 'Kuasai berbagai selector CSS dan properti untuk mengatur tampilan elemen dengan presisi dan efisiensi.',
-        'Flexbox Layout': 'Pelajari sistem layout Flexbox untuk mengatur tata letak elemen secara fleksibel dan responsif.',
-        'CSS Grid System': 'Menguasai CSS Grid untuk membuat layout kompleks dengan kontrol penuh atas posisi elemen.',
-        'Responsive Design': 'Teknik untuk membuat website yang tampil optimal di berbagai ukuran layar dan perangkat.',
+            @foreach($testimonials as $index => $testimonial)
+            <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300" data-aos="zoom-in" data-aos-delay="{{ ($index + 1) * 100 }}">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="{{ $testimonial['image'] }}" alt="{{ $testimonial['name'] }}" class="w-12 h-12 rounded-full">
+                    <div>
+                        <h4 class="font-bold text-slate-900">{{ $testimonial['name'] }}</h4>
+                        <p class="text-xs text-slate-600">{{ $testimonial['role'] }}</p>
+                    </div>
+                </div>
+                <div class="flex mb-3">
+                    @for($i = 0; $i < $testimonial['rating']; $i++)
+                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
         'CSS Animations': 'Buat animasi dan transisi menarik menggunakan CSS untuk meningkatkan user experience.',
         'Project: Landing Page': 'Aplikasikan semua pengetahuan yang telah dipelajari untuk membuat landing page yang responsive dan menarik.'
     };

@@ -199,23 +199,21 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .roadmap-timeline::before {
-        left: 0.75rem;
+        left: 1rem;
     }
 
     .timeline-dot {
-        left: 0.75rem !important;
+        left: 1rem !important;
         transform: translateX(-50%) !important;
     }
 
     .roadmap-card {
-        margin-left: 1.5rem;
+        margin-left: 2rem;
         max-width: none;
     }
 }
 
-/* Additional styling for LMS components */
-
-/* Line clamp utility */
+/* Additional styling for LMS components *//* Line clamp utility */
 .line-clamp-1 {
     overflow: hidden;
     display: -webkit-box;

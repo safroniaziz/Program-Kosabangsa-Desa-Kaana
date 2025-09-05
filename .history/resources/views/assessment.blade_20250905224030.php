@@ -358,7 +358,7 @@
 <script>
 $(document).ready(function() {
     let totalQuestions = 5;
-
+    
     // Smooth scrolling for anchor links
     $('a[href^="#"]').on('click', function(e) {
         e.preventDefault();
@@ -378,14 +378,14 @@ $(document).ready(function() {
                 answered++;
             }
         }
-
+        
         // Include personal info
         if ($('#nama').val().trim() !== '') answered += 0.5;
         if ($('#usia').val() !== '') answered += 0.5;
-
+        
         const totalItems = totalQuestions + 1; // 5 questions + personal info
         const progress = Math.round((answered / totalItems) * 100);
-
+        
         $('#progress-bar').css('width', progress + '%');
         $('#progress-text').text(progress + '%');
     }
@@ -393,7 +393,7 @@ $(document).ready(function() {
     // Real-time progress update
     $('input[type="radio"], #nama, #usia').on('change input', function() {
         updateProgress();
-
+        
         // Clear error for this field
         const name = $(this).attr('name') || $(this).attr('id');
         $(`#${name}-error`).addClass('hidden');
@@ -404,10 +404,10 @@ $(document).ready(function() {
     $('.radio-option').on('click', function() {
         const radio = $(this).find('input[type="radio"]');
         const questionGroup = $(this).closest('.question-group');
-
+        
         // Remove selection from siblings
         questionGroup.find('.radio-option').removeClass('border-blue-500 bg-blue-50');
-
+        
         // Add selection to current
         if (radio.prop('checked')) {
             $(this).addClass('border-blue-500 bg-blue-50');
@@ -417,18 +417,18 @@ $(document).ready(function() {
     // Form validation
     function validateForm() {
         let isValid = true;
-
+        
         // Validate personal info
         if ($('#nama').val().trim() === '') {
             $('#nama-error').text('Nama lengkap harus diisi').removeClass('hidden');
             isValid = false;
         }
-
+        
         if ($('#usia').val() === '') {
             $('#usia-error').text('Usia harus dipilih').removeClass('hidden');
             isValid = false;
         }
-
+        
         // Validate questions
         for (let i = 1; i <= totalQuestions; i++) {
             if ($(`input[name="q${i}"]:checked`).length === 0) {
@@ -436,17 +436,17 @@ $(document).ready(function() {
                 isValid = false;
             }
         }
-
+        
         return isValid;
     }
 
     // Form submission
     $('#disasterAssessmentForm').on('submit', function(e) {
         e.preventDefault();
-
+        
         // Clear previous errors
         $('.error-message').addClass('hidden');
-
+        
         if (!validateForm()) {
             // Scroll to first error
             const firstError = $('.error-message:not(.hidden)').first();
@@ -463,7 +463,7 @@ $(document).ready(function() {
         const buttonText = $('.button-text');
         const loadingIcon = $('.loading-icon');
         const submitIcon = $('.submit-icon');
-
+        
         submitBtn.prop('disabled', true);
         buttonText.text('Memproses...');
         loadingIcon.removeClass('hidden');
@@ -486,7 +486,7 @@ $(document).ready(function() {
 
             // Show results
             showResults(averageScore, nama, usia);
-
+            
             // Reset button
             submitBtn.prop('disabled', false);
             buttonText.text('Lihat Hasil Assessment');
@@ -525,23 +525,23 @@ $(document).ready(function() {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
-
+                
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-gray-900 mb-2">Hasil Assessment</h3>
                     <p class="text-gray-600">Nama: ${nama} | Usia: ${usia}</p>
                 </div>
-
+                
                 <div class="${statusClass} w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-4xl font-bold shadow-lg animate-pulse">
                     ${statusIcon}
                 </div>
-
+                
                 <h3 class="text-3xl font-bold text-gray-900 mb-2">Status Mental: ${status}</h3>
                 <p class="text-gray-600 mb-4">${additionalInfo}</p>
-
+                
                 <div class="w-full bg-gray-200 rounded-full h-4 mb-6">
                     <div class="${statusClass} h-4 rounded-full transition-all duration-1000 ease-out" style="width: ${(score/3)*100}%"></div>
                 </div>
-
+                
                 <div class="text-left bg-gray-50 rounded-xl p-6 mb-6">
                     <h4 class="font-semibold text-gray-900 mb-3">Rekomendasi</h4>
                     <p class="text-gray-700">${recommendation}</p>

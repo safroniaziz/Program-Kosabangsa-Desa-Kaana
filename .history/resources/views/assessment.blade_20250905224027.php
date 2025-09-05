@@ -358,7 +358,7 @@
 <script>
 $(document).ready(function() {
     let totalQuestions = 5;
-
+    
     // Smooth scrolling for anchor links
     $('a[href^="#"]').on('click', function(e) {
         e.preventDefault();
@@ -378,14 +378,14 @@ $(document).ready(function() {
                 answered++;
             }
         }
-
+        
         // Include personal info
         if ($('#nama').val().trim() !== '') answered += 0.5;
         if ($('#usia').val() !== '') answered += 0.5;
-
+        
         const totalItems = totalQuestions + 1; // 5 questions + personal info
         const progress = Math.round((answered / totalItems) * 100);
-
+        
         $('#progress-bar').css('width', progress + '%');
         $('#progress-text').text(progress + '%');
     }
@@ -393,7 +393,7 @@ $(document).ready(function() {
     // Real-time progress update
     $('input[type="radio"], #nama, #usia').on('change input', function() {
         updateProgress();
-
+        
         // Clear error for this field
         const name = $(this).attr('name') || $(this).attr('id');
         $(`#${name}-error`).addClass('hidden');
@@ -404,10 +404,10 @@ $(document).ready(function() {
     $('.radio-option').on('click', function() {
         const radio = $(this).find('input[type="radio"]');
         const questionGroup = $(this).closest('.question-group');
-
+        
         // Remove selection from siblings
         questionGroup.find('.radio-option').removeClass('border-blue-500 bg-blue-50');
-
+        
         // Add selection to current
         if (radio.prop('checked')) {
             $(this).addClass('border-blue-500 bg-blue-50');
@@ -417,18 +417,18 @@ $(document).ready(function() {
     // Form validation
     function validateForm() {
         let isValid = true;
-
+        
         // Validate personal info
         if ($('#nama').val().trim() === '') {
             $('#nama-error').text('Nama lengkap harus diisi').removeClass('hidden');
             isValid = false;
         }
-
+        
         if ($('#usia').val() === '') {
             $('#usia-error').text('Usia harus dipilih').removeClass('hidden');
             isValid = false;
         }
-
+        
         // Validate questions
         for (let i = 1; i <= totalQuestions; i++) {
             if ($(`input[name="q${i}"]:checked`).length === 0) {
@@ -436,17 +436,17 @@ $(document).ready(function() {
                 isValid = false;
             }
         }
-
+        
         return isValid;
     }
 
     // Form submission
     $('#disasterAssessmentForm').on('submit', function(e) {
         e.preventDefault();
-
+        
         // Clear previous errors
         $('.error-message').addClass('hidden');
-
+        
         if (!validateForm()) {
             // Scroll to first error
             const firstError = $('.error-message:not(.hidden)').first();
@@ -463,7 +463,7 @@ $(document).ready(function() {
         const buttonText = $('.button-text');
         const loadingIcon = $('.loading-icon');
         const submitIcon = $('.submit-icon');
-
+        
         submitBtn.prop('disabled', true);
         buttonText.text('Memproses...');
         loadingIcon.removeClass('hidden');
@@ -486,7 +486,7 @@ $(document).ready(function() {
 
             // Show results
             showResults(averageScore, nama, usia);
-
+            
             // Reset button
             submitBtn.prop('disabled', false);
             buttonText.text('Lihat Hasil Assessment');
@@ -525,23 +525,23 @@ $(document).ready(function() {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
-
+                
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-gray-900 mb-2">Hasil Assessment</h3>
                     <p class="text-gray-600">Nama: ${nama} | Usia: ${usia}</p>
                 </div>
-
+                
                 <div class="${statusClass} w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-4xl font-bold shadow-lg animate-pulse">
                     ${statusIcon}
                 </div>
-
+                
                 <h3 class="text-3xl font-bold text-gray-900 mb-2">Status Mental: ${status}</h3>
                 <p class="text-gray-600 mb-4">${additionalInfo}</p>
-
+                
                 <div class="w-full bg-gray-200 rounded-full h-4 mb-6">
                     <div class="${statusClass} h-4 rounded-full transition-all duration-1000 ease-out" style="width: ${(score/3)*100}%"></div>
                 </div>
-
+                
                 <div class="text-left bg-gray-50 rounded-xl p-6 mb-6">
                     <h4 class="font-semibold text-gray-900 mb-3">Rekomendasi</h4>
                     <p class="text-gray-700">${recommendation}</p>
@@ -590,45 +590,3 @@ $(document).ready(function() {
                 <div class="flex gap-4 justify-center">
                     <button onclick="window.print()" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
                         <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                        </svg>
-                        Cetak Hasil
-                    </button>
-                    <button onclick="location.reload()" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
-                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
-                        Ulangi Assessment
-                    </button>
-                    <button onclick="$('#resultsModal').addClass('hidden')" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
-                        Selesai
-                    </button>
-                </div>
-            </div>
-        `;
-
-        $('#modalContent').html(resultsHTML);
-        $('#resultsModal').removeClass('hidden');
-
-        // Animate modal
-        setTimeout(() => {
-            $('#modalContent').removeClass('scale-95 opacity-0').addClass('scale-100 opacity-100');
-        }, 100);
-    }
-
-    // Close modal when clicking outside
-    $('#resultsModal').on('click', function(e) {
-        if (e.target === this) {
-            $(this).addClass('hidden');
-        }
-    });
-
-    // Keyboard navigation
-    $(document).on('keydown', function(e) {
-        if (e.key === 'Escape' && !$('#resultsModal').hasClass('hidden')) {
-            $('#resultsModal').addClass('hidden');
-        }
-    });
-});
-</script>
-@endsection

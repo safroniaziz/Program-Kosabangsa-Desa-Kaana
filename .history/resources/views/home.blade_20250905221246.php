@@ -47,7 +47,7 @@
                     <div data-aos="fade-up" data-aos-delay="200">
                         <h1 class="text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
                             Desa Digital
-                            <span class="block text-cyan-400 font-black animate-pulse drop-shadow-lg" style="text-shadow: 0 0 20px rgba(6, 182, 212, 0.6), 0 0 40px rgba(6, 182, 212, 0.4); animation-duration: 2s;">
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400" style="background-size: 200% 100%; animation: gradient-shift 3s ease-in-out infinite;">
                                 Kaana Modern
                             </span>
                         </h1>
@@ -233,273 +233,259 @@
     </div>
 </section>
 
-<!-- Modern Features Section with Light Theme -->
-<section id="features" class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50">
-    <!-- Elegant background patterns -->
+<!-- About Section with Modern Cards -->
+<section id="about" class="py-20 bg-white relative overflow-hidden">
+    <!-- Background decorative elements -->
     <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-100/30 via-purple-100/40 to-pink-100/30"></div>
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%234F46E5" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="1.5"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
-    </div>
-
-    <!-- Floating orbs with light theme -->
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-200/40 to-cyan-200/40 rounded-full blur-3xl animate-float"></div>
-        <div class="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-emerald-200/40 to-teal-200/40 rounded-full blur-3xl animate-float" style="animation-delay: -1.5s;"></div>
+        <div class="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-100/40 to-purple-200/40 rounded-full blur-2xl animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-pink-100/40 to-orange-200/40 rounded-full blur-2xl animate-float" style="animation-delay: -2s;"></div>
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
-        <!-- Elegant Header Section -->
-        <div class="text-center mb-24">
+        <div class="mx-auto text-center mb-16">
             <div data-aos="fade-up">
-                <!-- Modern badge -->
-                <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-blue-200/50 rounded-full px-6 py-3 mb-8 shadow-lg">
-                    <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-                    <span class="text-slate-700 font-semibold text-sm tracking-wider uppercase">Platform Digital</span>
-                    <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
-                    </svg>
+                <div class="inline-block mb-4">
+                    <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 tracking-wider uppercase animate-shimmer">Tentang Kami</span>
                 </div>
+                <h2 data-aos="fade-right" data-aos-delay="100" class="text-4xl lg:text-5xl font-black text-slate-900 mb-6">
+                    Transformasi Digital
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Desa Kaana</span>
+                </h2>
+                <p data-aos="fade-left" data-aos-delay="200" class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
+                    Membangun ekosistem digital yang terintegrasi untuk meningkatkan kualitas hidup masyarakat
+                    dan mewujudkan <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">smart village</span> yang berkelanjutan
+                </p>
+            </div>
+        </div>
 
-                <!-- Main title with elegant styling -->
-                <h2 class="text-6xl lg:text-7xl font-black mb-8 leading-tight" data-aos="zoom-in" data-aos-delay="200">
-                    <span class="block text-slate-900 mb-4">Layanan</span>
-                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 animate-shimmer">
+        <!-- Stats Grid with Modern Design -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            @php
+            $stats = [
+                ['number' => '1,250', 'label' => 'Total Penduduk', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', 'gradient' => 'from-blue-500 to-cyan-600', 'delay' => 100],
+                ['number' => '25', 'label' => 'UMKM Digital', 'icon' => 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 'gradient' => 'from-green-500 to-emerald-600', 'delay' => 200],
+                ['number' => '15', 'label' => 'Layanan Digital', 'icon' => 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z', 'gradient' => 'from-purple-500 to-pink-600', 'delay' => 300],
+                ['number' => '5', 'label' => 'Smart Solutions', 'icon' => 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', 'gradient' => 'from-orange-500 to-red-600', 'delay' => 400]
+            ];
+            @endphp
+
+            @foreach($stats as $stat)
+            <div class="group" data-aos="zoom-in" data-aos-delay="{{ $stat['delay'] }}">
+                <div class="bg-white border border-slate-200 rounded-xl p-6 h-full transition-all duration-500 hover:border-blue-300 hover:shadow-2xl hover:bg-gradient-to-br hover:from-white hover:to-blue-50 interactive-card transform hover:-translate-y-2 hover:scale-105 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br {{ $stat['gradient'] }} opacity-0 transition-opacity duration-300 group-hover:opacity-5"></div>
+
+                    <div class="relative z-10">
+                        <div class="bg-gradient-to-br {{ $stat['gradient'] }} w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $stat['icon'] }}"/>
+                            </svg>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-slate-900 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:{{ $stat['gradient'] }} transition-all duration-300">{{ $stat['number'] }}</div>
+                            <div class="text-slate-600 font-medium">{{ $stat['label'] }}</div>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- Features Section with Spectacular Design -->
+<section id="features" class="py-20 relative overflow-hidden">
+    <!-- Dynamic background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent"></div>
+    </div>
+
+    <!-- Floating background elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-200/30 to-purple-300/30 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-pink-200/30 to-orange-300/30 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <!-- Section header -->
+        <div class="mx-auto text-center mb-20">
+            <div data-aos="fade-up">
+                <div class="inline-block mb-6">
+                    <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wider uppercase">Platform Digital</span>
+                </div>
+                <h2 class="text-5xl lg:text-6xl font-black mb-8" data-aos="zoom-in" data-aos-delay="200">
+                    <span class="text-slate-900">Layanan</span>
+                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-500 shimmer">
                         Unggulan Kami
                     </span>
                 </h2>
-
-                <!-- Modern description -->
-                <div class="max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="400">
-                    <p class="text-xl lg:text-2xl text-slate-600 leading-relaxed font-medium mb-6">
-                        Tiga platform revolusioner yang dirancang khusus untuk
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 font-bold">transformasi digital</span>
-                        menuju masa depan yang lebih cerdas
-                    </p>
-                    <div class="flex flex-wrap justify-center gap-4 text-sm">
-                        <div class="flex items-center gap-2 bg-blue-100/60 backdrop-blur-sm border border-blue-200/50 rounded-full px-4 py-2 shadow-sm">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                            <span class="text-blue-700">Web-Based</span>
-                        </div>
-                        <div class="flex items-center gap-2 bg-purple-100/60 backdrop-blur-sm border border-purple-200/50 rounded-full px-4 py-2 shadow-sm">
-                            <div class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                            <span class="text-purple-700">Real-time Data</span>
-                        </div>
-                        <div class="flex items-center gap-2 bg-emerald-100/60 backdrop-blur-sm border border-emerald-200/50 rounded-full px-4 py-2 shadow-sm">
-                            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                            <span class="text-emerald-700">Interactive Dashboard</span>
-                        </div>
-                    </div>
-                </div>
+                <p class="text-xl lg:text-2xl text-slate-600 leading-relaxed font-medium" data-aos="fade-up" data-aos-delay="400">
+                    <span class="text-gradient font-bold">3 platform</span> utama yang dirancang untuk
+                    <span class="text-gradient-2 font-bold">transformasi digital</span> menuju
+                    <span class="text-gradient-3 font-bold">smart village</span>
+                </p>
             </div>
         </div>
 
-        <!-- Modern Service Cards Grid -->
-        <div class="grid lg:grid-cols-3 gap-8 mb-20">
-            <!-- Assessment Card - Light Theme -->
-            <div class="group relative" data-aos="fade-up" data-aos-delay="100">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-all duration-500"></div>
-                <div class="relative bg-white/80 backdrop-blur-xl border border-slate-200/50 rounded-3xl overflow-hidden hover:border-blue-300/50 transition-all duration-500 group-hover:transform group-hover:scale-105 shadow-lg hover:shadow-2xl">
-                    <!-- Glass overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent"></div>
-
-                    <!-- Card header with modern design -->
-                    <div class="relative p-8 bg-gradient-to-br from-blue-500 to-indigo-600">
-                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
+        <!-- Features Grid with Stunning Cards -->
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Assessment Card -->
+            <div class="group" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <!-- Card header with gradient -->
+                    <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 p-6 text-white overflow-hidden">
                         <div class="relative z-10">
-                            <!-- Modern icon container -->
-                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.414.414a2 2 0 00-2.828-2.828L11 14.172l-2.586-2.586a2 2 0 00-2.828 2.828l4 4a2 2 0 002.828 0l9-9z"/>
+                            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 border border-white/30">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                             </div>
-
-                            <h3 class="text-3xl font-black text-white mb-3">Assessment Konseling</h3>
-                            <p class="text-blue-100/90 text-lg leading-relaxed">Platform evaluasi kesiapan mental dengan sistem kuesioner terstruktur untuk tanggap bencana</p>
+                            <h3 class="text-2xl font-bold mb-2">Assessment Konseling</h3>
+                            <p class="text-white/90 text-sm">Evaluasi kesiapan mental untuk tanggap bencana</p>
                         </div>
-
-                        <!-- Floating particles -->
-                        <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
-                        <div class="absolute bottom-6 left-6 w-2 h-2 bg-blue-300/60 rounded-full animate-pulse"></div>
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
                     </div>
 
                     <!-- Card content -->
-                    <div class="relative p-8">
-                        <!-- Feature list -->
-                        <div class="space-y-4 mb-8">
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
-                                <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Digital Mental Health Check</span>
+                    <div class="p-6">
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Mental Health Check</span>
                             </div>
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
-                                <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Disaster Preparedness Test</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Disaster Preparedness</span>
                             </div>
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
-                                <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Automated Report System</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Personal Guidance</span>
                             </div>
                         </div>
 
-                        <!-- Modern CTA button -->
-                        <a href="{{ route('assessment') }}" class="group/btn relative w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                            <span class="relative z-10">Mulai Assessment</span>
-                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
+                        <a href="{{ route('assessment') }}" class="group relative btn-primary text-white px-6 py-3 rounded-xl font-semibold w-full text-center block overflow-hidden transition-all duration-300 hover:shadow-xl">
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                Mulai Assessment
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </span>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- LMS Card - Light Theme -->
-            <div class="group relative" data-aos="fade-up" data-aos-delay="200">
-                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-all duration-500"></div>
-                <div class="relative bg-white/80 backdrop-blur-xl border border-slate-200/50 rounded-3xl overflow-hidden hover:border-emerald-300/50 transition-all duration-500 group-hover:transform group-hover:scale-105 shadow-lg hover:shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent"></div>
-
-                    <div class="relative p-8 bg-gradient-to-br from-emerald-500 to-teal-600">
-                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
+            <!-- LMS Card -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <!-- Card header with gradient -->
+                    <div class="relative bg-gradient-to-br from-green-500 to-emerald-600 p-6 text-white overflow-hidden">
                         <div class="relative z-10">
-                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
-                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 border border-white/30">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                                 </svg>
                             </div>
-
-                            <h3 class="text-3xl font-black text-white mb-3">Learning Management</h3>
-                            <p class="text-emerald-100/90 text-lg leading-relaxed">Platform pembelajaran digital dengan materi terstruktur dan sistem sertifikat online</p>
+                            <h3 class="text-2xl font-bold mb-2">Learning Management</h3>
+                            <p class="text-white/90 text-sm">Platform pembelajaran online terlengkap</p>
                         </div>
-
-                        <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
-                        <div class="absolute bottom-6 left-6 w-2 h-2 bg-emerald-300/60 rounded-full animate-pulse"></div>
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
                     </div>
 
-                    <div class="relative p-8">
-                        <div class="space-y-4 mb-8">
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
-                                <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Learning Modules</span>
+                    <!-- Card content -->
+                    <div class="p-6">
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">24 Learning Modules</span>
                             </div>
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
-                                <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Video & Materials</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">180+ Materials</span>
                             </div>
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
-                                <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Digital Certificate</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Certificate Available</span>
                             </div>
                         </div>
 
-                        <a href="{{ route('lms') }}" class="group/btn relative w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/25 hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                            <span class="relative z-10">Akses Pembelajaran</span>
-                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
+                        <a href="{{ route('lms') }}" class="group relative bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold w-full text-center block overflow-hidden transition-all duration-300 hover:shadow-xl">
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                Akses Pembelajaran
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </span>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Mapping Card - Light Theme -->
-            <div class="group relative" data-aos="fade-up" data-aos-delay="300">
-                <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-all duration-500"></div>
-                <div class="relative bg-white/80 backdrop-blur-xl border border-slate-200/50 rounded-3xl overflow-hidden hover:border-purple-300/50 transition-all duration-500 group-hover:transform group-hover:scale-105 shadow-lg hover:shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent"></div>
-
-                    <div class="relative p-8 bg-gradient-to-br from-purple-500 to-pink-600">
-                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
+            <!-- Mapping Card -->
+            <div class="group" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <!-- Card header with gradient -->
+                    <div class="relative bg-gradient-to-br from-purple-500 to-pink-600 p-6 text-white overflow-hidden">
                         <div class="relative z-10">
-                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 border border-white/30">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                                 </svg>
                             </div>
-
-                            <h3 class="text-3xl font-black text-white mb-3">Pemetaan Potensi</h3>
-                            <p class="text-purple-100/90 text-lg leading-relaxed">Dashboard analytics dengan visualisasi data interaktif dan laporan komprehensif</p>
+                            <h3 class="text-2xl font-bold mb-2">Pemetaan Potensi</h3>
+                            <p class="text-white/90 text-sm">Dashboard analytics & infografik real-time</p>
                         </div>
-
-                        <div class="absolute top-4 right-4 w-3 h-3 bg-white/40 rounded-full animate-ping"></div>
-                        <div class="absolute bottom-6 left-6 w-2 h-2 bg-purple-300/60 rounded-full animate-pulse"></div>
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
                     </div>
 
-                    <div class="relative p-8">
-                        <div class="space-y-4 mb-8">
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300">
-                                <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Real-time Data</span>
+                    <!-- Card content -->
+                    <div class="p-6">
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Real-time Data</span>
                             </div>
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-75">
-                                <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Interactive Charts</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Interactive Charts</span>
                             </div>
-                            <div class="flex items-center gap-3 group-hover:translate-x-2 transition-transform duration-300 delay-150">
-                                <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                <span class="text-slate-700 font-medium">Data Analytics</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                <span class="text-sm text-slate-600">Smart Analytics</span>
                             </div>
                         </div>
 
-                        <a href="{{ route('mapping') }}" class="group/btn relative w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25 hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                            <span class="relative z-10">Lihat Dashboard</span>
-                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
+                        <a href="{{ route('mapping') }}" class="group relative bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold w-full text-center block overflow-hidden transition-all duration-300 hover:shadow-xl">
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                Lihat Dashboard
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Elegant Call-to-Action -->
-        <div class="text-center" data-aos="fade-up" data-aos-delay="400">
-            <div class="relative group max-w-4xl mx-auto">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-all duration-500"></div>
-                <div class="relative bg-white/80 backdrop-blur-xl border border-slate-200/50 rounded-3xl p-12 hover:border-blue-300/50 transition-all duration-500 shadow-lg hover:shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent rounded-3xl"></div>
-
-                    <div class="relative z-10">
-                        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100/60 to-purple-100/60 backdrop-blur-sm border border-blue-200/50 rounded-full px-4 py-2 mb-6 shadow-sm">
-                            <svg class="w-4 h-4 text-blue-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                            <span class="text-blue-700 font-semibold text-sm">Transformasi Digital Dimulai Sekarang</span>
-                        </div>
-
-                        <h3 class="text-4xl lg:text-5xl font-black text-slate-900 mb-6 leading-tight">
-                            Siap Bergabung dengan
-                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Revolusi Digital?</span>
-                        </h3>
-
-                        <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-                            Mulai perjalanan transformasi digital Anda dengan platform terintegrasi dan dashboard analytics modern
-                        </p>
-
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <button class="group/cta relative bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-bold text-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
-                                <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"></div>
-                                <span class="relative z-10 flex items-center gap-3">
-                                    <svg class="w-6 h-6 animate-electric-bolt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                    </svg>
-                                    Mulai Sekarang
-                                </span>
-                            </button>
-                            <a href="#" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors font-medium">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15"/>
-                                </svg>
-                                Pelajari Lebih Lanjut
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <!-- Call to action -->
+        <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="400">
+            <div class="glass border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto hover:shadow-2xl transition-all duration-300 group">
+                <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors duration-300">
+                    Siap Bergabung dengan Transformasi Digital?
+                </h3>
+                <p class="text-slate-600 mb-6">
+                    Mulai perjalanan Anda menuju smart village dengan platform terintegrasi kami.
+                </p>
+                <button class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all group-hover:scale-105 animate-electric-glow">
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 animate-electric-bolt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Get Started Now
+                    </span>
+                </button>
             </div>
         </div>
     </div>
@@ -565,37 +551,9 @@
 }
 
 .animate-shimmer {
-    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
     background-size: 1000px 100%;
     animation: shimmer 3s infinite linear;
-    -webkit-background-clip: text;
-    background-clip: text;
-}
-
-/* Fallback untuk browser yang tidak support background-clip */
-@supports not (-webkit-background-clip: text) {
-    .animate-shimmer {
-        color: #60a5fa; /* fallback blue color */
-    }
-}
-
-/* Gradient text dengan fallback yang lebih baik */
-.gradient-text {
-    background: linear-gradient(45deg, #06b6d4, #3b82f6, #8b5cf6);
-    background-size: 200% 200%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: gradient-shift 3s ease-in-out infinite;
-}
-
-/* Fallback untuk Safari dan browser lama */
-@supports not (background-clip: text) {
-    .gradient-text {
-        color: #3b82f6;
-        background: none;
-    }
 }
 
 .glass {
