@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Desa Kaana')</title>
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Heroicons -->
+    <script src="https://unpkg.com/heroicons@2.0.16/24/outline/index.js" type="module"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="{{ route('home') }}" class="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors">
+                        Desa Kaana
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ route('home') }}" class="text-gray-700 hover:text-primary-600 transition-colors">Beranda</a>
+                    <a href="{{ route('assessment') }}" class="text-gray-700 hover:text-primary-600 transition-colors">Assessment</a>
+                    <a href="{{ route('lms') }}" class="text-gray-700 hover:text-primary-600 transition-colors">LMS</a>
+                    <a href="{{ route('mapping') }}" class="text-gray-700 hover:text-primary-600 transition-colors">Pemetaan</a>
+                    @auth
+                        <div class="relative inline-block text-left">
+                            <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary-600 transition-colors">
+                                <span class="mr-2">{{ Auth::user()->name }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="btn-primary text-white px-4 py-2 rounded-lg font-medium">Login</a>
+                    @endauth
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-primary-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-4 py-2 space-y-1">
+                <a href="{{ route('home') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition-colors">Beranda</a>
+                <a href="{{ route('assessment') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition-colors">Assessment</a>
+                <a href="{{ route('lms') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition-colors">LMS</a>
+                <a href="{{ route('mapping') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition-colors">Pemetaan</a>
+                @auth
+                    <a href="{{ route('profile.edit') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition-colors">Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="block w-full text-left px-3 py-2 text-gray-700 hover:text-primary-600 transition-colors">
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="block px-3 py-2 text-primary-600 font-medium">Login</a>
+                @endauth
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        @yield('content')
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Desa Kaana</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Desa yang berkembang dengan teknologi modern untuk pelayanan masyarakat yang lebih baik.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Layanan</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="{{ route('assessment') }}" class="hover:text-white transition-colors">Assessment Konseling</a></li>
+                        <li><a href="{{ route('lms') }}" class="hover:text-white transition-colors">Learning Management</a></li>
+                        <li><a href="{{ route('mapping') }}" class="hover:text-white transition-colors">Pemetaan Potensi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Kontak</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>📍 Desa Kaana, Indonesia</li>
+                        <li>📞 +62 123 456 789</li>
+                        <li>✉️ info@desakaana.id</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; {{ date('Y') }} Desa Kaana. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery Scripts -->
+    <script>
+        $(document).ready(function() {
+            // Mobile menu toggle
+            $('#mobile-menu-btn').click(function() {
+                $('#mobile-menu').toggleClass('hidden');
+            });
+
+            // User menu toggle
+            $('#userMenuButton').click(function() {
+                $('#userMenu').toggleClass('hidden');
+            });
+
+            // Close user menu when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#userMenuButton').length && !$(event.target).closest('#userMenu').length) {
+                    $('#userMenu').addClass('hidden');
+                }
+            });
+
+            // Smooth scrolling for anchor links
+            $('a[href^="#"]').on('click', function(event) {
+                var target = $(this.getAttribute('href'));
+                if( target.length ) {
+                    event.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 80
+                    }, 1000);
+                }
+            });
+
+            // Scroll animations
+            $(window).scroll(function() {
+                $('.animate-on-scroll').each(function() {
+                    var elementTop = $(this).offset().top;
+                    var elementBottom = elementTop + $(this).outerHeight();
+                    var viewportTop = $(window).scrollTop();
+                    var viewportBottom = viewportTop + $(window).height();
+
+                    if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                        $(this).addClass('animate-slide-up');
+                    }
+                });
+            });
+
+            // Card hover effects
+            $('.feature-card').hover(
+                function() {
+                    $(this).addClass('transform scale-105 shadow-2xl');
+                },
+                function() {
+                    $(this).removeClass('transform scale-105 shadow-2xl');
+                }
+            );
+        });
+    </script>
+</body>
+</html>
