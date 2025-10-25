@@ -342,14 +342,30 @@
                             </div>
                         </div>
 
-                        <!-- Modern CTA button -->
-                        <a href="{{ route('assessment') }}" class="group/btn relative w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                            <span class="relative z-10">Mulai Assessment</span>
-                            <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
+                        <!-- Assessment buttons -->
+                        <div class="space-y-3">
+                            <a href="{{ route('assessment') }}" class="group/btn relative w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                                <span class="relative z-10">Assessment Kesiapan Bencana</span>
+                                <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </a>
+
+                            @auth
+                            <a href="{{ route('assessment') }}" class="group/btn relative w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25 hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                                <span class="relative z-10">Assessment Kesehatan Mental</span>
+                                <svg class="relative z-10 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                </svg>
+                            </a>
+                            @else
+                            <p class="text-sm text-gray-600 text-center">
+                                <a href="{{ route('login') }}" class="text-purple-600 hover:text-purple-700 font-medium">Login</a> untuk akses assessment kesehatan mental
+                            </p>
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>
@@ -491,9 +507,9 @@
                                     Mulai Sekarang
                                 </span>
                             </button>
-                            <a href="#" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors font-medium">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15"/>
+                            <a href="#" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors font-medium group">
+                                <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Pelajari Lebih Lanjut
                             </a>
@@ -628,7 +644,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
 </style>
+
 @endsection
 
 @section('scripts')
@@ -714,5 +732,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 </script>
 @endsection

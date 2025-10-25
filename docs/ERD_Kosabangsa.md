@@ -1,0 +1,526 @@
+# ERD (Entity Relationship Diagram) - Kosabangsa Desa Kaana
+
+## 🎯 Overview
+Rancangan database untuk website **Kosabangsa Desa Kaana** yang mendukung sistem pembelajaran digital, pemetaan geografis, assessment konseling, dan LMS inkubator bisnis ekonomi maritim.
+
+## 📊 Core Entities
+
+### 1. **USERS** (Authentication & Profile)
+```sql
+users
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── name (VARCHAR(255), NOT NULL)
+├── email (VARCHAR(255), UNIQUE, NOT NULL)
+├── email_verified_at (TIMESTAMP, NULLABLE)
+├── password (VARCHAR(255), NOT NULL)
+├── profile_image (VARCHAR(500), NULLABLE)
+├── phone (VARCHAR(20), NULLABLE)
+├── address (TEXT, NULLABLE)
+├── birth_date (DATE, NULLABLE)
+├── gender (ENUM('male', 'female'), NULLABLE)
+├── occupation (VARCHAR(100), NULLABLE)
+├── education_level (VARCHAR(100), NULLABLE)
+├── role (ENUM('admin', 'instructor', 'student', 'guest'), DEFAULT 'student')
+├── is_active (BOOLEAN, DEFAULT true)
+├── remember_token (VARCHAR(100), NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 2. **VILLAGE_INFO** (Informasi Desa)
+```sql
+village_info
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── name (VARCHAR(255), NOT NULL) -- "Desa Kaana"
+├── description (TEXT, NULLABLE)
+├── coordinates_lat (DECIMAL(10,8), NOT NULL) -- 5°21'S
+├── coordinates_lng (DECIMAL(11,8), NOT NULL) -- 102°16'E
+├── area_size (DECIMAL(8,2), NULLABLE) -- 12.5 km²
+├── population_total (INT, NULLABLE)
+├── population_density (INT, NULLABLE) -- 201/km²
+├── climate (VARCHAR(100), NULLABLE) -- "26-28°C"
+├── elevation (INT, NULLABLE)
+├── district (VARCHAR(100), NULLABLE) -- "Enggano"
+├── regency (VARCHAR(100), NULLABLE) -- "Bengkulu Utara"
+├── province (VARCHAR(100), NULLABLE) -- "Bengkulu"
+├── established_year (YEAR, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 3. **TRANSPORTATION** (Akses Transportasi)
+```sql
+transportation
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── village_id (FK -> village_info.id)
+├── type (ENUM('ship', 'speedboat', 'plane'), NOT NULL)
+├── name (VARCHAR(100), NOT NULL)
+├── duration (VARCHAR(50), NULLABLE) -- "6-8 jam", "3-4 jam"
+├── frequency (VARCHAR(100), NULLABLE)
+├── cost_range (VARCHAR(100), NULLABLE)
+├── weather_dependent (BOOLEAN, DEFAULT false)
+├── description (TEXT, NULLABLE)
+├── icon (VARCHAR(50), NULLABLE) -- emoji atau icon class
+├── is_active (BOOLEAN, DEFAULT true)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 🎓 Learning Management System
+
+### 4. **COURSES** (Program Pembelajaran)
+```sql
+courses
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── title (VARCHAR(255), NOT NULL)
+├── slug (VARCHAR(255), UNIQUE, NOT NULL)
+├── description (TEXT, NULLABLE)
+├── short_description (TEXT, NULLABLE)
+├── category (ENUM('maritime_economy', 'fishery', 'business_incubator', 'digital_skills'), NOT NULL)
+├── level (ENUM('beginner', 'intermediate', 'advanced'), DEFAULT 'beginner')
+├── duration_hours (INT, NULLABLE)
+├── thumbnail (VARCHAR(500), NULLABLE)
+├── background_color (VARCHAR(20), DEFAULT '#3b82f6')
+├── instructor_id (FK -> users.id)
+├── status (ENUM('draft', 'published', 'archived'), DEFAULT 'draft')
+├── is_featured (BOOLEAN, DEFAULT false)
+├── enrollment_count (INT, DEFAULT 0)
+├── rating_average (DECIMAL(3,2), DEFAULT 0.00)
+├── price (DECIMAL(10,2), DEFAULT 0.00)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 5. **COURSE_MODULES** (Modul Pembelajaran)
+```sql
+course_modules
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── course_id (FK -> courses.id)
+├── title (VARCHAR(255), NOT NULL)
+├── description (TEXT, NULLABLE)
+├── order_index (INT, NOT NULL)
+├── duration_minutes (INT, NULLABLE)
+├── is_locked (BOOLEAN, DEFAULT false)
+├── prerequisites (JSON, NULLABLE) -- module IDs yang harus diselesaikan
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 6. **LEARNING_MATERIALS** (Materi Pembelajaran)
+```sql
+learning_materials
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── module_id (FK -> course_modules.id)
+├── title (VARCHAR(255), NOT NULL)
+├── content_type (ENUM('video', 'text', 'pdf', 'presentation', 'interactive', 'quiz'), NOT NULL)
+├── content_url (VARCHAR(500), NULLABLE)
+├── content_text (LONGTEXT, NULLABLE)
+├── duration_minutes (INT, NULLABLE)
+├── file_size (BIGINT, NULLABLE)
+├── order_index (INT, NOT NULL)
+├── is_downloadable (BOOLEAN, DEFAULT false)
+├── view_count (INT, DEFAULT 0)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 7. **USER_ENROLLMENTS** (Pendaftaran Kursus)
+```sql
+user_enrollments
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_id (FK -> users.id)
+├── course_id (FK -> courses.id)
+├── enrollment_date (TIMESTAMP, NOT NULL)
+├── completion_date (TIMESTAMP, NULLABLE)
+├── progress_percentage (DECIMAL(5,2), DEFAULT 0.00)
+├── current_module_id (FK -> course_modules.id, NULLABLE)
+├── status (ENUM('enrolled', 'in_progress', 'completed', 'dropped'), DEFAULT 'enrolled')
+├── certificate_issued (BOOLEAN, DEFAULT false)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+
+-- Composite unique key
+UNIQUE KEY unique_enrollment (user_id, course_id)
+```
+
+### 8. **LEARNING_PROGRESS** (Progress Pembelajaran)
+```sql
+learning_progress
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_id (FK -> users.id)
+├── material_id (FK -> learning_materials.id)
+├── enrollment_id (FK -> user_enrollments.id)
+├── started_at (TIMESTAMP, NULLABLE)
+├── completed_at (TIMESTAMP, NULLABLE)
+├── time_spent_minutes (INT, DEFAULT 0)
+├── status (ENUM('not_started', 'in_progress', 'completed'), DEFAULT 'not_started')
+├── last_position (INT, DEFAULT 0) -- untuk video/audio
+├── notes (TEXT, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 🧠 Assessment & Konseling System (Simplified)
+
+### 9. **ASSESSMENTS** (Master Data Minimal)
+```sql
+assessments
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── name (VARCHAR(100), NOT NULL) -- "PCL-5", "DASS-21"
+├── type (ENUM('pcl5', 'dass21', 'career', 'personality'), NOT NULL)
+├── total_questions (INT, NOT NULL) -- 20, 21
+├── time_limit_minutes (INT, DEFAULT 15)
+├── instructions (TEXT, NULLABLE)
+├── disclaimer_text (TEXT, NULLABLE)
+├── is_active (BOOLEAN, DEFAULT true)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 10. **USER_ASSESSMENTS** (Session & Results)
+```sql
+user_assessments
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_id (FK -> users.id)
+├── assessment_type (ENUM('pcl5', 'dass21', 'combined'), NOT NULL)
+├── started_at (TIMESTAMP, NOT NULL)
+├── completed_at (TIMESTAMP, NULLABLE)
+├── status (ENUM('in_progress', 'completed', 'abandoned'), DEFAULT 'in_progress')
+├── consent_given (BOOLEAN, DEFAULT false)
+
+-- PCL-5 Results
+├── pcl5_total_score (INT, NULLABLE) -- 0-80
+├── pcl5_cluster_b (INT, NULLABLE) -- Re-experiencing (0-20)
+├── pcl5_cluster_c (INT, NULLABLE) -- Avoidance (0-8)
+├── pcl5_cluster_d (INT, NULLABLE) -- Negative alterations (0-28)
+├── pcl5_cluster_e (INT, NULLABLE) -- Arousal/reactivity (0-24)
+├── pcl5_severity (ENUM('normal', 'moderate', 'probable', 'severe'), NULLABLE)
+
+-- DASS-21 Results  
+├── dass21_depression_score (INT, NULLABLE) -- 0-42
+├── dass21_anxiety_score (INT, NULLABLE) -- 0-42
+├── dass21_stress_score (INT, NULLABLE) -- 0-42
+├── dass21_depression_level (ENUM('normal', 'mild', 'moderate', 'severe', 'extremely_severe'), NULLABLE)
+├── dass21_anxiety_level (ENUM('normal', 'mild', 'moderate', 'severe', 'extremely_severe'), NULLABLE)
+├── dass21_stress_level (ENUM('normal', 'mild', 'moderate', 'severe', 'extremely_severe'), NULLABLE)
+
+-- Overall Assessment
+├── overall_risk_level (ENUM('low', 'moderate', 'high', 'critical'), NULLABLE)
+├── interpretation_text (TEXT, NULLABLE)
+├── recommendations (JSON, NULLABLE)
+├── requires_followup (BOOLEAN, DEFAULT false)
+├── counselor_notes (TEXT, NULLABLE)
+├── reviewed_by (FK -> users.id, NULLABLE)
+├── reviewed_at (TIMESTAMP, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 11. **USER_ANSWERS** (Raw Responses)
+```sql
+user_answers
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_assessment_id (FK -> user_assessments.id)
+├── question_number (INT, NOT NULL) -- 1,2,3...20 untuk PCL-5 atau 1,2,3...21 untuk DASS-21
+├── answer_value (INT, NOT NULL) -- 0,1,2,3,4 untuk PCL-5 atau 0,1,2,3 untuk DASS-21
+├── response_time_ms (INT, NULLABLE) -- waktu menjawab dalam milliseconds
+├── answered_at (TIMESTAMP, NOT NULL)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 12. **MENTAL_HEALTH_ALERTS** (Alert System)
+```sql
+mental_health_alerts
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_assessment_id (FK -> user_assessments.id)
+├── user_id (FK -> users.id)
+├── alert_type (ENUM('high_ptsd_risk', 'severe_depression', 'critical_anxiety', 'urgent_referral'), NOT NULL)
+├── severity (ENUM('moderate', 'high', 'critical'), NOT NULL)
+├── trigger_scores (JSON, NOT NULL) -- {"pcl5": 45, "dass_depression": 28}
+├── alert_message (TEXT, NOT NULL)
+├── recommended_actions (JSON, NOT NULL)
+├── status (ENUM('active', 'acknowledged', 'resolved'), DEFAULT 'active')
+├── acknowledged_by (FK -> users.id, NULLABLE)
+├── acknowledged_at (TIMESTAMP, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 🏢 Business Incubator System
+
+### 14. **BUSINESS_PROGRAMS** (Program Inkubator Bisnis)
+```sql
+business_programs
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── name (VARCHAR(255), NOT NULL)
+├── description (TEXT, NULLABLE)
+├── program_type (ENUM('incubator', 'accelerator', 'mentorship', 'workshop'), NOT NULL)
+├── focus_sector (ENUM('maritime', 'fishery', 'tourism', 'digital', 'agriculture'), NOT NULL)
+├── duration_months (INT, NULLABLE)
+├── max_participants (INT, NULLABLE)
+├── application_deadline (DATE, NULLABLE)
+├── start_date (DATE, NULLABLE)
+├── end_date (DATE, NULLABLE)
+├── requirements (JSON, NULLABLE)
+├── benefits (JSON, NULLABLE)
+├── status (ENUM('draft', 'open', 'in_progress', 'completed'), DEFAULT 'draft')
+├── coordinator_id (FK -> users.id)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 15. **BUSINESS_APPLICATIONS** (Aplikasi Program Bisnis)
+```sql
+business_applications
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_id (FK -> users.id)
+├── program_id (FK -> business_programs.id)
+├── business_idea_title (VARCHAR(255), NOT NULL)
+├── business_description (TEXT, NOT NULL)
+├── target_market (TEXT, NULLABLE)
+├── financial_projection (JSON, NULLABLE)
+├── team_members (JSON, NULLABLE)
+├── experience (TEXT, NULLABLE)
+├── motivation (TEXT, NULLABLE)
+├── application_status (ENUM('draft', 'submitted', 'under_review', 'accepted', 'rejected'), DEFAULT 'draft')
+├── reviewer_notes (TEXT, NULLABLE)
+├── reviewed_by (FK -> users.id, NULLABLE)
+├── reviewed_at (TIMESTAMP, NULLABLE)
+├── submitted_at (TIMESTAMP, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 📍 Geographic & Mapping System
+
+### 16. **MAP_LAYERS** (Layer Peta)
+```sql
+map_layers
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── name (VARCHAR(255), NOT NULL)
+├── layer_type (ENUM('satellite', 'street', 'terrain', 'hybrid'), NOT NULL)
+├── provider (VARCHAR(100), NOT NULL) -- 'mapbox', 'google', etc.
+├── style_url (VARCHAR(500), NULLABLE)
+├── is_default (BOOLEAN, DEFAULT false)
+├── is_active (BOOLEAN, DEFAULT true)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 17. **POI_CATEGORIES** (Kategori Point of Interest)
+```sql
+poi_categories
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── name (VARCHAR(255), NOT NULL)
+├── icon (VARCHAR(100), NULLABLE)
+├── color (VARCHAR(20), DEFAULT '#3b82f6')
+├── description (TEXT, NULLABLE)
+├── is_active (BOOLEAN, DEFAULT true)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 18. **POINTS_OF_INTEREST** (Titik Menarik di Peta)
+```sql
+points_of_interest
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── village_id (FK -> village_info.id)
+├── category_id (FK -> poi_categories.id)
+├── name (VARCHAR(255), NOT NULL)
+├── description (TEXT, NULLABLE)
+├── latitude (DECIMAL(10,8), NOT NULL)
+├── longitude (DECIMAL(11,8), NOT NULL)
+├── address (TEXT, NULLABLE)
+├── images (JSON, NULLABLE) -- array of image URLs
+├── contact_info (JSON, NULLABLE)
+├── operating_hours (JSON, NULLABLE)
+├── website (VARCHAR(500), NULLABLE)
+├── rating (DECIMAL(3,2), DEFAULT 0.00)
+├── is_featured (BOOLEAN, DEFAULT false)
+├── is_active (BOOLEAN, DEFAULT true)
+├── created_by (FK -> users.id)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 📚 Content Management
+
+### 19. **ARTICLES** (Artikel/Blog)
+```sql
+articles
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── title (VARCHAR(255), NOT NULL)
+├── slug (VARCHAR(255), UNIQUE, NOT NULL)
+├── excerpt (TEXT, NULLABLE)
+├── content (LONGTEXT, NOT NULL)
+├── featured_image (VARCHAR(500), NULLABLE)
+├── category (ENUM('news', 'education', 'business', 'tourism', 'maritime'), NOT NULL)
+├── tags (JSON, NULLABLE)
+├── author_id (FK -> users.id)
+├── status (ENUM('draft', 'published', 'archived'), DEFAULT 'draft')
+├── published_at (TIMESTAMP, NULLABLE)
+├── view_count (INT, DEFAULT 0)
+├── is_featured (BOOLEAN, DEFAULT false)
+├── seo_title (VARCHAR(255), NULLABLE)
+├── seo_description (TEXT, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 20. **MEDIA_LIBRARY** (Perpustakaan Media)
+```sql
+media_library
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── filename (VARCHAR(255), NOT NULL)
+├── original_name (VARCHAR(255), NOT NULL)
+├── file_path (VARCHAR(500), NOT NULL)
+├── file_type (VARCHAR(50), NOT NULL)
+├── file_size (BIGINT, NOT NULL)
+├── mime_type (VARCHAR(100), NOT NULL)
+├── dimensions (JSON, NULLABLE) -- untuk gambar: width, height
+├── alt_text (VARCHAR(255), NULLABLE)
+├── description (TEXT, NULLABLE)
+├── uploaded_by (FK -> users.id)
+├── usage_count (INT, DEFAULT 0)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 🔔 Notification & Communication
+
+### 21. **NOTIFICATIONS** (Notifikasi User)
+```sql
+notifications
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── user_id (FK -> users.id)
+├── type (VARCHAR(100), NOT NULL)
+├── title (VARCHAR(255), NOT NULL)
+├── message (TEXT, NOT NULL)
+├── data (JSON, NULLABLE) -- additional notification data
+├── action_url (VARCHAR(500), NULLABLE)
+├── is_read (BOOLEAN, DEFAULT false)
+├── read_at (TIMESTAMP, NULLABLE)
+├── priority (ENUM('low', 'normal', 'high', 'urgent'), DEFAULT 'normal')
+├── expires_at (TIMESTAMP, NULLABLE)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+### 22. **SYSTEM_SETTINGS** (Pengaturan Sistem)
+```sql
+system_settings
+├── id (PK, BIGINT, AUTO_INCREMENT)
+├── key (VARCHAR(255), UNIQUE, NOT NULL)
+├── value (LONGTEXT, NULLABLE)
+├── type (ENUM('string', 'number', 'boolean', 'json'), DEFAULT 'string')
+├── category (VARCHAR(100), DEFAULT 'general')
+├── description (TEXT, NULLABLE)
+├── is_public (BOOLEAN, DEFAULT false)
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
+```
+
+## 🔗 Relationships Summary
+
+### **Primary Relationships:**
+1. **users** → **user_enrollments** → **courses**
+2. **courses** → **course_modules** → **learning_materials**
+3. **users** → **learning_progress** ← **learning_materials**
+4. **users** → **user_assessments** → **assessments**
+5. **assessments** → **assessment_questions** → **assessment_options**
+6. **users** → **business_applications** → **business_programs**
+7. **village_info** → **transportation**, **points_of_interest**
+8. **poi_categories** → **points_of_interest**
+
+### **Foreign Key Constraints:**
+```sql
+-- Course System
+ALTER TABLE courses ADD FOREIGN KEY (instructor_id) REFERENCES users(id);
+ALTER TABLE course_modules ADD FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE;
+ALTER TABLE learning_materials ADD FOREIGN KEY (module_id) REFERENCES course_modules(id) ON DELETE CASCADE;
+ALTER TABLE user_enrollments ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE user_enrollments ADD FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE;
+ALTER TABLE learning_progress ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE learning_progress ADD FOREIGN KEY (material_id) REFERENCES learning_materials(id) ON DELETE CASCADE;
+
+-- Assessment System
+ALTER TABLE assessments ADD FOREIGN KEY (created_by) REFERENCES users(id);
+ALTER TABLE assessment_questions ADD FOREIGN KEY (assessment_id) REFERENCES assessments(id) ON DELETE CASCADE;
+ALTER TABLE assessment_options ADD FOREIGN KEY (question_id) REFERENCES assessment_questions(id) ON DELETE CASCADE;
+ALTER TABLE user_assessments ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE user_assessments ADD FOREIGN KEY (assessment_id) REFERENCES assessments(id);
+ALTER TABLE user_answers ADD FOREIGN KEY (user_assessment_id) REFERENCES user_assessments(id) ON DELETE CASCADE;
+
+-- Business System
+ALTER TABLE business_programs ADD FOREIGN KEY (coordinator_id) REFERENCES users(id);
+ALTER TABLE business_applications ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE business_applications ADD FOREIGN KEY (program_id) REFERENCES business_programs(id);
+
+-- Geographic System
+ALTER TABLE transportation ADD FOREIGN KEY (village_id) REFERENCES village_info(id) ON DELETE CASCADE;
+ALTER TABLE points_of_interest ADD FOREIGN KEY (village_id) REFERENCES village_info(id);
+ALTER TABLE points_of_interest ADD FOREIGN KEY (category_id) REFERENCES poi_categories(id);
+
+-- Content & Media
+ALTER TABLE articles ADD FOREIGN KEY (author_id) REFERENCES users(id);
+ALTER TABLE media_library ADD FOREIGN KEY (uploaded_by) REFERENCES users(id);
+ALTER TABLE notifications ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+```
+
+## 📊 Indexing Strategy
+
+### **Performance Indexes:**
+```sql
+-- User & Authentication
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_role ON users(role);
+CREATE INDEX idx_users_active ON users(is_active);
+
+-- Course System
+CREATE INDEX idx_courses_category ON courses(category);
+CREATE INDEX idx_courses_status ON courses(status);
+CREATE INDEX idx_courses_instructor ON courses(instructor_id);
+CREATE INDEX idx_enrollments_user_course ON user_enrollments(user_id, course_id);
+CREATE INDEX idx_enrollments_status ON user_enrollments(status);
+CREATE INDEX idx_progress_user_material ON learning_progress(user_id, material_id);
+
+-- Assessment System
+CREATE INDEX idx_assessments_category ON assessments(category);
+CREATE INDEX idx_user_assessments_user ON user_assessments(user_id);
+CREATE INDEX idx_user_assessments_status ON user_assessments(status);
+
+-- Geographic System
+CREATE SPATIAL INDEX idx_poi_location ON points_of_interest(latitude, longitude);
+CREATE INDEX idx_poi_category ON points_of_interest(category_id);
+CREATE INDEX idx_poi_village ON points_of_interest(village_id);
+
+-- Content & Performance
+CREATE INDEX idx_articles_category ON articles(category);
+CREATE INDEX idx_articles_status ON articles(status);
+CREATE INDEX idx_articles_published ON articles(published_at);
+CREATE INDEX idx_notifications_user_read ON notifications(user_id, is_read);
+```
+
+## 🎯 Implementation Notes
+
+### **Data Types Explanation:**
+- **DECIMAL(10,8)**: Untuk latitude/longitude dengan presisi tinggi
+- **JSON**: Untuk data fleksibel seperti settings, results, tags
+- **ENUM**: Untuk field dengan nilai terbatas dan fixed
+- **TEXT vs LONGTEXT**: TEXT untuk content pendek, LONGTEXT untuk content panjang
+- **TIMESTAMP**: Automatic timezone handling untuk created_at/updated_at
+
+### **Security Considerations:**
+- Password hashing menggunakan Laravel's Hash facade
+- Foreign key constraints untuk data integrity
+- Soft deletes untuk data penting (bisa ditambah deleted_at column)
+- Role-based access control melalui users.role
+
+### **Scalability Features:**
+- Composite indexes untuk query performance
+- JSON fields untuk flexible data storage
+- Separation of concerns (content, learning, assessment, business)
+- Media library terpisah untuk file management
+
+Sistem database ini mendukung semua fitur yang ada di halaman-halaman website Kosabangsa dan dapat dikembangkan sesuai kebutuhan masa depan! 🚀
