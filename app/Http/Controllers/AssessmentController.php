@@ -186,6 +186,8 @@ class AssessmentController extends Controller
             // Update user assessment with results and mark as completed
             $userAssessment->update([
                 'results' => $results,
+                'total_score' => $results['total_score'] ?? $results['total_checked'] ?? $results['total_problems'] ?? 0,
+                'risk_level' => $this->normalizeRiskLevel($results['risk_level'] ?? null),
                 'completed_at' => now(),
                 'status' => 'completed'
             ]);
@@ -1032,6 +1034,8 @@ class AssessmentController extends Controller
         // Update user assessment with DCM results (all data in JSON results)
         $userAssessment->update([
             'results' => $calculationResults,
+            'total_score' => $calculationResults['total_score'] ?? $calculationResults['total_checked'] ?? $calculationResults['total_problems'] ?? 0,
+            'risk_level' => $this->normalizeRiskLevel($calculationResults['risk_level'] ?? null),
             'completed_at' => now(),
             'status' => 'completed'
         ]);
@@ -1050,5 +1054,28 @@ class AssessmentController extends Controller
         }
 
         return view('assessment.dcm-result', compact('result'));
+    }
+
+    /**
+     * Normalize risk level to standard format
+     */
+    private function normalizeRiskLevel($riskLevel)
+    {
+        if (empty($riskLevel)) {
+            return null;
+        }
+
+        $riskLevel = strtolower(trim($riskLevel));
+        
+        // Map Indonesian and various formats to standard English
+        if (in_array($riskLevel, ['rendah', 'low', 'sangat rendah', 'very_low'])) {
+            return 'low';
+        } elseif (in_array($riskLevel, ['sedang', 'medium', 'moderate', 'menengah'])) {
+            return 'medium';
+        } elseif (in_array($riskLevel, ['tinggi', 'high', 'critical'])) {
+            return 'high';
+        }
+        
+        return $riskLevel;
     }
 }

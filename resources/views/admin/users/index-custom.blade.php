@@ -1,18 +1,22 @@
-@extends('admin.layouts.app')
+@extends('layouts.dashboard.dashboard')
 
 @section('title', 'User Management - Admin')
 
-@section('content-title')
-    <h1 class="m-0">User Management</h1>
+@section('menu')
+    User Management
 @endsection
 
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-    <li class="breadcrumb-item active">Users</li>
+@section('link')
+    <li class="breadcrumb-item">
+        <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item text-gray-700">Users</li>
 @endsection
 
 @section('content')
-<div class="row">
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="kt_app_content_container" class="app-container container-xxl">
+        <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -26,7 +30,7 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-12">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createUserModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
                             <i class="fas fa-plus"></i> Add New User
                         </button>
                         <a href="{{ route('admin.users.export') }}" class="btn btn-success float-right">
@@ -39,7 +43,7 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" id="search-input" class="form-control" placeholder="Search by name or email...">
+                            <input type="text" id="search-input" class="form-control" placeholder="Cari nama atau email...">
                             <div class="input-group-append">
                                 <button type="button" id="btn-search" class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -47,18 +51,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <select id="filter-verified" class="form-control">
-                            <option value="">All Users</option>
-                            <option value="verified">Verified</option>
-                            <option value="unverified">Unverified</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" id="btn-filter" class="btn btn-primary">
-                            <i class="fas fa-filter"></i> Apply
-                        </button>
-                        <button type="button" id="btn-reset" class="btn btn-default ml-2">
+                    <div class="col-md-6 text-end">
+                        <button type="button" id="btn-reset" class="btn btn-secondary">
                             <i class="fas fa-redo"></i> Reset
                         </button>
                     </div>
@@ -73,7 +67,6 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Verified</th>
                                 <th>Assessments</th>
                                 <th>Last Assessment</th>
                                 <th>Registered</th>
@@ -135,9 +128,7 @@
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Add New User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -156,9 +147,16 @@
                         <label for="password_confirmation">Confirm Password</label>
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
                     </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select class="form-control" id="role" name="role" required>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Create User</button>
                 </div>
             </form>
@@ -175,9 +173,7 @@
                 <input type="hidden" id="edit-user-id" name="user_id">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -196,9 +192,16 @@
                         <label for="edit-password_confirmation">Confirm Password</label>
                         <input type="password" class="form-control" id="edit-password_confirmation" name="password_confirmation">
                     </div>
+                    <div class="form-group">
+                        <label for="edit-role">Role</label>
+                        <select class="form-control" id="edit-role" name="role" required>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Update User</button>
                 </div>
             </form>
@@ -221,15 +224,40 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @push('scripts')
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    // Common functions
+    function showLoader() {
+        $('#loading-indicator').show();
+    }
+
+    function hideLoader() {
+        $('#loading-indicator').hide();
+    }
+
+    function showAlert(type, message) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: type,
+                title: message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        } else {
+            alert(message);
+        }
+    }
+
     let currentPage = 1;
     let perPage = 10;
     let searchQuery = '';
-    let filterVerified = '';
 
     $(function () {
         loadUsers();
@@ -254,19 +282,10 @@
             }
         });
 
-        // Filter functionality
-        $('#btn-filter').click(function() {
-            filterVerified = $('#filter-verified').val();
-            currentPage = 1;
-            loadUsers();
-        });
-
         // Reset filters
         $('#btn-reset').click(function() {
-            $('#filter-verified').val('');
             $('#search-input').val('');
             searchQuery = '';
-            filterVerified = '';
             currentPage = 1;
             loadUsers();
         });
@@ -289,8 +308,10 @@
                 data: $(this).serialize(),
                 success: function (response) {
                     showAlert('success', response.success);
-                    $('#createUserModal').modal('hide');
-                    $(this)[0].reset();
+                    var modalEl = document.getElementById('createUserModal');
+                    var modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+                    $('#createUserForm')[0].reset();
                     loadUsers();
                     hideLoader();
                 },
@@ -303,7 +324,7 @@
                         }
                         showAlert('error', errorMessage);
                     } else {
-                        showAlert('error', 'Failed to create user');
+                        showAlert('error', 'Gagal membuat user');
                     }
                     hideLoader();
                 }
@@ -320,11 +341,14 @@
                     $('#edit-user-id').val(user.id);
                     $('#edit-name').val(user.name);
                     $('#edit-email').val(user.email);
-                    $('#editUserModal').modal('show');
+                    $('#edit-role').val(user.role || 'user');
+                    var modalEl = document.getElementById('editUserModal');
+                    var modal = new bootstrap.Modal(modalEl);
+                    modal.show();
                     hideLoader();
                 })
                 .fail(function () {
-                    showAlert('error', 'Failed to load user data');
+                    showAlert('error', 'Gagal memuat data user');
                     hideLoader();
                 });
         });
@@ -340,7 +364,9 @@
                 data: $(this).serialize(),
                 success: function (response) {
                     showAlert('success', response.success);
-                    $('#editUserModal').modal('hide');
+                    var modalEl = document.getElementById('editUserModal');
+                    var modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
                     loadUsers();
                     hideLoader();
                 },
@@ -353,7 +379,7 @@
                         }
                         showAlert('error', errorMessage);
                     } else {
-                        showAlert('error', 'Failed to update user');
+                        showAlert('error', 'Gagal mengupdate user');
                     }
                     hideLoader();
                 }
@@ -366,13 +392,15 @@
             showLoader();
 
             $.get(`{{ route('admin.users.show', ':id') }}`.replace(':id', id))
-                .done(function (data) {
-                    $('#user-detail').html(data);
-                    $('#userDetailModal').modal('show');
+                .done(function (response) {
+                    $('#user-detail').html(response.html || response);
+                    var modalEl = document.getElementById('userDetailModal');
+                    var modal = new bootstrap.Modal(modalEl);
+                    modal.show();
                     hideLoader();
                 })
                 .fail(function () {
-                    showAlert('error', 'Failed to load user details');
+                    showAlert('error', 'Gagal memuat detail user');
                     hideLoader();
                 });
         });
@@ -382,13 +410,14 @@
             let id = $(this).data('id');
 
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Apakah Anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
                     showLoader();
@@ -400,12 +429,18 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function (response) {
-                            showAlert('success', response.success);
+                            showAlert('success', 'User berhasil dihapus');
                             loadUsers();
                             hideLoader();
                         },
                         error: function (xhr) {
-                            showAlert('error', xhr.responseJSON.error || 'Failed to delete user');
+                            let errorMsg = 'Gagal menghapus user';
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMsg = xhr.responseJSON.error;
+                            } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMsg = xhr.responseJSON.message;
+                            }
+                            showAlert('error', errorMsg);
                             hideLoader();
                         }
                     });
@@ -421,21 +456,26 @@
         let params = new URLSearchParams({
             page: currentPage,
             per_page: perPage,
-            search: searchQuery,
-            verified: filterVerified
+            search: searchQuery
         });
 
-        $.get(`{{ route('admin.users.index') }}/data?${params}`)
+        $.get(`{{ route('admin.users.data') }}?${params}`)
             .done(function(response) {
-                renderTable(response.data);
+                const data = Array.isArray(response.data) ? response.data : [];
+                renderTable(data);
                 renderPagination(response);
                 renderInfo(response);
                 $('#loading-indicator').hide();
                 $('#users-tbody').show();
             })
-            .fail(function() {
-                showAlert('error', 'Failed to load users');
+            .fail(function(xhr) {
+                let errorMsg = 'Gagal memuat data user';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                showAlert('error', errorMsg);
                 $('#loading-indicator').hide();
+                $('#users-tbody').show();
             });
     }
 
@@ -443,7 +483,7 @@
         let html = '';
 
         if (data.length === 0) {
-            html = '<tr><td colspan="9" class="text-center">No users found</td></tr>';
+            html = '<tr><td colspan="8" class="text-center">Tidak ada data user</td></tr>';
         } else {
             data.forEach(function(user, index) {
                 let no = (currentPage - 1) * perPage + index + 1;
@@ -451,13 +491,12 @@
                     <tr>
                         <td><input type="checkbox" class="check-row" value="${user.id}"></td>
                         <td>${no}</td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.verified}</td>
-                        <td>${user.assessment_count}</td>
-                        <td>${user.last_assessment}</td>
-                        <td>${user.created_at}</td>
-                        <td>${user.action}</td>
+                        <td>${user.name || 'N/A'}</td>
+                        <td>${user.email || 'N/A'}</td>
+                        <td>${user.assessment_count || 0}</td>
+                        <td>${user.last_assessment || 'N/A'}</td>
+                        <td>${user.created_at || 'N/A'}</td>
+                        <td>${user.action || ''}</td>
                     </tr>
                 `;
             });
@@ -533,7 +572,7 @@
     function renderInfo(response) {
         let start = (response.current_page - 1) * response.per_page + 1;
         let end = Math.min(response.current_page * response.per_page, response.total);
-        let info = `Showing ${start} to ${end} of ${response.total} entries`;
+        let info = `Menampilkan ${start} sampai ${end} dari ${response.total} data`;
         $('#table-info').text(info);
     }
 </script>

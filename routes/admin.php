@@ -32,9 +32,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::prefix('assessments')->name('assessments.')->group(function () {
         Route::get('/', [AssessmentController::class, 'index'])->name('index');
         Route::get('/data', [AssessmentController::class, 'getAssessments'])->name('data');
+        Route::get('/export', [AssessmentController::class, 'export'])->name('export');
+        Route::get('/history/{userId}/{type}', [AssessmentController::class, 'getHistory'])->name('history');
         Route::get('/{id}', [AssessmentController::class, 'show'])->name('show');
         Route::delete('/{id}', [AssessmentController::class, 'destroy'])->name('destroy');
-        Route::get('/export', [AssessmentController::class, 'export'])->name('export');
 
         // PTSD Assessments
         Route::get('/ptsd', [AssessmentController::class, 'ptsdIndex'])->name('ptsd.index');
@@ -43,8 +44,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         // DCM Assessments
         Route::get('/dcm', [AssessmentController::class, 'dcmIndex'])->name('dcm.index');
         Route::get('/dcm/data', [AssessmentController::class, 'getDCMAssessments'])->name('dcm.data');
-
-        Route::get('/history', [AssessmentController::class, 'history'])->name('history');
     });
 
     // Coordinate Management

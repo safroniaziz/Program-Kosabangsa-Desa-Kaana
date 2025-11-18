@@ -21,11 +21,11 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        // Total Statistics
-        $totalUsers = User::count();
+        // Total Statistics - exclude admin, only count users with role 'user'
+        $totalUsers = User::where('role', 'user')->count();
         $totalAssessments = UserAssessment::count();
         $totalPTSD = UserAssessment::where('assessment_type', 'ptsd')->count();
-        $totalDCM = UserAssessment::where('assessment_type', 'dcm')->count();
+        $totalDCM = UserAssessment::where('assessment_type', 'dcm')->orWhere('assessment_type', 'checklist_masalah')->count();
 
         // Current Month Statistics
         $currentMonth = Carbon::now()->month;
@@ -95,16 +95,23 @@ class AdminController extends Controller
         $completedAssessments = UserAssessment::where('status', 'completed')->count();
         $assessmentCompletionRate = $totalAssessments > 0 ? round(($completedAssessments / $totalAssessments) * 100, 1) : 0;
 
-        // User activity rate based on assessments created (active users)
-        $recentAssessments = UserAssessment::where('created_at', '>=', Carbon::now()->subDays(7))->distinct('user_id')->count();
+        // User activity rate based on assessments created (active users) - only count users with role 'user'
+        $recentAssessments = UserAssessment::whereHas('user', function($query) {
+            $query->where('role', 'user');
+        })->where('created_at', '>=', Carbon::now()->subDays(7))->distinct('user_id')->count();
         $userActivityRate = $totalUsers > 0 ? round(($recentAssessments / $totalUsers) * 100, 1) : 0;
 
-        // Response rate (users who started assessment)
-        $usersWithAssessment = UserAssessment::distinct('user_id')->count();
+        // Response rate (users who started assessment) - only count users with role 'user'
+        $usersWithAssessment = UserAssessment::whereHas('user', function($query) {
+            $query->where('role', 'user');
+        })->distinct('user_id')->count();
         $responseRate = $totalUsers > 0 ? round(($usersWithAssessment / $totalUsers) * 100, 1) : 0;
 
-        // Participation rate (completed assessments from unique users)
-        $participationRate = $totalUsers > 0 ? round(($completedAssessments / $totalUsers) * 100, 1) : 0;
+        // Participation rate (completed assessments from unique users) - only count users with role 'user'
+        $completedAssessmentsByUsers = UserAssessment::whereHas('user', function($query) {
+            $query->where('role', 'user');
+        })->where('status', 'completed')->distinct('user_id')->count();
+        $participationRate = $totalUsers > 0 ? round(($completedAssessmentsByUsers / $totalUsers) * 100, 1) : 0;
 
         // Coverage rate based on coordinates
         $coverageRate = $totalCoordinates > 0 ? min(100, round(($totalCoordinates / 10) * 100, 1)) : 0;
@@ -173,19 +180,58 @@ class AdminController extends Controller
                 return ['jenis' => $jenis, 'count' => $item->count];
             });
 
-        $riskLevelStats = UserAssessment::select('risk_level', DB::raw('COUNT(*) as count'))
-            ->whereNotNull('risk_level')
-            ->groupBy('risk_level')
+        // Gender distribution from users (exclude admin)
+        $genderStats = User::where('role', 'user')
+            ->select('gender', DB::raw('COUNT(*) as count'))
+            ->whereNotNull('gender')
+            ->groupBy('gender')
             ->get()
             ->map(function($item) {
-                $level = match($item->risk_level) {
-                    'low' => 'Rendah',
-                    'medium' => 'Sedang',
-                    'high' => 'Tinggi',
-                    default => $item->risk_level
+                $label = match($item->gender) {
+                    'male' => 'Laki-laki',
+                    'female' => 'Perempuan',
+                    default => ucfirst($item->gender)
                 };
-                return ['level' => $level, 'count' => $item->count];
+                return ['label' => $label, 'count' => $item->count];
             });
+
+        // Religion distribution from users (exclude admin)
+        $religionStats = User::where('role', 'user')
+            ->select('religion', DB::raw('COUNT(*) as count'))
+            ->whereNotNull('religion')
+            ->groupBy('religion')
+            ->get()
+            ->map(function($item) {
+                $label = match($item->religion) {
+                    'islam' => 'Islam',
+                    'kristen' => 'Kristen',
+                    'katolik' => 'Katolik',
+                    'hindu' => 'Hindu',
+                    'buddha' => 'Buddha',
+                    'konghucu' => 'Konghucu',
+                    'lainnya' => 'Lainnya',
+                    default => ucfirst($item->religion)
+                };
+                return ['label' => $label, 'count' => $item->count];
+            });
+
+        // Age group distribution from users (exclude admin)
+        $ageGroups = User::where('role', 'user')
+            ->whereNotNull('birth_date')
+            ->get()
+            ->map(function($user) {
+                $age = Carbon::parse($user->birth_date)->age;
+                if ($age < 18) return 'Anak (< 18)';
+                if ($age < 30) return 'Muda (18-29)';
+                if ($age < 45) return 'Dewasa (30-44)';
+                if ($age < 60) return 'Paruh Baya (45-59)';
+                return 'Lansia (60+)';
+            })
+            ->countBy()
+            ->map(function($count, $group) {
+                return ['label' => $group, 'count' => $count];
+            })
+            ->values();
 
         $fasilitasStats = [];
         $puskesmas = Coordinate::where('name', 'like', '%Puskesmas%')->count();
@@ -200,7 +246,9 @@ class AdminController extends Controller
 
         $chartData = [
             'assessmentStats' => $assessmentStats->toArray(),
-            'riskLevelStats' => $riskLevelStats->toArray(),
+            'genderStats' => $genderStats->toArray(),
+            'religionStats' => $religionStats->toArray(),
+            'ageGroupStats' => $ageGroups->toArray(),
             'fasilitasStats' => $fasilitasStats
         ];
 

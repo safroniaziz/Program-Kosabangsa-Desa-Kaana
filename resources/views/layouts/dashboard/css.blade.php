@@ -42,110 +42,14 @@
             padding-bottom: .8rem;
         }
 
-        /* Activity Log Button Styling */
-        #kt_activity_log_toggle {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+        .badge.bg-purple {
+            background-color: #6f42c1 !important;
+            color: #ffffff !important;
         }
 
-        #kt_activity_log_toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-            border-color: rgba(0, 123, 255, 0.2);
+        .badge.bg-orange {
+            background-color: #fd7e14 !important;
+            color: #ffffff !important;
         }
 
-        #kt_activity_log_toggle:active {
-            transform: translateY(0);
-        }
-
-        /* Activity Counter Badge */
-        #activity-counter {
-            font-size: 0.7rem !important;
-            font-weight: 600;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: badgePulse 2s infinite;
-        }
-
-        /* Activity Indicator */
-        #activity-indicator {
-            animation: pulse 2s infinite;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 0.7;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes badgePulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        /* Activity Log Drawer Styling */
-        .activity-log-drawer {
-            background: #ffffff;
-        }
-
-        .activity-log-header {
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .activity-item {
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            background: #ffffff;
-            border: 1px solid #e9ecef;
-        }
-
-        .activity-item:hover {
-            background-color: #f8f9fa;
-            border-left-color: #007bff;
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .activity-item.unread {
-            background-color: #e8f5e8;
-            border-left-color: #28a745;
-            border: 1px solid #c3e6c3;
-        }
-
-        .activity-time {
-            font-size: 0.75rem;
-            color: #6c757d;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-        }
     </style>

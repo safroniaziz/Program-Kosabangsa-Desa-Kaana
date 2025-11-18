@@ -3,7 +3,7 @@
 	<!--begin::Head-->
 	<head>
 <base href="../" />
-		<title>SINTAMU - LPMPP Universitas Bengkulu</title>
+		<title>@yield('title', 'Dashboard') - Kosabangsa</title>
 		<meta charset="utf-8" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
@@ -16,6 +16,24 @@
 		<meta property="og:site_name" content="Metronic by Keenthemes" />
 		@include('layouts.dashboard.css')
 		@stack('styles')
+		<!-- Prevent FOUC (Flash of Unstyled Content) -->
+		<style>
+			.page-title {
+				opacity: 0;
+				transition: opacity 0.2s ease;
+			}
+			.page-title.loaded {
+				opacity: 1;
+			}
+		</style>
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const pageTitle = document.querySelector('.page-title');
+				if (pageTitle) {
+					pageTitle.classList.add('loaded');
+				}
+			});
+		</script>
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
 	<!--end::Head-->
@@ -44,8 +62,20 @@
 						<!--end::Sidebar mobile toggle-->
 						<!--begin::Mobile logo-->
 						<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-							<a href="{{ route('dashboard') }}" class="d-lg-none">
-								<img alt="Logo" src="{{ asset('assets/src/images/pppep.png') }}" class="h-30px" />
+							<a href="{{ route('dashboard') }}" class="d-lg-none d-flex align-items-center">
+								<div style="
+									background: linear-gradient(145deg, #667eea, #764ba2);
+									padding: 6px;
+									border-radius: 8px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									min-width: 30px;
+									min-height: 30px;
+								">
+									<i class="fas fa-home fs-4 text-white"></i>
+								</div>
+								<span class="ms-2 fw-bold text-white">KOSABANGSA</span>
 							</a>
 						</div>
 						<!--end::Mobile logo-->
@@ -102,14 +132,6 @@
 			<!--end::Page-->
 		</div>
 		<!--end::App-->
-		<!--begin::Drawers-->
-		<!--begin::Activities drawer-->
-
-        @include('layouts.dashboard._activity')
-
-		<!--end::Activities drawer-->
-
-		<!--end::Drawers-->
 		<!--begin::Scrolltop-->
 		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
 			<i class="ki-duotone ki-arrow-up">

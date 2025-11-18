@@ -1,19 +1,25 @@
-@extends('admin.layouts.app')
+@extends('layouts.dashboard.dashboard')
 
 @section('title', 'PTSD Questions - Admin')
 
-@section('content-title')
-    <h1 class="m-0">PTSD Questions Management</h1>
+@section('menu')
+    PTSD Questions Management
 @endsection
 
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('admin.questions.index') }}">Questions</a></li>
-    <li class="breadcrumb-item active">PTSD Questions</li>
+@section('link')
+    <li class="breadcrumb-item">
+        <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ route('admin.questions.index') }}" class="text-muted text-hover-primary">Questions</a>
+    </li>
+    <li class="breadcrumb-item text-gray-700">PTSD Questions</li>
 @endsection
 
 @section('content')
-<div class="container-fluid">
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="kt_app_content_container" class="app-container container-xxl">
+        <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -225,7 +231,8 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
+    </div>
 @endsection
 
 @push('scripts')

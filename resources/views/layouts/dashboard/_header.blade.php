@@ -33,31 +33,6 @@
     <!--begin::Navbar-->
     <div class="app-navbar flex-shrink-0">
 
-        <!--begin::Activity Log-->
-        <div class="app-navbar-item ms-1 ms-md-4">
-            <!--begin::Activity Log Button-->
-            <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-40px h-40px position-relative"
-                 id="kt_activity_log_toggle"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="bottom"
-                 title="Activity Log - Riwayat Aktivitas (Aktivitas dalam 24 jam terakhir)">
-                <i class="fas fa-history fs-2 text-info"></i>
-                <!--begin::Activity Counter Badge-->
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info fs-9 px-1 py-0"
-                      id="activity-counter"
-                      style="display: none; min-width: 16px; height: 16px; line-height: 16px;">
-                    0
-                </span>
-                <!--end::Activity Counter Badge-->
-                <!--begin::Activity Indicator-->
-                <div class="position-absolute top-0 start-100 translate-middle bg-warning rounded-circle h-4px w-4px animation-pulse"
-                     id="activity-indicator"
-                     style="display: none;"></div>
-                <!--end::Activity Indicator-->
-            </div>
-            <!--end::Activity Log Button-->
-        </div>
-        <!--end::Activity Log-->
 
 
 
