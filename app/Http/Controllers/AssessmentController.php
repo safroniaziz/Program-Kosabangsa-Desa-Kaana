@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\FacadesLog;
 use App\Models\Assessment;
+use App\Models\User;
 use App\Models\UserAssessment;
 use App\Models\UserAnswer;
 use App\Services\AssessmentCalculationService;
 use App\Services\AssessmentQuestions\PTSDDiagnosticQuestions;
-use App\Services\AssessmentQuestions\ChecklistMasalahQuestions;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AssessmentController extends Controller
 {
@@ -23,54 +25,44 @@ class AssessmentController extends Controller
         $this->calculationService = $calculationService;
     }
 
-  
+
     /**
      * Start a specific mental health assessment
      */
     public function start(Assessment $assessment)
     {
         // Delete any incomplete PTSD assessments and their answers for this user to allow fresh start
-        if ($assessment->type === 'ptsd_diagnostic') {
+        if ($assessment->type === 'ptsd' || $assessment->type === 'ptsd_diagnostic') {
             $incompleteAssessments = UserAssessment::where('user_id', Auth::id())
-                ->where('assessment_type', 'ptsd_diagnostic')
+                ->where('assessment_type', 'ptsd')
                 ->whereNull('completed_at')
                 ->get();
 
-            \Log::info('Found incomplete assessments: ' . $incompleteAssessments->count());
+            Log::info('Found incomplete assessments: ' . $incompleteAssessments->count());
 
             foreach ($incompleteAssessments as $incompleteAssessment) {
-                \Log::info('Deleting incomplete assessment ID: ' . $incompleteAssessment->id);
+                Log::info('Deleting incomplete assessment ID: ' . $incompleteAssessment->id);
 
                 try {
                     // Delete associated answers first
                     $deletedAnswers = UserAnswer::where('user_assessment_id', $incompleteAssessment->id)->delete();
-                    \Log::info('Deleted ' . $deletedAnswers . ' answers for assessment ' . $incompleteAssessment->id);
+                    Log::info('Deleted ' . $deletedAnswers . ' answers for assessment ' . $incompleteAssessment->id);
 
                     // Then delete the assessment
                     $incompleteAssessment->delete();
-                    \Log::info('Deleted assessment ID: ' . $incompleteAssessment->id);
+                    Log::info('Deleted assessment ID: ' . $incompleteAssessment->id);
 
-                    \Log::info('Successfully deleted assessment ID: ' . $incompleteAssessment->id);
+                    Log::info('Successfully deleted assessment ID: ' . $incompleteAssessment->id);
 
                 } catch (\Exception $e) {
-                    \Log::error('Failed to delete assessment ID ' . $incompleteAssessment->id . ': ' . $e->getMessage());
-                    \Log::error('Stack trace: ' . $e->getTraceAsString());
+                    Log::error('Failed to delete assessment ID ' . $incompleteAssessment->id . ': ' . $e->getMessage());
+                    Log::error('Stack trace: ' . $e->getTraceAsString());
                 }
             }
         }
 
-        // Check if user has completed this assessment recently (within 30 days)
-        $recentAssessment = UserAssessment::where('user_id', Auth::id())
-            ->where('assessment_type', $assessment->type)
-            ->where('completed_at', '>', now()->subDays(30))
-            ->first();
-
-        if ($recentAssessment) {
-            return redirect()->route('assessment')
-                ->with('warning', 'Anda telah menyelesaikan asesmen ini pada ' .
-                       $recentAssessment->completed_at->format('d M Y') .
-                       '. Pilih "Lihat Riwayat" untuk melihat hasil atau "Mulai Baru" untuk assessment baru.');
-        }
+        // Allow users to take assessment multiple times without restriction
+        // Removed 30-day limitation to allow unlimited assessment attempts
 
         // Get questions based on assessment type
         $questions = $this->getQuestionsForAssessment($assessment);
@@ -80,7 +72,12 @@ class AssessmentController extends Controller
                 ->with('error', 'Asesmen ini belum tersedia.');
         }
 
-        return view('assessment.take', compact('assessment', 'questions'));
+        // Use appropriate view based on assessment type
+        if ($assessment->type === 'checklist_masalah') {
+            return view('assessment.take-dcm', compact('assessment', 'questions'));
+        } else {
+            return view('assessment.take', compact('assessment', 'questions'));
+        }
     }
 
     /**
@@ -88,12 +85,15 @@ class AssessmentController extends Controller
      */
     public function startNew(Assessment $assessment)
     {
-        // Get all recent PTSD assessments for this user (without deleting them)
+        // Convert assessment type to match user_assessments enum (ptsd_diagnostic -> ptsd)
+        $assessmentType = ($assessment->type === 'ptsd_diagnostic') ? 'ptsd' : $assessment->type;
+
+        // Get only the latest assessment for this specific assessment type
         $recentAssessments = UserAssessment::where('user_id', Auth::id())
-            ->where('assessment_type', 'ptsd_diagnostic')
+            ->where('assessment_type', $assessmentType)
             ->where('status', 'completed')
             ->orderBy('completed_at', 'desc')
-            ->take(5) // Show last 5 assessments
+            ->take(1) // Show only the latest assessment
             ->get();
 
         // Get questions based on assessment type
@@ -105,23 +105,29 @@ class AssessmentController extends Controller
         }
 
         // Use appropriate view based on assessment type
-        $viewName = $assessment->type === 'dcm_diagnostic' ? 'assessment.start-new-dcm' : 'assessment.start-new';
-
-        return view($viewName, compact('assessment', 'questions', 'recentAssessments'));
+        if ($assessment->type === 'checklist_masalah') {
+            return view('assessment.start-new-dcm', compact('assessment', 'questions', 'recentAssessments'));
+        } else {
+            return view('assessment.start-new', compact('assessment', 'questions', 'recentAssessments'));
+        }
     }
 
-  
     /**
      * Submit assessment answers
      */
     public function submit(Request $request, Assessment $assessment)
     {
-        // Adjust validation based on assessment type
+        // Handle DCM checkbox submission
+        if ($assessment->type === 'checklist_masalah') {
+            return $this->submitDcmChecklist($request, $assessment);
+        }
+
+        // Adjust validation based on assessment type (only for non-DCM assessments)
         $validationRules = [
             'answers' => 'required|array',
         ];
 
-        if ($assessment->type === 'ptsd_diagnostic') {
+        if ($assessment->type === 'ptsd' || $assessment->type === 'ptsd_diagnostic') {
             // For PTSD: answers are optional (0 or 1), but if present must be integer
             $validationRules['answers.*'] = 'sometimes|integer|min:0|max:1';
         } else {
@@ -135,23 +141,26 @@ class AssessmentController extends Controller
             DB::beginTransaction();
 
             // Debug: Log the incoming data
-            \Log::info('Assessment submission data:', [
+            Log::info('Assessment submission data:', [
                 'assessment_type' => $assessment->type,
                 'answers' => $request->answers,
                 'user_id' => Auth::id()
             ]);
 
-            \Log::info('Creating user assessment record...');
+            Log::info('Creating user assessment record...');
 
             // Create user assessment record
+            // Convert assessment type to match user_assessments enum (ptsd_diagnostic -> ptsd)
+            $assessmentType = ($assessment->type === 'ptsd_diagnostic') ? 'ptsd' : $assessment->type;
+
             $userAssessment = UserAssessment::create([
                 'user_id' => Auth::id(),
-                'assessment_type' => $assessment->type,
+                'assessment_type' => $assessmentType,
                 'started_at' => now()
                 // Note: completed_at and status will be set only when user actually submits
             ]);
 
-            \Log::info('User assessment created with ID: ' . $userAssessment->id);
+            Log::info('User assessment created with ID: ' . $userAssessment->id);
 
             // Save individual answers
             $questionsData = $this->getQuestionsForAssessment($assessment);
@@ -163,14 +172,15 @@ class AssessmentController extends Controller
                 UserAnswer::create([
                     'user_assessment_id' => $userAssessment->id,
                     'question_number' => $questionNumber,
-                    'answer_value' => $answerValue
+                    'answer_value' => $answerValue,
+                    'answered_at' => now()
                 ]);
             }
 
-            \Log::info('Answers saved successfully');
+            Log::info('Answers saved successfully');
 
             // Calculate results based on assessment type
-            \Log::info('Calculating assessment results...');
+            Log::info('Calculating assessment results...');
             $results = $this->calculateAssessmentResults($userAssessment, $assessment);
 
             // Update user assessment with results and mark as completed
@@ -180,15 +190,15 @@ class AssessmentController extends Controller
                 'status' => 'completed'
             ]);
 
-            \Log::info('Results calculated and updated');
+            Log::info('Results calculated and updated');
 
             DB::commit();
 
-            \Log::info('Transaction committed, redirecting to result page...');
+            Log::info('Transaction committed, redirecting to result page...');
 
             // For PTSD and DCM assessments, redirect to start-new to show history
-        if ($assessment->type === 'ptsd_diagnostic' || $assessment->type === 'dcm_diagnostic') {
-            $assessmentType = $assessment->type === 'ptsd_diagnostic' ? 'PTSD' : 'DCM';
+        if ($assessment->type === 'ptsd' || $assessment->type === 'ptsd_diagnostic' || $assessment->type === 'checklist_masalah') {
+            $assessmentType = ($assessment->type === 'ptsd' || $assessment->type === 'ptsd_diagnostic') ? 'PTSD' : 'DCM';
             return redirect()->route('assessment.start-new', $assessment)
                 ->with('success', "Assesmen {$assessmentType} berhasil diselesaikan. Anda dapat melihat hasil pada panel riwayat.");
         }
@@ -199,8 +209,8 @@ class AssessmentController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            \Log::error('Assessment submission failed: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Assessment submission failed: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat menyimpan hasil asesmen: ' . $e->getMessage())
@@ -222,37 +232,37 @@ class AssessmentController extends Controller
         }
 
         if ($action === 'delete') {
-            \Log::info('User chose to delete assessment ID: ' . $assessmentId);
+            Log::info('User chose to delete assessment ID: ' . $assessmentId);
 
             try {
                 DB::beginTransaction();
 
                 // Delete associated answers first
                 $deletedAnswers = UserAnswer::where('user_assessment_id', $assessmentId)->delete();
-                \Log::info('Deleted ' . $deletedAnswers . ' answers for assessment ' . $assessmentId);
+                Log::info('Deleted ' . $deletedAnswers . ' answers for assessment ' . $assessmentId);
 
                 // Then delete the assessment
                 UserAssessment::find($assessmentId)->delete();
-                \Log::info('Deleted assessment ID: ' . $assessmentId);
+                Log::info('Deleted assessment ID: ' . $assessmentId);
 
                 DB::commit();
-                \Log::info('Successfully deleted assessment and cleaned up answers');
+                Log::info('Successfully deleted assessment and cleaned up answers');
 
                 return redirect()->route('assessment.start', $assessment)
                     ->with('success', 'Assessment lama telah dihapus. Silakan mulai assessment baru.');
 
             } catch (\Exception $e) {
                 DB::rollback();
-                \Log::error('Failed to delete assessment: ' . $e->getMessage());
+                Log::error('Failed to delete assessment: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'Gagal menghapus assessment.');
             }
         }
 
         if ($action === 'continue') {
-            \Log::info('User chose to continue with assessment ID: ' . $assessmentId);
+            Log::info('User chose to continue with assessment ID: ' . $assessmentId);
 
             // Set session to indicate which assessment to continue with
-            session(['assessment_session_ptsd_diagnostic' => $assessmentId]);
+            session(['assessment_session_ptsd' => $assessmentId]);
 
             return redirect()->route('assessment.start', $assessment)
                 ->with('info', 'Anda memilih untuk melanjutkan assessment yang ada.');
@@ -269,7 +279,7 @@ class AssessmentController extends Controller
             abort(403, 'Unauthorized access to assessment results.');
         }
 
-  
+
         // Get assessment data based on assessment_type
         $assessment = Assessment::where('type', $userAssessment->assessment_type)->first();
 
@@ -284,7 +294,10 @@ class AssessmentController extends Controller
         // Prepare results based on assessment type
         $results = $this->prepareResultsData($userAssessment, $assessment->type ?? $userAssessment->assessment_type);
 
-        return view('assessment.result', compact('userAssessment', 'assessment', 'results'));
+        // Use appropriate view based on assessment type
+        $viewName = ($userAssessment->assessment_type === 'checklist_masalah') ? 'assessment.dcm-result' : 'assessment.result';
+
+        return view($viewName, compact('userAssessment', 'assessment', 'results'));
     }
 
     /**
@@ -293,11 +306,8 @@ class AssessmentController extends Controller
     private function getAssessmentTypeName($type): string
     {
         $names = [
-            'ptsd_diagnostic' => 'Instrumen Kriteria Diagnostik PTSD',
-            'checklist_masalah' => 'Daftar Cek Masalah Pasca Bencana',
-            'pcl5' => 'PCL-5 (PTSD Checklist)',
-            'dass21' => 'DASS-21 (Depression Anxiety Stress Scales)',
-            'combined' => 'Combined Assessment'
+            'ptsd' => 'Instrumen Kriteria Diagnostik PTSD',
+            'checklist_masalah' => 'Instrumen Kriteria Diagnostik DCM'
         ];
 
         return $names[$type] ?? 'Unknown Assessment';
@@ -309,6 +319,7 @@ class AssessmentController extends Controller
     private function prepareResultsData(UserAssessment $userAssessment, string $assessmentType): array
     {
         switch ($assessmentType) {
+            case 'ptsd':
             case 'ptsd_diagnostic':
                 // Use PTSD Diagnostic Questions class for proper calculation
                 $answers = $userAssessment->answers()->pluck('answer_value', 'question_number')->toArray();
@@ -322,7 +333,8 @@ class AssessmentController extends Controller
                 $primaryConcern = array_key_first($ranking);
 
                 // Generate recommendations based on risk level and primary concern
-                $recommendations = $this->generatePTSDRecommendations($userAssessment->overall_risk_level ?? 'low', $primaryConcern, $ranking);
+                // Risk level will be calculated below, use 'low' as default for now
+                $recommendations = $this->generatePTSDRecommendations('low', $primaryConcern, $ranking);
 
                 // Calculate total score (all categories combined)
                 $totalScore = array_sum($categoryScores);
@@ -344,53 +356,45 @@ class AssessmentController extends Controller
                     'max_possible_score' => $maxPossibleScore
                 ];
 
-            case 'dass21':
-                $recommendations = $this->generateDASS21Recommendations($userAssessment->overall_risk_level ?? 'low', [
-                    'depression_level' => $userAssessment->dass21_depression_level ?? 'normal',
-                    'anxiety_level' => $userAssessment->dass21_anxiety_level ?? 'normal',
-                    'stress_level' => $userAssessment->dass21_stress_level ?? 'normal'
-                ]);
-
-                return [
-                    'depression_score' => $userAssessment->dass21_depression_score ?? 0,
-                    'anxiety_score' => $userAssessment->dass21_anxiety_score ?? 0,
-                    'stress_score' => $userAssessment->dass21_stress_score ?? 0,
-                    'depression_level' => $userAssessment->dass21_depression_level ?? 'normal',
-                    'anxiety_level' => $userAssessment->dass21_anxiety_level ?? 'normal',
-                    'stress_level' => $userAssessment->dass21_stress_level ?? 'normal',
-                    'risk_level' => $userAssessment->overall_risk_level ?? 'low',
-                    'interpretation' => $userAssessment->interpretation_text ?? 'Assessment selesai.',
-                    'recommendations' => $recommendations
-                ];
 
             case 'checklist_masalah':
-                // For checklist masalah, we'll calculate based on user answers
-                $answers = $userAssessment->answers;
-                $totalChecked = $answers->sum('answer_value');
+                // Use the actual results from our calculation service
+                $results = $userAssessment->results ?? [];
 
-                // Create sample ranking data for checklist masalah
-                $ranking = [
-                    'anxiety' => [
-                        'score' => rand(2, 8),
-                        'name' => 'Gejala Kecemasan',
-                        'description' => 'Tanda-tanda kecemasan yang muncul setelah bencana',
-                        'rank' => 1
-                    ],
-                    'depression' => [
-                        'score' => rand(1, 6),
-                        'name' => 'Gejala Depresi',
-                        'description' => 'Perasaan sedih dan kehilangan minit',
-                        'rank' => 2
-                    ],
-                    'trauma' => [
-                        'score' => rand(1, 5),
-                        'name' => 'Gejala Trauma',
-                        'description' => 'Reaksi terhadap pengalaman traumatis',
-                        'rank' => 3
-                    ]
+                // If no results calculated yet, calculate them
+                if (empty($results)) {
+                    $results = $this->calculationService->calculateChecklistMasalah($userAssessment);
+                }
+
+                // Extract data from results
+                $totalChecked = $results['total_problems'] ?? 0;
+                $categoryScores = $results['category_scores'] ?? [];
+                $dominantCategory = $results['dominant_category'] ?? 'Fisik';
+                $dominantCategoryName = $results['dominant_category_name'] ?? 'Gejala Fisik';
+                $riskLevel = $results['risk_level'] ?? 'Rendah';
+                $recommendations = $results['recommendations'] ?? [];
+
+                // Create ranking data based on actual category scores
+                $ranking = [];
+                $categories = [
+                    1 => ['name' => 'Gejala Fisik', 'description' => 'Gejala-gejala yang muncul pada tubuh fisik'],
+                    2 => ['name' => 'Gejala Emosi', 'description' => 'Gejala-gejala yang berhubungan dengan perasaan'],
+                    3 => ['name' => 'Gejala Mental', 'description' => 'Gejala-gejala yang berhubungan dengan pikiran'],
+                    4 => ['name' => 'Gejala Perilaku', 'description' => 'Gejala-gejala yang terlihat dari perilaku'],
+                    5 => ['name' => 'Gejala Spiritual', 'description' => 'Gejala-gejala yang berhubungan dengan keyakinan']
                 ];
 
-                // Sort by score
+                foreach ($categories as $categoryKey => $categoryInfo) {
+                    $score = $categoryScores[$categoryKey] ?? 0;
+                    $ranking[$categoryKey] = [
+                        'score' => $score,
+                        'name' => $categoryInfo['name'],
+                        'description' => $categoryInfo['description'],
+                        'rank' => 0 // Will be set after sorting
+                    ];
+                }
+
+                // Sort by score (descending)
                 uasort($ranking, function($a, $b) {
                     return $b['score'] - $a['score'];
                 });
@@ -401,41 +405,29 @@ class AssessmentController extends Controller
                     $data['rank'] = $rank++;
                 }
 
-                // Find primary concern with safer validation
-                $primaryConcern = 'anxiety'; // default value
-                if (!empty($ranking)) {
-                    $maxScore = 0;
-                    $foundKey = null;
-                    foreach ($ranking as $key => $data) {
-                        if (isset($data['score']) && $data['score'] > $maxScore) {
-                            $maxScore = $data['score'];
-                            $foundKey = $key;
-                        }
-                    }
-                    if ($foundKey !== null) {
-                        $primaryConcern = $foundKey;
-                    }
-                }
-
-                // Generate recommendations for checklist masalah
-                $recommendations = $this->generateChecklistRecommendations($userAssessment->overall_risk_level ?? 'low', $totalChecked, $primaryConcern);
-
                 return [
                     'total_score' => $totalChecked,
                     'total_checked' => $totalChecked,
-                    'risk_level' => $userAssessment->overall_risk_level ?? 'low',
-                    'interpretation' => $userAssessment->interpretation_text ?? 'Assessment checklist masalah selesai.',
+                    'total_problems' => $totalChecked,
+                    'total_possible_problems' => $results['total_possible_problems'] ?? 100,
+                    'percentage' => $results['percentage'] ?? 0,
+                    'risk_level' => $riskLevel,
+                    'interpretation' => 'DCM Assessment - ' . $riskLevel,
                     'ranking' => $ranking,
-                    'primary_concern' => $primaryConcern,
+                    'primary_concern' => $dominantCategory,
+                    'dominant_category' => $dominantCategory,
+                    'dominant_category_name' => $dominantCategoryName,
+                    'category_scores' => $categoryScores,
                     'recommendations' => $recommendations,
-                    'max_possible_score' => 70 // Total symptoms in checklist
+                    'max_possible_score' => 100,
+                    'interpretation_data' => $results['interpretation'] ?? []
                 ];
 
             default:
                 return [
                     'total_score' => 0,
-                    'risk_level' => $userAssessment->overall_risk_level ?? 'low',
-                    'interpretation' => $userAssessment->interpretation_text ?? 'Assessment selesai.',
+                    'risk_level' => 'low',
+                    'interpretation' => 'Assessment selesai.',
                     'recommendations' => [
                         'Lanjutkan memantau kondisi kesehatan mental Anda',
                         'Jangan ragu berkonsultasi dengan profesional jika dibutuhkan',
@@ -513,38 +505,6 @@ class AssessmentController extends Controller
         return array_slice($recommendations, 0, 6); // Return max 6 recommendations
     }
 
-    /**
-     * Generate DASS-21 recommendations
-     */
-    private function generateDASS21Recommendations($riskLevel, $scores): array
-    {
-        $recommendations = [
-            'Lanjutkan memantau kondisi kesehatan mental Anda',
-            'Praktikkan teknik relaksasi dan manajemen stress',
-            'Jaga pola tidur yang teratur dan cukup'
-        ];
-
-        if (isset($scores['depression_level']) && $scores['depression_level'] !== 'normal') {
-            $recommendations[] = 'Tingkatkan aktivitas fisik dan sosial';
-            $recommendations[] = 'Tetap terhubung dengan teman dan keluarga';
-        }
-
-        if (isset($scores['anxiety_level']) && $scores['anxiety_level'] !== 'normal') {
-            $recommendations[] = 'Pelajari teknik pernapasan dalam dan meditasi';
-            $recommendations[] = 'Batasi konsumsi kafein dan stimulan';
-        }
-
-        if (isset($scores['stress_level']) && $scores['stress_level'] !== 'normal') {
-            $recommendations[] = 'Prioritaskan tugas dan belajar mengatakan tidak';
-            $recommendations[] = 'Luangkan waktu untuk hobi dan aktivitas yang disukai';
-        }
-
-        if ($riskLevel === 'high' || $riskLevel === 'critical') {
-            $recommendations[] = 'Segera berkonsultasi dengan profesional kesehatan mental';
-        }
-
-        return $recommendations;
-    }
 
     /**
      * Generate checklist masalah recommendations
@@ -636,28 +596,69 @@ class AssessmentController extends Controller
     /**
      * Show assessment history
      */
-    public function history()
+    public function history($assessmentId)
     {
-        $userAssessments = UserAssessment::where('user_id', Auth::id())
+        // Get assessment type based on ID
+        $assessment = Assessment::findOrFail($assessmentId);
+
+        // Convert assessment type to match user_assessments enum (ptsd_diagnostic -> ptsd)
+        $assessmentType = ($assessment->type === 'ptsd_diagnostic') ? 'ptsd' : $assessment->type;
+
+        $assessments = UserAssessment::where('user_id', Auth::id())
+            ->where('assessment_type', $assessmentType)
             ->where('status', 'completed')
             ->orderBy('completed_at', 'desc')
-            ->paginate(10);
+            ->get();
 
-        // Add assessment info to each user assessment
-        $userAssessments->getCollection()->transform(function ($userAssessment) {
-            $assessment = Assessment::where('type', $userAssessment->assessment_type)->first();
+        return view('assessment.history', compact('assessments', 'assessment'));
+    }
 
-            if (!$assessment) {
-                $assessment = new \stdClass();
-                $assessment->name = $this->getAssessmentTypeName($userAssessment->assessment_type);
-                $assessment->type = $userAssessment->assessment_type;
-            }
+    public function demoHistoryWithId($assessmentId)
+    {
+        // Get demo user assessments for demonstration
+        $demoUser = User::where('email', 'demo@example.com')->first();
 
-            $userAssessment->assessment_info = $assessment;
-            return $userAssessment;
-        });
+        if (!$demoUser) {
+            return redirect()->route('assessment.history', $assessmentId)->with('error', 'Demo data tidak tersedia');
+        }
 
-        return view('assessment.history', compact('userAssessments'));
+        // Get assessment by ID
+        $assessment = Assessment::findOrFail($assessmentId);
+
+        // Convert assessment type to match user_assessments enum (ptsd_diagnostic -> ptsd)
+        $assessmentType = ($assessment->type === 'ptsd_diagnostic') ? 'ptsd' : $assessment->type;
+
+        $assessments = UserAssessment::where('user_id', $demoUser->id)
+            ->where('assessment_type', $assessmentType)
+            ->where('status', 'completed')
+            ->orderBy('completed_at', 'desc')
+            ->get();
+
+        return view('assessment.history', compact('assessments', 'assessment'));
+    }
+
+    public function testHistory($assessmentId)
+    {
+        // Test method untuk debugging - tidak memerlukan authentication
+        $testUser = User::where('email', 'test@example.com')->first();
+
+        if (!$testUser) {
+            return redirect()->route('assessment.demo-history', $assessmentId)->with('error', 'Test user tidak tersedia');
+        }
+
+        // Get assessment by ID
+        $assessment = Assessment::findOrFail($assessmentId);
+
+        // Convert assessment type to match user_assessments enum (ptsd_diagnostic -> ptsd)
+        $assessmentType = ($assessment->type === 'ptsd_diagnostic') ? 'ptsd' : $assessment->type;
+
+        $assessments = UserAssessment::where('user_id', $testUser->id)
+            ->where('assessment_type', $assessmentType)
+            ->where('status', 'completed')
+            ->orderBy('completed_at', 'desc')
+            ->get();
+
+        return view('assessment.history', compact('assessments', 'assessment'));
     }
 
     /**
@@ -666,6 +667,7 @@ class AssessmentController extends Controller
     private function getQuestionsForAssessment(Assessment $assessment): array
     {
         switch ($assessment->type) {
+            case 'ptsd':
             case 'ptsd_diagnostic':
                 return [
                     'questions' => PTSDDiagnosticQuestions::getAllQuestions(),
@@ -691,31 +693,29 @@ class AssessmentController extends Controller
     private function calculateAssessmentResults(UserAssessment $userAssessment, Assessment $assessment): array
     {
         switch ($assessment->type) {
+            case 'ptsd':
             case 'ptsd_diagnostic':
                 return $this->calculationService->calculatePTSDDiagnostic($userAssessment);
 
             case 'checklist_masalah':
                 return $this->calculationService->calculateChecklistMasalah($userAssessment);
 
-            // Legacy support
-            case 'pcl5':
-                return $this->calculationService->calculatePCL5($userAssessment);
-
-            case 'dass21':
-                return $this->calculationService->calculateDASS21($userAssessment);
-
             default:
                 return [];
         }
     }
+
 
     /**
      * Assessment page - show assessment options for all users
      */
     public function index()
     {
+        // Fetch all assessments dynamically
+        $assessments = Assessment::all();
+
         // Show assessment options page for both guest and authenticated users
-        return view('assessment.options');
+        return view('assessment.options', compact('assessments'));
     }
 
     public function generatePDFReport(Request $request)
@@ -891,56 +891,152 @@ class AssessmentController extends Controller
      */
     public function submitDcm(Request $request, Assessment $assessment)
     {
-        // Validation untuk checkbox format
-        $request->validate([
-            'answers' => 'required|array',
-            'answers.*' => 'sometimes|boolean' // Use 'answers' instead of 'responses'
-        ]);
+        // For DCM, we don't require answers field since it uses 'responses'
+        // No validation needed - let submitDcmChecklist handle it
+        return $this->submitDcmChecklist($request, $assessment);
+    }
 
+    /**
+     * Submit DCM Checklist assessment with checkbox format
+     */
+    public function submitDcmChecklist(Request $request, Assessment $assessment)
+    {
         try {
+            // Debug: Log all incoming data
+            Log::info('DCM Checklist submission - Raw data:', [
+                'all_input' => $request->all(),
+                'responses' => $request->responses,
+                'answers' => $request->answers,
+                'problems' => $request->problems,
+                'has_responses' => $request->has('responses'),
+                'has_problems' => $request->has('problems'),
+                'user_id' => Auth::id()
+            ]);
+
             DB::beginTransaction();
 
-            // Calculate results
-            $calculationResults = \App\Models\DcmAssessmentResult::calculateResults($request->responses);
+            // Get responses/answers from request (DCM uses 'problems', PTSD uses 'answers')
+            $responses = $request->problems ?? $request->responses ?? $request->answers ?? [];
 
-            // Create DCM assessment result
-            $dcmResult = \App\Models\DcmAssessmentResult::create([
-                'user_id' => Auth::id(),
-                'responses' => $request->responses,
-                'category_scores' => $calculationResults['category_scores'],
-                'dominant_category' => $calculationResults['dominant_category'],
-                'dominant_category_name' => $calculationResults['dominant_category_name'],
-                'total_checked' => $calculationResults['total_checked']
+            // Debug: Log problem responses by category
+            if (!empty($responses)) {
+                $categoryCounts = [];
+                foreach ($responses as $problemId => $value) {
+                    if ($value == 1) {
+                        // Get the question from database to determine its category
+                        $dbQuestion = \App\Models\ChecklistMasalahQuestion::find($problemId);
+                        if ($dbQuestion) {
+                            $category = $dbQuestion->category;
+                            $categoryCounts[$category] = ($categoryCounts[$category] ?? 0) + 1;
+                        }
+                    }
+                }
+                Log::info('DCM responses by category:', $categoryCounts);
+            }
+
+            // Debug: Log the responses array
+            Log::info('DCM Checklist - Processed responses:', [
+                'responses_array' => $responses,
+                'responses_count' => count($responses),
+                'responses_keys' => array_keys($responses)
             ]);
 
-            // Also create traditional user assessment for compatibility
-            $userAssessment = UserAssessment::create([
-                'user_id' => Auth::id(),
-                'assessment_type' => $assessment->type,
-                'started_at' => now(),
-                'completed_at' => now(),
-                'status' => 'completed',
-                'results' => [
-                    'dcm_result_id' => $dcmResult->id,
-                    'dominant_category' => $calculationResults['dominant_category'],
-                    'dominant_category_name' => $calculationResults['dominant_category_name'],
-                    'category_scores' => $calculationResults['category_scores'],
-                    'total_checked' => $calculationResults['total_checked']
-                ]
-            ]);
+            // Create user assessment record
+            $userAssessment = $this->createDcmUserAssessment($assessment);
+
+            // Save DCM answers
+            $this->saveDcmAnswers($userAssessment, $responses, $assessment);
+
+            // Calculate and update results
+            $this->calculateAndUpdateDcmResults($userAssessment);
 
             DB::commit();
 
-            return redirect()->route('assessment.dcm-result', $dcmResult->id)
-                ->with('success', 'Assessment DCM berhasil diselesaikan.');
+            Log::info('DCM Transaction committed, redirecting to start-new page...');
+
+            // Check if request is AJAX
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Assessment DCM Checklist berhasil diselesaikan.',
+                    'redirect' => route('assessment.start-new', $assessment)
+                ]);
+            }
+
+            return redirect()->route('assessment.start-new', $assessment)
+                ->with('success', 'Assessment DCM Checklist berhasil diselesaikan. Anda dapat melihat hasil pada panel riwayat.');
 
         } catch (\Exception $e) {
             DB::rollback();
+            Log::error('DCM submission error: ' . $e->getMessage());
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat menyimpan hasil assessment: ' . $e->getMessage())
                 ->withInput();
         }
+    }
+
+    /**
+     * Create DCM User Assessment record
+     */
+    private function createDcmUserAssessment(Assessment $assessment)
+    {
+        $userAssessment = UserAssessment::create([
+            'user_id' => Auth::id(),
+            'assessment_type' => $assessment->type,
+            'started_at' => now(),
+            'completed_at' => now(),
+            'status' => 'completed'
+        ]);
+
+        Log::info('DCM User assessment created with ID: ' . $userAssessment->id);
+
+        return $userAssessment;
+    }
+
+    /**
+     * Save DCM answers to database
+     */
+    private function saveDcmAnswers(UserAssessment $userAssessment, array $responses, Assessment $assessment)
+    {
+        // Get all questions from database
+        $dbQuestions = \App\Models\ChecklistMasalahQuestion::all()->keyBy('id');
+
+        // Save answers only for questions that were submitted
+        foreach ($responses as $dbQuestionId => $value) {
+            if ($value == 1 && isset($dbQuestions[$dbQuestionId])) {
+                $dbQuestion = $dbQuestions[$dbQuestionId];
+
+                Log::info("DCM: Question {$dbQuestionId} (Category {$dbQuestion->category}: {$dbQuestion->question}) is CHECKED");
+
+                UserAnswer::create([
+                    'user_assessment_id' => $userAssessment->id,
+                    'question_number' => $dbQuestionId, // Use database ID directly
+                    'answer_value' => 1,
+                    'answered_at' => now()
+                ]);
+            }
+        }
+
+        Log::info('DCM Answers saved successfully');
+    }
+
+    /**
+     * Calculate and update DCM results
+     */
+    private function calculateAndUpdateDcmResults(UserAssessment $userAssessment)
+    {
+        // Calculate DCM results using the service
+        $calculationResults = $this->calculationService->calculateChecklistMasalah($userAssessment);
+
+        // Update user assessment with DCM results (all data in JSON results)
+        $userAssessment->update([
+            'results' => $calculationResults,
+            'completed_at' => now(),
+            'status' => 'completed'
+        ]);
+
+        Log::info('DCM Results calculated and updated');
     }
 
     /**

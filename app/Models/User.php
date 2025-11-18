@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,11 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'gender',
+        'birth_date',
+        'religion',
+        'socioeconomic_status',
+        'education_level',
     ];
 
     /**
@@ -61,5 +67,13 @@ class User extends Authenticatable
     public function isUser(): bool
     {
         return $this->role === 'user';
+    }
+
+    /**
+     * Get the assessments for the user
+     */
+    public function assessments(): HasMany
+    {
+        return $this->hasMany(UserAssessment::class);
     }
 }

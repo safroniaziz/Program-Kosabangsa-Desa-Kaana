@@ -33,6 +33,11 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'gender' => ['nullable', 'in:male,female'],
+            'birth_date' => ['nullable', 'date', 'before:today'],
+            'religion' => ['nullable', 'in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya'],
+            'socioeconomic_status' => ['nullable', 'in:sangat_miskin,miskin,menengah_bawah,menengah,menengah_atas,kaya'],
+            'education_level' => ['nullable', 'in:tidak_sekolah,sd,smp,sma,diploma,sarjana,pascasarjana'],
         ]);
 
         $user = User::create([
@@ -40,6 +45,11 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user', // Explicitly set role as regular user
+            'gender' => $request->gender,
+            'birth_date' => $request->birth_date,
+            'religion' => $request->religion,
+            'socioeconomic_status' => $request->socioeconomic_status,
+            'education_level' => $request->education_level,
         ]);
 
         event(new Registered($user));
