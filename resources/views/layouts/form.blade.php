@@ -7,8 +7,8 @@
 
         <title>@yield('title', 'Ubah Password') - SINTAMU</title>
 
-        <!-- Tailwind CSS -->
-        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Tailwind CSS via Vite -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

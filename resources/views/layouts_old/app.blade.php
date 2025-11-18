@@ -8,13 +8,8 @@
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Tailwind CSS - Use CDN for development only -->
-    @if(app()->environment('local'))
-        <script src="https://cdn.tailwindcss.com"></script>
-    @else
-        <!-- Include compiled CSS for production -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @endif
+    <!-- Tailwind CSS via Vite -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Custom CSS -->
     <style>
