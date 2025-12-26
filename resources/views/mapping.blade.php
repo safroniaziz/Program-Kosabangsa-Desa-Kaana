@@ -855,12 +855,19 @@
         </div>
 
         <!-- SDA Charts Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
             <!-- Distribusi SDA -->
             <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
                 <h3 class="text-xl font-semibold text-slate-900 mb-6">Distribusi Sumber Daya</h3>
                 <div style="position: relative; height: 250px;">
                     <canvas id="sdaDistributionChart"></canvas>
+                </div>
+            </div>
+            <!-- Luas Area per Kategori -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Luas Area per Kategori</h3>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="sdaAreaChart"></canvas>
                 </div>
             </div>
             <!-- Total Lahan Info -->
@@ -947,8 +954,15 @@
             @endforeach
         </div>
 
-        <!-- Kondisi & Cakupan -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="200">
+        <!-- Infrastruktur Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
+            <!-- Distribusi Infrastruktur per Kategori -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Distribusi Infrastruktur</h3>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="infraCategoryChart"></canvas>
+                </div>
+            </div>
             <!-- Kondisi Infrastruktur -->
             <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
                 <h3 class="text-xl font-semibold text-slate-900 mb-6">Kondisi Infrastruktur</h3>
@@ -974,14 +988,8 @@
             <!-- Cakupan Layanan -->
             <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
                 <h3 class="text-xl font-semibold text-slate-900 mb-6">Cakupan Layanan</h3>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <span class="text-sm text-slate-600 w-32">Rata-rata Cakupan</span>
-                        <div class="flex-1 bg-gray-200 rounded-full h-4">
-                            <div class="bg-amber-500 h-4 rounded-full" style="width: {{ $podesStats['infrastruktur']['avg_coverage'] ?? 0 }}%"></div>
-                        </div>
-                        <span class="text-lg font-bold text-amber-600">{{ $podesStats['infrastruktur']['avg_coverage'] ?? 0 }}%</span>
-                    </div>
+                <div style="position: relative; height: 200px;">
+                    <canvas id="infraCoverageChart"></canvas>
                 </div>
                 <div class="mt-6 grid grid-cols-2 gap-4">
                     <div class="p-4 bg-amber-50 rounded-xl text-center">
@@ -1082,7 +1090,7 @@
         </div>
 
         <!-- Ekonomi Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="200">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
             <!-- Distribusi Ekonomi -->
             <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
                 <h3 class="text-xl font-semibold text-slate-900 mb-6">Distribusi Sektor Ekonomi</h3>
@@ -1090,19 +1098,53 @@
                     <canvas id="ekonomiCategoryChart"></canvas>
                 </div>
             </div>
-            <!-- Detail per Kategori -->
+            <!-- Karyawan per Sektor -->
             <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-                <h3 class="text-xl font-semibold text-slate-900 mb-6">Rincian per Sektor</h3>
-                <div class="space-y-3">
-                    @php $ekoColors = ['umkm' => 'blue', 'pertanian' => 'green', 'perikanan' => 'cyan', 'perdagangan' => 'purple', 'pariwisata' => 'pink', 'keuangan' => 'amber']; @endphp
-                    @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
-                    <div class="flex items-center justify-between p-3 bg-{{ $ekoColors[$cat] ?? 'gray' }}-50 rounded-lg">
-                        <span class="text-slate-700">{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}</span>
-                        <span class="text-xl font-bold text-{{ $ekoColors[$cat] ?? 'gray' }}-600">{{ $count }}</span>
-                    </div>
-                    @endforeach
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Karyawan per Sektor</h3>
+                <div style="position: relative; height: 280px;">
+                    <canvas id="ekonomiEmployeesChart"></canvas>
                 </div>
             </div>
+            <!-- Pendapatan per Sektor -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Pendapatan per Sektor</h3>
+                <div style="position: relative; height: 280px;">
+                    <canvas id="ekonomiRevenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ekonomi Summary Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="300">
+            @php $ekoColors = ['umkm' => 'blue', 'pertanian' => 'green', 'perikanan' => 'cyan', 'perdagangan' => 'purple', 'pariwisata' => 'pink', 'keuangan' => 'amber']; @endphp
+            @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-semibold text-slate-900">{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}</h4>
+                    <div class="w-10 h-10 rounded-lg bg-{{ $ekoColors[$cat] ?? 'gray' }}-100 flex items-center justify-center">
+                        <span class="text-{{ $ekoColors[$cat] ?? 'gray' }}-600 font-bold text-sm">{{ $count }}</span>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-600">Usaha</span>
+                        <span class="font-semibold text-slate-900">{{ $count }}</span>
+                    </div>
+                    @if(isset($podesStats['ekonomi']['employees_by_category'][$cat]))
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-600">Karyawan</span>
+                        <span class="font-semibold text-slate-900">{{ $podesStats['ekonomi']['employees_by_category'][$cat] }} orang</span>
+                    </div>
+                    @endif
+                    @if(isset($podesStats['ekonomi']['revenue_by_category'][$cat]) && $podesStats['ekonomi']['revenue_by_category'][$cat] > 0)
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-600">Pendapatan</span>
+                        <span class="font-semibold text-green-600">Rp {{ number_format($podesStats['ekonomi']['revenue_by_category'][$cat] / 1000000, 0) }}Jt</span>
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endforeach
         </div>
 
         <!-- Ekonomi Detail Table -->
@@ -2081,6 +2123,80 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // SDA Area Chart
+    const sdaAreaCtx = document.getElementById('sdaAreaChart');
+    if (sdaAreaCtx) {
+        new Chart(sdaAreaCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['sda']['area_by_category'] ?? []) as $cat => $area)
+                    '{{ $podesStats['sda']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Luas (Ha)',
+                    data: [
+                        @foreach(($podesStats['sda']['area_by_category'] ?? []) as $cat => $area)
+                        {{ number_format($area, 2) }},
+                        @endforeach
+                    ],
+                    backgroundColor: ['#22c55e', '#3b82f6', '#10b981', '#f59e0b'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Luas (Hektar)' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Infrastruktur Category Chart
+    const infraCategoryCtx = document.getElementById('infraCategoryChart');
+    if (infraCategoryCtx) {
+        new Chart(infraCategoryCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['infrastruktur']['by_category'] ?? []) as $cat => $count)
+                    '{{ $podesStats['infrastruktur']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Jumlah',
+                    data: [
+                        @foreach(($podesStats['infrastruktur']['by_category'] ?? []) as $cat => $count)
+                        {{ $count }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
     // Infrastruktur Condition Chart
     const infraConditionCtx = document.getElementById('infraConditionChart');
     if (infraConditionCtx) {
@@ -2111,11 +2227,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Infrastruktur Coverage Chart
+    const infraCoverageCtx = document.getElementById('infraCoverageChart');
+    if (infraCoverageCtx) {
+        new Chart(infraCoverageCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['infrastruktur']['coverage_by_category'] ?? []) as $cat => $coverage)
+                    '{{ $podesStats['infrastruktur']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Cakupan (%)',
+                    data: [
+                        @foreach(($podesStats['infrastruktur']['coverage_by_category'] ?? []) as $cat => $coverage)
+                        {{ round($coverage, 1) }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Cakupan (%)' }
+                    }
+                }
+            }
+        });
+    }
+
     // Ekonomi Category Chart
     const ekonomiCategoryCtx = document.getElementById('ekonomiCategoryChart');
     if (ekonomiCategoryCtx) {
         new Chart(ekonomiCategoryCtx.getContext('2d'), {
-            type: 'bar',
+            type: 'doughnut',
             data: {
                 labels: [
                     @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
@@ -2123,7 +2279,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     @endforeach
                 ],
                 datasets: [{
-                    label: 'Jumlah',
                     data: [
                         @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
                         {{ $count }},
@@ -2132,13 +2287,47 @@ document.addEventListener('DOMContentLoaded', function() {
                     backgroundColor: [
                         '#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#6b7280'
                     ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { padding: 15, usePointStyle: true, font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+
+    // Ekonomi Employees Chart
+    const ekonomiEmployeesCtx = document.getElementById('ekonomiEmployeesChart');
+    if (ekonomiEmployeesCtx) {
+        new Chart(ekonomiEmployeesCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['ekonomi']['employees_by_category'] ?? []) as $cat => $employees)
+                    '{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Karyawan',
+                    data: [
+                        @foreach(($podesStats['ekonomi']['employees_by_category'] ?? []) as $cat => $employees)
+                        {{ $employees }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#10b981',
                     borderRadius: 8
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
-                aspectRatio: 1.5,
+                maintainAspectRatio: false,
                 indexAxis: 'y',
                 plugins: {
                     legend: { display: false }
@@ -2146,10 +2335,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 scales: {
                     x: {
                         beginAtZero: true,
-                        grid: { display: false }
-                    },
-                    y: {
-                        grid: { display: false }
+                        title: { display: true, text: 'Jumlah Karyawan' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Ekonomi Revenue Chart
+    const ekonomiRevenueCtx = document.getElementById('ekonomiRevenueChart');
+    if (ekonomiRevenueCtx) {
+        new Chart(ekonomiRevenueCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['ekonomi']['revenue_by_category'] ?? []) as $cat => $revenue)
+                    '{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Pendapatan (Juta)',
+                    data: [
+                        @foreach(($podesStats['ekonomi']['revenue_by_category'] ?? []) as $cat => $revenue)
+                        {{ round($revenue / 1000000, 1) }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Pendapatan (Juta Rupiah)' }
                     }
                 }
             }

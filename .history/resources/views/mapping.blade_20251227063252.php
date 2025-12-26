@@ -818,16 +818,388 @@
     </div>
 </section>
 
+<!-- ========================================== -->
+<!-- SECTION: POTENSI DESA - SUMBER DAYA ALAM -->
+<!-- ========================================== -->
+<section id="podes-sda" class="py-20 bg-gradient-to-br from-green-50 to-emerald-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                Potensi Desa
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mt-4">Sumber Daya Alam</h2>
+            <p class="section-subtitle mt-4">Kekayaan alam Desa Kaana meliputi lahan pertanian, sumber air, hutan, dan aset produktif lainnya.</p>
+        </div>
+
+        <!-- SDA Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="100">
+            @php
+                $sdaIcons = [
+                    'lahan' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>',
+                    'air' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>',
+                    'hutan' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>',
+                    'mesin' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>',
+                ];
+                $sdaColors = ['lahan' => 'green', 'air' => 'blue', 'hutan' => 'emerald', 'mesin' => 'amber'];
+            @endphp
+            @foreach(($podesStats['sda']['by_category'] ?? []) as $cat => $count)
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 50 }}">
+                <div class="w-12 h-12 rounded-xl bg-{{ $sdaColors[$cat] ?? 'gray' }}-100 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-{{ $sdaColors[$cat] ?? 'gray' }}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $sdaIcons[$cat] ?? $sdaIcons['lahan'] !!}</svg>
+                </div>
+                <p class="text-3xl font-bold text-slate-900">{{ $count }}</p>
+                <p class="text-sm text-slate-500">{{ $podesStats['sda']['labels'][$cat] ?? ucfirst($cat) }}</p>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- SDA Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
+            <!-- Distribusi SDA -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Distribusi Sumber Daya</h3>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="sdaDistributionChart"></canvas>
+                </div>
+            </div>
+            <!-- Luas Area per Kategori -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Luas Area per Kategori</h3>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="sdaAreaChart"></canvas>
+                </div>
+            </div>
+            <!-- Total Lahan Info -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Ringkasan Lahan</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-green-50 rounded-xl">
+                        <span class="text-slate-700">Total Lahan Pertanian</span>
+                        <span class="text-2xl font-bold text-green-600">{{ number_format($podesStats['sda']['total_lahan_ha'] ?? 0, 1) }} Ha</span>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-blue-50 rounded-xl">
+                        <span class="text-slate-700">Sumber Air</span>
+                        <span class="text-2xl font-bold text-blue-600">{{ $podesStats['sda']['by_category']['air'] ?? 0 }} titik</span>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-emerald-50 rounded-xl">
+                        <span class="text-slate-700">Kawasan Hutan</span>
+                        <span class="text-2xl font-bold text-emerald-600">{{ $podesStats['sda']['by_category']['hutan'] ?? 0 }} area</span>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-amber-50 rounded-xl">
+                        <span class="text-slate-700">Mesin Pertanian</span>
+                        <span class="text-2xl font-bold text-amber-600">{{ $podesStats['sda']['by_category']['mesin'] ?? 0 }} unit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SDA Detail Tables -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="300">
+            @php
+                $sdaCatColors = ['lahan' => 'green', 'air' => 'blue', 'hutan' => 'emerald', 'mesin' => 'amber'];
+                $sdaCatTitles = ['lahan' => 'Lahan Pertanian', 'air' => 'Sumber Air', 'hutan' => 'Kawasan Hutan', 'mesin' => 'Mesin Pertanian'];
+            @endphp
+            @foreach(['lahan', 'air', 'hutan', 'mesin'] as $cat)
+            @php $catItems = $naturalResources->where('category', $cat); @endphp
+            @if($catItems->count() > 0)
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-{{ $sdaCatColors[$cat] }}-100 flex items-center justify-center">
+                        <span class="text-{{ $sdaCatColors[$cat] }}-600 font-bold">{{ $catItems->count() }}</span>
+                    </div>
+                    <h4 class="text-lg font-semibold text-slate-900">{{ $sdaCatTitles[$cat] }}</h4>
+                </div>
+                <div class="space-y-2">
+                    @foreach($catItems as $item)
+                    <div class="flex items-center justify-between p-3 bg-{{ $sdaCatColors[$cat] }}-50 rounded-lg text-sm">
+                        <div>
+                            <p class="font-medium text-slate-800">{{ $item->name }}</p>
+                            <p class="text-slate-500 text-xs">{{ $item->type }}</p>
+                        </div>
+                        @if($item->area_size)
+                        <span class="text-{{ $sdaCatColors[$cat] }}-600 font-semibold">{{ number_format($item->area_size, 1) }} {{ $item->unit }}</span>
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SECTION: POTENSI DESA - INFRASTRUKTUR -->
+<!-- ========================================== -->
+<section id="podes-infra" class="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-amber-100 text-amber-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Potensi Desa
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mt-4">Infrastruktur & Sarana</h2>
+            <p class="section-subtitle mt-4">Kondisi infrastruktur jalan, listrik, air bersih, dan fasilitas umum di Desa Kaana.</p>
+        </div>
+
+        <!-- Infrastruktur Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12" data-aos="fade-up" data-aos-delay="100">
+            @foreach(($podesStats['infrastruktur']['by_category'] ?? []) as $cat => $count)
+            <div class="bg-white rounded-xl p-4 shadow-lg border border-gray-100 text-center">
+                <p class="text-2xl font-bold text-amber-600">{{ $count }}</p>
+                <p class="text-xs text-slate-500">{{ $podesStats['infrastruktur']['labels'][$cat] ?? ucfirst($cat) }}</p>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Infrastruktur Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
+            <!-- Distribusi Infrastruktur per Kategori -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Distribusi Infrastruktur</h3>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="infraCategoryChart"></canvas>
+                </div>
+            </div>
+            <!-- Kondisi Infrastruktur -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Kondisi Infrastruktur</h3>
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    @php $conditions = $podesStats['infrastruktur']['by_condition'] ?? []; @endphp
+                    <div class="text-center p-4 bg-green-50 rounded-xl">
+                        <p class="text-3xl font-bold text-green-600">{{ $conditions['baik'] ?? 0 }}</p>
+                        <p class="text-sm text-slate-600">Baik</p>
+                    </div>
+                    <div class="text-center p-4 bg-amber-50 rounded-xl">
+                        <p class="text-3xl font-bold text-amber-600">{{ $conditions['sedang'] ?? 0 }}</p>
+                        <p class="text-sm text-slate-600">Sedang</p>
+                    </div>
+                    <div class="text-center p-4 bg-red-50 rounded-xl">
+                        <p class="text-3xl font-bold text-red-600">{{ $conditions['rusak'] ?? 0 }}</p>
+                        <p class="text-sm text-slate-600">Rusak</p>
+                    </div>
+                </div>
+                <div style="position: relative; height: 200px;">
+                    <canvas id="infraConditionChart"></canvas>
+                </div>
+            </div>
+            <!-- Cakupan Layanan -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Cakupan Layanan</h3>
+                <div style="position: relative; height: 200px;">
+                    <canvas id="infraCoverageChart"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-amber-50 rounded-xl text-center">
+                        <p class="text-3xl font-bold text-amber-600">{{ $podesStats['infrastruktur']['total'] ?? 0 }}</p>
+                        <p class="text-sm text-slate-600">Total Infrastruktur</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-xl text-center">
+                        <p class="text-3xl font-bold text-green-600">{{ $conditions['baik'] ?? 0 }}</p>
+                        <p class="text-sm text-slate-600">Kondisi Baik</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infrastruktur Detail Table -->
+        <div class="mt-8 bg-white rounded-2xl p-6 shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="300">
+            <h3 class="text-xl font-semibold text-slate-900 mb-6">Daftar Infrastruktur</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-slate-700">Nama</th>
+                            <th class="text-left py-3 px-4 font-semibold text-slate-700">Kategori</th>
+                            <th class="text-center py-3 px-4 font-semibold text-slate-700">Kondisi</th>
+                            <th class="text-right py-3 px-4 font-semibold text-slate-700">Cakupan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($infrastructures as $infra)
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <p class="font-medium text-slate-800">{{ $infra->name }}</p>
+                                <p class="text-xs text-slate-500">{{ $infra->description ?? '-' }}</p>
+                            </td>
+                            <td class="py-3 px-4 text-slate-600">{{ $podesStats['infrastruktur']['labels'][$infra->category] ?? ucfirst($infra->category) }}</td>
+                            <td class="py-3 px-4 text-center">
+                                @php
+                                    $condColors = ['baik' => 'green', 'sedang' => 'amber', 'rusak' => 'red'];
+                                    $condLabels = ['baik' => 'Baik', 'sedang' => 'Sedang', 'rusak' => 'Rusak'];
+                                @endphp
+                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-{{ $condColors[$infra->condition] ?? 'gray' }}-100 text-{{ $condColors[$infra->condition] ?? 'gray' }}-700">
+                                    {{ $condLabels[$infra->condition] ?? ucfirst($infra->condition) }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-right">
+                                @if($infra->coverage_percentage)
+                                <div class="flex items-center justify-end gap-2">
+                                    <div class="w-16 bg-gray-200 rounded-full h-2">
+                                        <div class="bg-amber-500 h-2 rounded-full" style="width: {{ $infra->coverage_percentage }}%"></div>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{{ $infra->coverage_percentage }}%</span>
+                                </div>
+                                @else
+                                <span class="text-slate-400">-</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SECTION: POTENSI DESA - EKONOMI -->
+<!-- ========================================== -->
+<section id="podes-ekonomi" class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                Potensi Desa
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mt-4">Ekonomi & UMKM</h2>
+            <p class="section-subtitle mt-4">Potensi ekonomi lokal meliputi UMKM, sektor pertanian, perikanan, dan pariwisata.</p>
+        </div>
+
+        <!-- Ekonomi Highlight Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
+                <p class="text-4xl font-bold text-blue-600">{{ $podesStats['ekonomi']['total'] ?? 0 }}</p>
+                <p class="text-sm text-slate-500">Total Usaha</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
+                <p class="text-4xl font-bold text-indigo-600">{{ $podesStats['ekonomi']['umkm_count'] ?? 0 }}</p>
+                <p class="text-sm text-slate-500">UMKM</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
+                <p class="text-4xl font-bold text-green-600">{{ $podesStats['ekonomi']['total_employees'] ?? 0 }}</p>
+                <p class="text-sm text-slate-500">Total Karyawan</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
+                <p class="text-3xl font-bold text-amber-600">Rp {{ number_format(($podesStats['ekonomi']['total_revenue'] ?? 0) / 1000000000, 1) }}M</p>
+                <p class="text-sm text-slate-500">Pendapatan/Tahun</p>
+            </div>
+        </div>
+
+        <!-- Ekonomi Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
+            <!-- Distribusi Ekonomi -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Distribusi Sektor Ekonomi</h3>
+                <div style="position: relative; height: 280px;">
+                    <canvas id="ekonomiCategoryChart"></canvas>
+                </div>
+            </div>
+            <!-- Karyawan per Sektor -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Karyawan per Sektor</h3>
+                <div style="position: relative; height: 280px;">
+                    <canvas id="ekonomiEmployeesChart"></canvas>
+                </div>
+            </div>
+            <!-- Pendapatan per Sektor -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h3 class="text-xl font-semibold text-slate-900 mb-6">Pendapatan per Sektor</h3>
+                <div style="position: relative; height: 280px;">
+                    <canvas id="ekonomiRevenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ekonomi Summary Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="300">
+            @php $ekoColors = ['umkm' => 'blue', 'pertanian' => 'green', 'perikanan' => 'cyan', 'perdagangan' => 'purple', 'pariwisata' => 'pink', 'keuangan' => 'amber']; @endphp
+            @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-semibold text-slate-900">{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}</h4>
+                    <div class="w-10 h-10 rounded-lg bg-{{ $ekoColors[$cat] ?? 'gray' }}-100 flex items-center justify-center">
+                        <span class="text-{{ $ekoColors[$cat] ?? 'gray' }}-600 font-bold text-sm">{{ $count }}</span>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-600">Usaha</span>
+                        <span class="font-semibold text-slate-900">{{ $count }}</span>
+                    </div>
+                    @if(isset($podesStats['ekonomi']['employees_by_category'][$cat]))
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-600">Karyawan</span>
+                        <span class="font-semibold text-slate-900">{{ $podesStats['ekonomi']['employees_by_category'][$cat] }} orang</span>
+                    </div>
+                    @endif
+                    @if(isset($podesStats['ekonomi']['revenue_by_category'][$cat]) && $podesStats['ekonomi']['revenue_by_category'][$cat] > 0)
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-600">Pendapatan</span>
+                        <span class="font-semibold text-green-600">Rp {{ number_format($podesStats['ekonomi']['revenue_by_category'][$cat] / 1000000, 0) }}Jt</span>
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Ekonomi Detail Table -->
+        <div class="mt-8 bg-white rounded-2xl p-6 shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="300">
+            <h3 class="text-xl font-semibold text-slate-900 mb-6">Daftar Usaha & Potensi Ekonomi</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-slate-700">Nama Usaha</th>
+                            <th class="text-left py-3 px-4 font-semibold text-slate-700">Sektor</th>
+                            <th class="text-center py-3 px-4 font-semibold text-slate-700">Karyawan</th>
+                            <th class="text-right py-3 px-4 font-semibold text-slate-700">Pendapatan/Tahun</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $ekoColors = ['umkm' => 'blue', 'pertanian' => 'green', 'perikanan' => 'cyan', 'perdagangan' => 'purple', 'pariwisata' => 'pink', 'keuangan' => 'amber']; @endphp
+                        @foreach($economicActivities as $eco)
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <p class="font-medium text-slate-800">{{ $eco->name }}</p>
+                                <p class="text-xs text-slate-500">{{ Str::limit($eco->description ?? '-', 50) }}</p>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-{{ $ekoColors[$eco->category] ?? 'gray' }}-100 text-{{ $ekoColors[$eco->category] ?? 'gray' }}-700">
+                                    {{ $podesStats['ekonomi']['labels'][$eco->category] ?? ucfirst($eco->category) }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-center font-medium text-slate-700">{{ $eco->employee_count ?? 0 }} orang</td>
+                            <td class="py-3 px-4 text-right font-semibold text-green-600">
+                                @if($eco->annual_revenue)
+                                Rp {{ number_format($eco->annual_revenue / 1000000, 0) }} Juta
+                                @else
+                                -
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Data Visualization -->
 <section id="insights" class="py-20 bg-slate-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div class="text-center mb-16" data-aos="fade-up">
             <span class="data-chip">Analitik Visual</span>
             <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mt-4">
-                Data Demografi dalam Visualisasi Modern
+                Data Demografi Desa
             </h2>
             <p class="section-subtitle mt-4">
-                Visualisasi memakai agregasi kependudukan semester II 2025 untuk memperlihatkan dinamika gender, keyakinan, struktur usia, dan kesiapan sosial ekonomi Desa Kaana.
+                Visualisasi memakai agregasi kependudukan untuk memperlihatkan dinamika gender, keyakinan, struktur usia, dan kesiapan sosial ekonomi Desa Kaana.
             </p>
         </div>
 
@@ -835,7 +1207,7 @@
             <div class="chart-container" data-aos="fade-right">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-2xl font-semibold text-slate-900">Distribusi Gender</h3>
-                    <span class="data-chip">Update November 2025</span>
+                    <span class="data-chip">Update Terbaru</span>
                 </div>
 
                 @php
@@ -891,7 +1263,7 @@
             <div class="chart-container" data-aos="fade-left">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-2xl font-semibold text-slate-900">Komposisi Kelompok Usia</h3>
-                    <span class="data-chip">Profil 2025</span>
+                    <span class="data-chip">Profil Data Penduduk</span>
                 </div>
 
                 @php
@@ -1332,6 +1704,8 @@
 @section('scripts')
 <!-- AOS JS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1551,7 +1925,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         const formatCoordinates = (coords) => {
-            return `${coords[0].toFixed(6)}, ${coords[1].toFixed(6)}`;
+            if (!coords) return 'N/A';
+            if (Array.isArray(coords) && coords.length >= 2) {
+                const lng = parseFloat(coords[0]);
+                const lat = parseFloat(coords[1]);
+                if (!isNaN(lng) && !isNaN(lat)) {
+                    return `${lng.toFixed(6)}, ${lat.toFixed(6)}`;
+                }
+            }
+            return 'N/A';
         };
 
         const getDomainFromUrl = (url) => {
@@ -1703,6 +2085,301 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     console.log('🗺️ Mapbox Streets map initialized for Desa Kaana, Enggano.');
+});
+
+// PODES Charts
+document.addEventListener('DOMContentLoaded', function() {
+    // SDA Distribution Chart
+    const sdaDistributionCtx = document.getElementById('sdaDistributionChart');
+    if (sdaDistributionCtx) {
+        new Chart(sdaDistributionCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(($podesStats['sda']['by_category'] ?? []) as $cat => $count)
+                    '{{ $podesStats['sda']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    data: [
+                        @foreach(($podesStats['sda']['by_category'] ?? []) as $cat => $count)
+                        {{ $count }},
+                        @endforeach
+                    ],
+                    backgroundColor: ['#22c55e', '#3b82f6', '#10b981', '#f59e0b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { padding: 15, usePointStyle: true, font: { size: 12 } }
+                    }
+                }
+            }
+        });
+    }
+
+    // SDA Area Chart
+    const sdaAreaCtx = document.getElementById('sdaAreaChart');
+    if (sdaAreaCtx) {
+        new Chart(sdaAreaCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['sda']['area_by_category'] ?? []) as $cat => $area)
+                    '{{ $podesStats['sda']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Luas (Ha)',
+                    data: [
+                        @foreach(($podesStats['sda']['area_by_category'] ?? []) as $cat => $area)
+                        {{ number_format($area, 2) }},
+                        @endforeach
+                    ],
+                    backgroundColor: ['#22c55e', '#3b82f6', '#10b981', '#f59e0b'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Luas (Hektar)' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Infrastruktur Category Chart
+    const infraCategoryCtx = document.getElementById('infraCategoryChart');
+    if (infraCategoryCtx) {
+        new Chart(infraCategoryCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['infrastruktur']['by_category'] ?? []) as $cat => $count)
+                    '{{ $podesStats['infrastruktur']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Jumlah',
+                    data: [
+                        @foreach(($podesStats['infrastruktur']['by_category'] ?? []) as $cat => $count)
+                        {{ $count }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    // Infrastruktur Condition Chart
+    const infraConditionCtx = document.getElementById('infraConditionChart');
+    if (infraConditionCtx) {
+        new Chart(infraConditionCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Baik', 'Sedang', 'Rusak'],
+                datasets: [{
+                    data: [
+                        {{ $podesStats['infrastruktur']['by_condition']['baik'] ?? 0 }},
+                        {{ $podesStats['infrastruktur']['by_condition']['sedang'] ?? 0 }},
+                        {{ $podesStats['infrastruktur']['by_condition']['rusak'] ?? 0 }}
+                    ],
+                    backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    }
+                }
+            }
+        });
+    }
+
+    // Infrastruktur Coverage Chart
+    const infraCoverageCtx = document.getElementById('infraCoverageChart');
+    if (infraCoverageCtx) {
+        new Chart(infraCoverageCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['infrastruktur']['coverage_by_category'] ?? []) as $cat => $coverage)
+                    '{{ $podesStats['infrastruktur']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Cakupan (%)',
+                    data: [
+                        @foreach(($podesStats['infrastruktur']['coverage_by_category'] ?? []) as $cat => $coverage)
+                        {{ round($coverage, 1) }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Cakupan (%)' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Ekonomi Category Chart
+    const ekonomiCategoryCtx = document.getElementById('ekonomiCategoryChart');
+    if (ekonomiCategoryCtx) {
+        new Chart(ekonomiCategoryCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
+                    '{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    data: [
+                        @foreach(($podesStats['ekonomi']['by_category'] ?? []) as $cat => $count)
+                        {{ $count }},
+                        @endforeach
+                    ],
+                    backgroundColor: [
+                        '#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#6b7280'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { padding: 15, usePointStyle: true, font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+
+    // Ekonomi Employees Chart
+    const ekonomiEmployeesCtx = document.getElementById('ekonomiEmployeesChart');
+    if (ekonomiEmployeesCtx) {
+        new Chart(ekonomiEmployeesCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['ekonomi']['employees_by_category'] ?? []) as $cat => $employees)
+                    '{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Karyawan',
+                    data: [
+                        @foreach(($podesStats['ekonomi']['employees_by_category'] ?? []) as $cat => $employees)
+                        {{ $employees }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#10b981',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Jumlah Karyawan' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Ekonomi Revenue Chart
+    const ekonomiRevenueCtx = document.getElementById('ekonomiRevenueChart');
+    if (ekonomiRevenueCtx) {
+        new Chart(ekonomiRevenueCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(($podesStats['ekonomi']['revenue_by_category'] ?? []) as $cat => $revenue)
+                    '{{ $podesStats['ekonomi']['labels'][$cat] ?? ucfirst($cat) }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Pendapatan (Juta)',
+                    data: [
+                        @foreach(($podesStats['ekonomi']['revenue_by_category'] ?? []) as $cat => $revenue)
+                        {{ round($revenue / 1000000, 1) }},
+                        @endforeach
+                    ],
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Pendapatan (Juta Rupiah)' }
+                    }
+                }
+            }
+        });
+    }
 });
 </script>
 @endsection

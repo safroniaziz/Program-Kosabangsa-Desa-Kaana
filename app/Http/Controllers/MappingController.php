@@ -124,10 +124,21 @@ class MappingController extends Controller
         $sdaByCategory = $naturalResources->groupBy('category')->map->count();
         $totalLahan = $naturalResources->where('category', 'lahan')->sum('area_size');
         
+        // SDA area by category
+        $sdaAreaByCategory = $naturalResources->groupBy('category')->map(function($items) {
+            return $items->sum('area_size');
+        });
+        
         // Infrastructure stats
         $infraByCategory = $infrastructures->groupBy('category')->map->count();
         $avgCoverage = $infrastructures->whereNotNull('coverage_percentage')->avg('coverage_percentage');
         $infraCondition = $infrastructures->groupBy('condition')->map->count();
+        
+        // Infrastructure coverage by category
+        $infraCoverageByCategory = $infrastructures->groupBy('category')->map(function($items) {
+            $withCoverage = $items->whereNotNull('coverage_percentage');
+            return $withCoverage->count() > 0 ? $withCoverage->avg('coverage_percentage') : 0;
+        });
         
         // Economic stats
         $ecoByCategory = $economicActivities->groupBy('category')->map->count();
@@ -135,11 +146,22 @@ class MappingController extends Controller
         $totalRevenue = $economicActivities->sum('annual_revenue');
         $umkmCount = $economicActivities->where('category', 'umkm')->count();
         
+        // Economic employees by category
+        $ecoEmployeesByCategory = $economicActivities->groupBy('category')->map(function($items) {
+            return $items->sum('employee_count');
+        });
+        
+        // Economic revenue by category
+        $ecoRevenueByCategory = $economicActivities->groupBy('category')->map(function($items) {
+            return $items->sum('annual_revenue');
+        });
+        
         return [
             'sda' => [
                 'total' => $naturalResources->count(),
                 'by_category' => $sdaByCategory,
                 'total_lahan_ha' => $totalLahan,
+                'area_by_category' => $sdaAreaByCategory,
                 'labels' => NaturalResource::getCategoryLabels(),
             ],
             'infrastruktur' => [
@@ -147,6 +169,7 @@ class MappingController extends Controller
                 'by_category' => $infraByCategory,
                 'avg_coverage' => round($avgCoverage ?? 0, 1),
                 'by_condition' => $infraCondition,
+                'coverage_by_category' => $infraCoverageByCategory,
                 'labels' => Infrastructure::getCategoryLabels(),
             ],
             'ekonomi' => [
@@ -155,6 +178,8 @@ class MappingController extends Controller
                 'total_employees' => $totalEmployees,
                 'total_revenue' => $totalRevenue,
                 'umkm_count' => $umkmCount,
+                'employees_by_category' => $ecoEmployeesByCategory,
+                'revenue_by_category' => $ecoRevenueByCategory,
                 'labels' => EconomicActivity::getCategoryLabels(),
             ],
         ];
