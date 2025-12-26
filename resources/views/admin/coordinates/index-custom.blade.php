@@ -74,7 +74,6 @@
                                 <th>Region</th>
                                 <th>Address</th>
                                 <th>Coordinates</th>
-                                <th>Assessments</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -522,7 +521,6 @@
                         <td>${coordinate.region}</td>
                         <td>${coordinate.address}</td>
                         <td>${coordinate.latitude}, ${coordinate.longitude}</td>
-                        <td>${coordinate.assessment_count || 0}</td>
                         <td>
                             <a href="https://www.google.com/maps?q=${coordinate.latitude},${coordinate.longitude}" target="_blank" class="btn btn-sm btn-outline-primary mr-1">
                                 <i class="fas fa-map-marker-alt"></i> Map
