@@ -98,6 +98,52 @@
                         <!--end:Menu link-->
                     </div>
 
+                    <div class="menu-item {{ Route::is('admin.coordinates.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.coordinates.*') ? 'active' : '' }}" href="{{ route('admin.coordinates.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-map-marker-alt fs-4"></i>
+                            </span>
+                            <span class="menu-title">Lokasi Penting</span>
+                        </a>
+                    </div>
+
+                    <!--begin:Menu item - DATA DESA -->
+                    <div class="menu-item ">
+                        <div class="menu-content">
+                            <span class="menu-heading fw-bold text-uppercase fs-7">DATA DESA</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item {{ Route::is('admin.village-statistics.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.village-statistics.*') ? 'active' : '' }}" href="{{ route('admin.village-statistics.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-chart-bar fs-4"></i>
+                            </span>
+                            <span class="menu-title">Statistik Desa</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item {{ Route::is('admin.village-demographics.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.village-demographics.*') ? 'active' : '' }}" href="{{ route('admin.village-demographics.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-users-cog fs-4"></i>
+                            </span>
+                            <span class="menu-title">Demografi Desa</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item {{ Route::is('admin.village-boundaries.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.village-boundaries.*') ? 'active' : '' }}" href="{{ route('admin.village-boundaries.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-draw-polygon fs-4"></i>
+                            </span>
+                            <span class="menu-title">Batas Wilayah</span>
+                        </a>
+                    </div>
+
+
+                    {{-- Menu Alert Kesehatan dan Bank Soal dihilangkan karena belum ada data --}}
+
                     {{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('rsbProdi.index','rsbFakultas.index') ? 'show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">

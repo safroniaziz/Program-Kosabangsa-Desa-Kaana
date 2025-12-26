@@ -32,12 +32,12 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         if ($user && $user->isAdmin()) {
-            return redirect()->route('dashboard', absolute: false)
+            return redirect()->route('dashboard')
                 ->with('success', 'Selamat datang, ' . $user->name . '! Anda telah berhasil login sebagai Administrator.');
         }
 
         // For regular users, redirect to home page
-        return redirect()->route('home', absolute: false)
+        return redirect()->route('home')
             ->with('success', 'Selamat datang, ' . $user->name . '!');
     }
 

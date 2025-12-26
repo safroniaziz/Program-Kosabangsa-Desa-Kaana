@@ -6,6 +6,12 @@ use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\CoordinateController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\VillageStatisticController;
+use App\Http\Controllers\Admin\VillageDemographicController;
+use App\Http\Controllers\Admin\VillageBoundaryController;
+use App\Http\Controllers\Admin\MentalHealthAlertController;
+use App\Http\Controllers\Admin\UserAnswerController;
+use App\Http\Controllers\Admin\DcmAssessmentResultController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
@@ -13,6 +19,62 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
     Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+
+    // Village Statistics
+    Route::prefix('village-statistics')->name('village-statistics.')->group(function () {
+        Route::get('/', [VillageStatisticController::class, 'index'])->name('index');
+        Route::get('/data', [VillageStatisticController::class, 'getStatistics'])->name('data');
+        Route::post('/', [VillageStatisticController::class, 'store'])->name('store');
+        Route::get('/{id}', [VillageStatisticController::class, 'show'])->name('show');
+        Route::put('/{id}', [VillageStatisticController::class, 'update'])->name('update');
+        Route::delete('/{id}', [VillageStatisticController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle-status', [VillageStatisticController::class, 'toggleStatus'])->name('toggle-status');
+    });
+
+    // Village Demographics
+    Route::prefix('village-demographics')->name('village-demographics.')->group(function () {
+        Route::get('/', [VillageDemographicController::class, 'index'])->name('index');
+        Route::get('/data', [VillageDemographicController::class, 'getDemographics'])->name('data');
+        Route::post('/', [VillageDemographicController::class, 'store'])->name('store');
+        Route::get('/{id}', [VillageDemographicController::class, 'show'])->name('show');
+        Route::put('/{id}', [VillageDemographicController::class, 'update'])->name('update');
+        Route::delete('/{id}', [VillageDemographicController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle-status', [VillageDemographicController::class, 'toggleStatus'])->name('toggle-status');
+    });
+
+    // Village Boundaries
+    Route::prefix('village-boundaries')->name('village-boundaries.')->group(function () {
+        Route::get('/', [VillageBoundaryController::class, 'index'])->name('index');
+        Route::get('/data', [VillageBoundaryController::class, 'getBoundaries'])->name('data');
+        Route::post('/', [VillageBoundaryController::class, 'store'])->name('store');
+        Route::get('/{id}', [VillageBoundaryController::class, 'show'])->name('show');
+        Route::put('/{id}', [VillageBoundaryController::class, 'update'])->name('update');
+        Route::delete('/{id}', [VillageBoundaryController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle-status', [VillageBoundaryController::class, 'toggleStatus'])->name('toggle-status');
+    });
+
+    // Mental Health Alerts
+    Route::prefix('mental-health-alerts')->name('mental-health-alerts.')->group(function () {
+        Route::get('/', [MentalHealthAlertController::class, 'index'])->name('index');
+        Route::get('/data', [MentalHealthAlertController::class, 'getAlerts'])->name('data');
+        Route::get('/{id}', [MentalHealthAlertController::class, 'show'])->name('show');
+        Route::post('/{id}/acknowledge', [MentalHealthAlertController::class, 'acknowledge'])->name('acknowledge');
+        Route::delete('/{id}', [MentalHealthAlertController::class, 'destroy'])->name('destroy');
+    });
+
+    // User Answers (Read Only)
+    Route::prefix('user-answers')->name('user-answers.')->group(function () {
+        Route::get('/', [UserAnswerController::class, 'index'])->name('index');
+        Route::get('/data', [UserAnswerController::class, 'getAnswers'])->name('data');
+        Route::get('/{id}', [UserAnswerController::class, 'show'])->name('show');
+    });
+
+    // DCM Assessment Results (Read Only)
+    Route::prefix('dcm-results')->name('dcm-results.')->group(function () {
+        Route::get('/', [DcmAssessmentResultController::class, 'index'])->name('index');
+        Route::get('/data', [DcmAssessmentResultController::class, 'getResults'])->name('data');
+        Route::get('/{id}', [DcmAssessmentResultController::class, 'show'])->name('show');
+    });
 
     // User Management
     Route::prefix('users')->name('users.')->group(function () {
@@ -63,21 +125,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     // Question Management
     Route::prefix('questions')->name('questions.')->group(function () {
-        // DCM Questions
+        // DCM Questions - static routes first
         Route::get('/', [QuestionController::class, 'index'])->name('index');
         Route::get('/data', [QuestionController::class, 'getQuestions'])->name('data');
         Route::get('/create', [QuestionController::class, 'create'])->name('create');
         Route::post('/', [QuestionController::class, 'store'])->name('store');
-        Route::get('/{id}', [QuestionController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [QuestionController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [QuestionController::class, 'update'])->name('update');
-        Route::delete('/{id}', [QuestionController::class, 'destroy'])->name('destroy');
         Route::post('/bulk-delete', [QuestionController::class, 'bulkDelete'])->name('bulk-delete');
-        Route::post('/{id}/toggle-status', [QuestionController::class, 'toggleStatus'])->name('toggle-status');
         Route::post('/import', [QuestionController::class, 'import'])->name('import');
         Route::get('/export', [QuestionController::class, 'export'])->name('export');
 
-        // PTSD Questions
+        // PTSD Questions - must come before {id} routes
         Route::get('/ptsd', [QuestionController::class, 'PTSDIndex'])->name('ptsd.index');
         Route::get('/ptsd/data', [QuestionController::class, 'getPTSDQuestions'])->name('ptsd.data');
         Route::post('/ptsd', [QuestionController::class, 'PTSDStore'])->name('ptsd.store');
@@ -85,6 +142,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/ptsd/{id}/edit', [QuestionController::class, 'PTSDEdit'])->name('ptsd.edit');
         Route::put('/ptsd/{id}', [QuestionController::class, 'PTSDUpdate'])->name('ptsd.update');
         Route::delete('/ptsd/{id}', [QuestionController::class, 'PTSDestroy'])->name('ptsd.destroy');
+
+        // DCM Questions - {id} wildcard routes last
+        Route::get('/{id}', [QuestionController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [QuestionController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [QuestionController::class, 'update'])->name('update');
+        Route::delete('/{id}', [QuestionController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle-status', [QuestionController::class, 'toggleStatus'])->name('toggle-status');
     });
 
     // Reports & Statistics

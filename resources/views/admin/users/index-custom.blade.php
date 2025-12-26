@@ -122,42 +122,103 @@
 
 <!-- Create User Modal -->
 <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form id="createUserForm">
                 @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title">Add New User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white"><i class="fas fa-user-plus me-2"></i>Tambah Warga Baru</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password_confirmation">Confirm Password</label>
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <select class="form-control" id="role" name="role" required>
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
+                    <div class="row">
+                        <!-- Kolom Kiri: Info Akun -->
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary mb-3"><i class="fas fa-user-circle me-2"></i>Informasi Akun</h6>
+                            <div class="mb-3">
+                                <label class="form-label required">Nama Lengkap</label>
+                                <input type="text" class="form-control" name="name" required placeholder="Masukkan nama lengkap">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label required">Email</label>
+                                <input type="email" class="form-control" name="email" required placeholder="email@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label required">Password</label>
+                                <input type="password" class="form-control" name="password" required placeholder="Minimal 8 karakter">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label required">Konfirmasi Password</label>
+                                <input type="password" class="form-control" name="password_confirmation" required placeholder="Ulangi password">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Role</label>
+                                <select class="form-select" name="role">
+                                    <option value="user" selected>User (Warga)</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Kolom Kanan: Info Demografis -->
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-success mb-3"><i class="fas fa-id-card me-2"></i>Data Demografis</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select class="form-select" name="gender">
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    <option value="male">Laki-laki</option>
+                                    <option value="female">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tanggal Lahir</label>
+                                <input type="date" class="form-control" name="birth_date">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Agama</label>
+                                <select class="form-select" name="religion">
+                                    <option value="">-- Pilih Agama --</option>
+                                    <option value="islam">Islam</option>
+                                    <option value="kristen">Kristen</option>
+                                    <option value="katolik">Katolik</option>
+                                    <option value="hindu">Hindu</option>
+                                    <option value="buddha">Buddha</option>
+                                    <option value="konghucu">Konghucu</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status Sosial Ekonomi</label>
+                                <select class="form-select" name="socioeconomic_status">
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="sangat_miskin">Sangat Miskin</option>
+                                    <option value="miskin">Miskin</option>
+                                    <option value="menengah_bawah">Menengah Bawah</option>
+                                    <option value="menengah">Menengah</option>
+                                    <option value="menengah_atas">Menengah Atas</option>
+                                    <option value="kaya">Kaya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tingkat Pendidikan</label>
+                                <select class="form-select" name="education_level">
+                                    <option value="">-- Pilih Pendidikan --</option>
+                                    <option value="tidak_sekolah">Tidak Sekolah</option>
+                                    <option value="sd">SD</option>
+                                    <option value="smp">SMP</option>
+                                    <option value="sma">SMA/SMK</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="sarjana">Sarjana</option>
+                                    <option value="pascasarjana">Pascasarjana</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Create User</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i>Simpan</button>
                 </div>
             </form>
         </div>
@@ -166,43 +227,104 @@
 
 <!-- Edit User Modal -->
 <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form id="editUserForm">
                 @csrf
                 <input type="hidden" id="edit-user-id" name="user_id">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white"><i class="fas fa-user-edit me-2"></i>Edit Data Warga</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="edit-name">Name</label>
-                        <input type="text" class="form-control" id="edit-name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-email">Email</label>
-                        <input type="email" class="form-control" id="edit-email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-password">Password (leave blank to keep current)</label>
-                        <input type="password" class="form-control" id="edit-password" name="password">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-password_confirmation">Confirm Password</label>
-                        <input type="password" class="form-control" id="edit-password_confirmation" name="password_confirmation">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-role">Role</label>
-                        <select class="form-control" id="edit-role" name="role" required>
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
+                    <div class="row">
+                        <!-- Kolom Kiri: Info Akun -->
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary mb-3"><i class="fas fa-user-circle me-2"></i>Informasi Akun</h6>
+                            <div class="mb-3">
+                                <label class="form-label required">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="edit-name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label required">Email</label>
+                                <input type="email" class="form-control" id="edit-email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password <small class="text-muted">(kosongkan jika tidak diubah)</small></label>
+                                <input type="password" class="form-control" id="edit-password" name="password" placeholder="Minimal 8 karakter">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Konfirmasi Password</label>
+                                <input type="password" class="form-control" id="edit-password_confirmation" name="password_confirmation">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Role</label>
+                                <select class="form-select" id="edit-role" name="role">
+                                    <option value="user">User (Warga)</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Kolom Kanan: Info Demografis -->
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-success mb-3"><i class="fas fa-id-card me-2"></i>Data Demografis</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select class="form-select" id="edit-gender" name="gender">
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    <option value="male">Laki-laki</option>
+                                    <option value="female">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tanggal Lahir</label>
+                                <input type="date" class="form-control" id="edit-birth_date" name="birth_date">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Agama</label>
+                                <select class="form-select" id="edit-religion" name="religion">
+                                    <option value="">-- Pilih Agama --</option>
+                                    <option value="islam">Islam</option>
+                                    <option value="kristen">Kristen</option>
+                                    <option value="katolik">Katolik</option>
+                                    <option value="hindu">Hindu</option>
+                                    <option value="buddha">Buddha</option>
+                                    <option value="konghucu">Konghucu</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status Sosial Ekonomi</label>
+                                <select class="form-select" id="edit-socioeconomic_status" name="socioeconomic_status">
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="sangat_miskin">Sangat Miskin</option>
+                                    <option value="miskin">Miskin</option>
+                                    <option value="menengah_bawah">Menengah Bawah</option>
+                                    <option value="menengah">Menengah</option>
+                                    <option value="menengah_atas">Menengah Atas</option>
+                                    <option value="kaya">Kaya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tingkat Pendidikan</label>
+                                <select class="form-select" id="edit-education_level" name="education_level">
+                                    <option value="">-- Pilih Pendidikan --</option>
+                                    <option value="tidak_sekolah">Tidak Sekolah</option>
+                                    <option value="sd">SD</option>
+                                    <option value="smp">SMP</option>
+                                    <option value="sma">SMA/SMK</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="sarjana">Sarjana</option>
+                                    <option value="pascasarjana">Pascasarjana</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update User</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-info"><i class="fas fa-save me-2"></i>Update</button>
                 </div>
             </form>
         </div>
@@ -211,19 +333,21 @@
 
 <!-- User Detail Modal -->
 <div class="modal fade" id="userDetailModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">User Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white"><i class="fas fa-user-circle me-2"></i>Detail Warga & Assessment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="user-detail">
                 <!-- Content will be loaded via AJAX -->
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+            </div>
         </div>
     </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -342,6 +466,16 @@
                     $('#edit-name').val(user.name);
                     $('#edit-email').val(user.email);
                     $('#edit-role').val(user.role || 'user');
+                    // Demographic fields
+                    $('#edit-gender').val(user.gender || '');
+                    $('#edit-birth_date').val(user.birth_date || '');
+                    $('#edit-religion').val(user.religion || '');
+                    $('#edit-socioeconomic_status').val(user.socioeconomic_status || '');
+                    $('#edit-education_level').val(user.education_level || '');
+                    // Clear password fields
+                    $('#edit-password').val('');
+                    $('#edit-password_confirmation').val('');
+                    
                     var modalEl = document.getElementById('editUserModal');
                     var modal = new bootstrap.Modal(modalEl);
                     modal.show();

@@ -44,8 +44,29 @@ class UserManagementController extends Controller
         $total = $query->count();
         $results = $query->skip(($page - 1) * $perPage)->take($perPage)->get();
 
+        // Gender labels
+        $genderLabels = ['male' => 'Laki-laki', 'female' => 'Perempuan'];
+        
+        // Religion labels
+        $religionLabels = [
+            'islam' => 'Islam', 'kristen' => 'Kristen', 'katolik' => 'Katolik',
+            'hindu' => 'Hindu', 'buddha' => 'Buddha', 'konghucu' => 'Konghucu', 'lainnya' => 'Lainnya'
+        ];
+        
+        // Socioeconomic labels
+        $socioeconomicLabels = [
+            'sangat_miskin' => 'Sangat Miskin', 'miskin' => 'Miskin', 'menengah_bawah' => 'Menengah Bawah',
+            'menengah' => 'Menengah', 'menengah_atas' => 'Menengah Atas', 'kaya' => 'Kaya'
+        ];
+        
+        // Education labels
+        $educationLabels = [
+            'tidak_sekolah' => 'Tidak Sekolah', 'sd' => 'SD', 'smp' => 'SMP', 'sma' => 'SMA/SMK',
+            'diploma' => 'Diploma', 'sarjana' => 'Sarjana', 'pascasarjana' => 'Pascasarjana'
+        ];
+
         return response()->json([
-            'data' => $results->map(function ($user) {
+            'data' => $results->map(function ($user) use ($genderLabels, $religionLabels, $socioeconomicLabels, $educationLabels) {
                 $assessments = $user->assessments;
                 $lastAssessment = $assessments->sortByDesc('created_at')->first();
                 
@@ -67,6 +88,15 @@ class UserManagementController extends Controller
                     'name' => $user->name ?? 'N/A',
                     'email' => $user->email ?? 'N/A',
                     'role' => $user->role ?? 'user',
+                    'gender' => $user->gender,
+                    'gender_label' => $genderLabels[$user->gender] ?? '-',
+                    'birth_date' => $user->birth_date,
+                    'religion' => $user->religion,
+                    'religion_label' => $religionLabels[$user->religion] ?? '-',
+                    'socioeconomic_status' => $user->socioeconomic_status,
+                    'socioeconomic_label' => $socioeconomicLabels[$user->socioeconomic_status] ?? '-',
+                    'education_level' => $user->education_level,
+                    'education_label' => $educationLabels[$user->education_level] ?? '-',
                     'assessment_count' => $assessments->count(),
                     'last_assessment' => $lastAssessment ? $lastAssessment->created_at->format('Y-m-d H:i') : 'N/A',
                     'created_at' => $user->created_at->format('Y-m-d H:i'),
@@ -88,18 +118,28 @@ class UserManagementController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,user'
+            'role' => 'required|in:admin,user',
+            'gender' => 'nullable|in:male,female',
+            'birth_date' => 'nullable|date',
+            'religion' => 'nullable|in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya',
+            'socioeconomic_status' => 'nullable|in:sangat_miskin,miskin,menengah_bawah,menengah,menengah_atas,kaya',
+            'education_level' => 'nullable|in:tidak_sekolah,sd,smp,sma,diploma,sarjana,pascasarjana'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => $request->role,
+            'gender' => $request->gender,
+            'birth_date' => $request->birth_date,
+            'religion' => $request->religion,
+            'socioeconomic_status' => $request->socioeconomic_status,
+            'education_level' => $request->education_level
         ]);
 
         return response()->json(['success' => 'User berhasil dibuat']);
@@ -124,7 +164,12 @@ class UserManagementController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$id,
             'role' => 'required|in:admin,user',
-            'password' => 'nullable|string|min:8|confirmed'
+            'password' => 'nullable|string|min:8|confirmed',
+            'gender' => 'nullable|in:male,female',
+            'birth_date' => 'nullable|date',
+            'religion' => 'nullable|in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya',
+            'socioeconomic_status' => 'nullable|in:sangat_miskin,miskin,menengah_bawah,menengah,menengah_atas,kaya',
+            'education_level' => 'nullable|in:tidak_sekolah,sd,smp,sma,diploma,sarjana,pascasarjana'
         ]);
 
         if ($validator->fails()) {
@@ -135,7 +180,12 @@ class UserManagementController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role
+            'role' => $request->role,
+            'gender' => $request->gender,
+            'birth_date' => $request->birth_date,
+            'religion' => $request->religion,
+            'socioeconomic_status' => $request->socioeconomic_status,
+            'education_level' => $request->education_level
         ];
 
         if ($request->filled('password')) {
