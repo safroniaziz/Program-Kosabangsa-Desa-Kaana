@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             VillageDemographicsSeeder::class,
             VillageBoundariesSeeder::class,
             CoordinatesPOISeeder::class,
+            NaturalResourceSeeder::class, // SDA
+            InfrastructureSeeder::class, // Infrastruktur
+            EconomicActivitySeeder::class, // Ekonomi/UMKM
         ]);
     }
 }

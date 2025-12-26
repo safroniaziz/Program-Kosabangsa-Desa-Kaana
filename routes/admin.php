@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\VillageBoundaryController;
 use App\Http\Controllers\Admin\MentalHealthAlertController;
 use App\Http\Controllers\Admin\UserAnswerController;
 use App\Http\Controllers\Admin\DcmAssessmentResultController;
+use App\Http\Controllers\Admin\NaturalResourceController;
+use App\Http\Controllers\Admin\InfrastructureController;
+use App\Http\Controllers\Admin\EconomicActivityController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
@@ -51,6 +54,39 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::put('/{id}', [VillageBoundaryController::class, 'update'])->name('update');
         Route::delete('/{id}', [VillageBoundaryController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/toggle-status', [VillageBoundaryController::class, 'toggleStatus'])->name('toggle-status');
+    });
+
+    // Natural Resources (Sumber Daya Alam)
+    Route::prefix('natural-resources')->name('natural-resources.')->group(function () {
+        Route::get('/', [NaturalResourceController::class, 'index'])->name('index');
+        Route::get('/data', [NaturalResourceController::class, 'getData'])->name('data');
+        Route::post('/', [NaturalResourceController::class, 'store'])->name('store');
+        Route::get('/{id}', [NaturalResourceController::class, 'show'])->name('show');
+        Route::put('/{id}', [NaturalResourceController::class, 'update'])->name('update');
+        Route::delete('/{id}', [NaturalResourceController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle', [NaturalResourceController::class, 'toggleStatus'])->name('toggle');
+    });
+
+    // Infrastructures (Infrastruktur & Sarana)
+    Route::prefix('infrastructures')->name('infrastructures.')->group(function () {
+        Route::get('/', [InfrastructureController::class, 'index'])->name('index');
+        Route::get('/data', [InfrastructureController::class, 'getData'])->name('data');
+        Route::post('/', [InfrastructureController::class, 'store'])->name('store');
+        Route::get('/{id}', [InfrastructureController::class, 'show'])->name('show');
+        Route::put('/{id}', [InfrastructureController::class, 'update'])->name('update');
+        Route::delete('/{id}', [InfrastructureController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle', [InfrastructureController::class, 'toggleStatus'])->name('toggle');
+    });
+
+    // Economic Activities (Ekonomi/UMKM)
+    Route::prefix('economic-activities')->name('economic-activities.')->group(function () {
+        Route::get('/', [EconomicActivityController::class, 'index'])->name('index');
+        Route::get('/data', [EconomicActivityController::class, 'getData'])->name('data');
+        Route::post('/', [EconomicActivityController::class, 'store'])->name('store');
+        Route::get('/{id}', [EconomicActivityController::class, 'show'])->name('show');
+        Route::put('/{id}', [EconomicActivityController::class, 'update'])->name('update');
+        Route::delete('/{id}', [EconomicActivityController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/toggle', [EconomicActivityController::class, 'toggleStatus'])->name('toggle');
     });
 
     // Mental Health Alerts

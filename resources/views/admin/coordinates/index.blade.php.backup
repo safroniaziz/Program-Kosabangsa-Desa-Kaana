@@ -47,6 +47,7 @@
                             <th>Address</th>
                             <th>Region</th>
                             <th>Coordinates</th>
+                            <th>Assessments</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -57,8 +58,8 @@
 </div>
 
 <!-- Create Coordinate Modal -->
-<div class="modal fade" id="createCoordinateModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="createCoordinateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form id="createCoordinateForm">
                 @csrf
@@ -114,8 +115,8 @@
 </div>
 
 <!-- Edit Coordinate Modal -->
-<div class="modal fade" id="editCoordinateModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="editCoordinateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form id="editCoordinateForm">
                 @csrf
@@ -170,12 +171,86 @@
         </div>
     </div>
 </div>
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="importForm" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Import Coordinates</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="import-file">CSV File</label>
+                        <input type="file" class="form-control" id="import-file" name="file" accept=".csv" required>
+                        <small class="form-text text-muted">
+                            CSV format: Name, Address, Latitude, Longitude, Region, Description
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Import</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<!-- Coordinate Detail Modal -->
+<div class="modal fade" id="coordinateDetailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Coordinate Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="coordinate-detail">
+                <!-- Content will be loaded via AJAX -->
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
 @endsection
 
 @push('scripts')
 <script>
+    // Helper functions
+    function showLoader() {
+        // Show loading indicator if exists
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'Loading...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+        }
+    }
+    
+    function hideLoader() {
+        if (typeof Swal !== 'undefined') {
+            Swal.close();
+        }
+    }
+    
+    function showAlert(type, message) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: type === 'error' ? 'error' : 'success',
+                title: type === 'error' ? 'Error' : 'Success',
+                text: message,
+                timer: 3000,
+                showConfirmButton: false
+            });
+        } else {
+            alert(message);
+        }
+    }
+
     $(function () {
         let table = $('#coordinates-table').DataTable({
             processing: true,
@@ -193,6 +268,7 @@
                         return `${row.latitude}, ${row.longitude}`;
                     }
                 },
+                {data: 'assessment_count', name: 'assessment_count', defaultContent: '0'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             order: [[0, 'asc']]
@@ -201,23 +277,32 @@
         // Create coordinate
         $('#createCoordinateForm').submit(function (e) {
             e.preventDefault();
+            showLoader();
 
             $.ajax({
                 url: "{{ route('admin.coordinates.store') }}",
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
-                    Swal.fire('Success!', response.success, 'success');
-                    bootstrap.Modal.getInstance(document.getElementById('createCoordinateModal')).hide();
-                    $('#createCoordinateForm')[0].reset();
+                    showAlert('success', response.success);
+                    var modalEl = document.getElementById('createCoordinateModal');
+                    bootstrap.Modal.getInstance(modalEl).hide();
+                    $(this)[0].reset();
                     table.ajax.reload();
+                    hideLoader();
                 },
                 error: function (xhr) {
-                    let errorMessage = 'Failed to create coordinate';
-                    if (xhr.status === 422 && xhr.responseJSON.errors) {
-                        errorMessage = Object.values(xhr.responseJSON.errors).join('\n');
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+                        for (let key in errors) {
+                            errorMessage += errors[key] + '\n';
+                        }
+                        showAlert('error', errorMessage);
+                    } else {
+                        showAlert('error', 'Failed to create coordinate');
                     }
-                    Swal.fire('Error!', errorMessage, 'error');
+                    hideLoader();
                 }
             });
         });
@@ -225,6 +310,7 @@
         // Edit coordinate
         $(document).on('click', '.btn-edit', function () {
             let id = $(this).data('id');
+            showLoader();
 
             $.get(`{{ route('admin.coordinates.edit', ':id') }}`.replace(':id', id))
                 .done(function (coordinate) {
@@ -235,34 +321,64 @@
                     $('#edit-longitude').val(coordinate.longitude);
                     $('#edit-region').val(coordinate.region);
                     $('#edit-description').val(coordinate.description);
-                    new bootstrap.Modal(document.getElementById('editCoordinateModal')).show();
+                    var editModal = new bootstrap.Modal(document.getElementById('editCoordinateModal'));
+                    editModal.show();
+                    hideLoader();
                 })
                 .fail(function () {
-                    Swal.fire('Error!', 'Failed to load coordinate data', 'error');
+                    showAlert('error', 'Failed to load coordinate data');
+                    hideLoader();
                 });
         });
 
         $('#editCoordinateForm').submit(function (e) {
             e.preventDefault();
             let id = $('#edit-coordinate-id').val();
+            showLoader();
 
             $.ajax({
                 url: `{{ route('admin.coordinates.update', ':id') }}`.replace(':id', id),
                 type: 'PUT',
                 data: $(this).serialize(),
                 success: function (response) {
-                    Swal.fire('Success!', response.success, 'success');
-                    bootstrap.Modal.getInstance(document.getElementById('editCoordinateModal')).hide();
+                    showAlert('success', response.success);
+                    var editModalEl = document.getElementById('editCoordinateModal');
+                    bootstrap.Modal.getInstance(editModalEl).hide();
                     table.ajax.reload();
+                    hideLoader();
                 },
                 error: function (xhr) {
-                    let errorMessage = 'Failed to update coordinate';
-                    if (xhr.status === 422 && xhr.responseJSON.errors) {
-                        errorMessage = Object.values(xhr.responseJSON.errors).join('\n');
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+                        for (let key in errors) {
+                            errorMessage += errors[key] + '\n';
+                        }
+                        showAlert('error', errorMessage);
+                    } else {
+                        showAlert('error', 'Failed to update coordinate');
                     }
-                    Swal.fire('Error!', errorMessage, 'error');
+                    hideLoader();
                 }
             });
+        });
+
+        // View coordinate details
+        $(document).on('click', '.btn-view', function () {
+            let id = $(this).data('id');
+            showLoader();
+
+            $.get(`{{ route('admin.coordinates.show', ':id') }}`.replace(':id', id))
+                .done(function (data) {
+                    $('#coordinate-detail').html(data);
+                    var detailModal = new bootstrap.Modal(document.getElementById('coordinateDetailModal'));
+                    detailModal.show();
+                    hideLoader();
+                })
+                .fail(function () {
+                    showAlert('error', 'Failed to load coordinate details');
+                    hideLoader();
+                });
         });
 
         // Delete coordinate
@@ -279,18 +395,61 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    showLoader();
+
                     $.ajax({
                         url: `{{ route('admin.coordinates.destroy', ':id') }}`.replace(':id', id),
                         type: 'DELETE',
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function (response) {
-                            Swal.fire('Deleted!', response.success, 'success');
+                            showAlert('success', response.success);
                             table.ajax.reload();
+                            hideLoader();
                         },
                         error: function (xhr) {
-                            Swal.fire('Error!', xhr.responseJSON.error || 'Failed to delete coordinate', 'error');
+                            showAlert('error', xhr.responseJSON.error || 'Failed to delete coordinate');
+                            hideLoader();
                         }
                     });
+                }
+            });
+        });
+
+        // Import coordinates
+        $('#importForm').submit(function (e) {
+            e.preventDefault();
+            showLoader();
+
+            let formData = new FormData(this);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+            $.ajax({
+                url: "{{ route('admin.coordinates.import') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    showAlert('success', response.success);
+                    $('#importModal').modal('hide');
+                    $(this)[0].reset();
+                    table.ajax.reload();
+                    hideLoader();
+                },
+                error: function (xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+                        for (let key in errors) {
+                            errorMessage += errors[key] + '\n';
+                        }
+                        showAlert('error', errorMessage);
+                    } else {
+                        showAlert('error', xhr.responseJSON.error || 'Failed to import coordinates');
+                    }
+                    hideLoader();
                 }
             });
         });

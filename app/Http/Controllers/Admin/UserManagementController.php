@@ -98,7 +98,9 @@ class UserManagementController extends Controller
                     'education_level' => $user->education_level,
                     'education_label' => $educationLabels[$user->education_level] ?? '-',
                     'assessment_count' => $assessments->count(),
-                    'last_assessment' => $lastAssessment ? $lastAssessment->created_at->format('Y-m-d H:i') : 'N/A',
+                    'last_assessment' => $lastAssessment 
+                        ? '<span class="badge bg-success">' . $lastAssessment->created_at->format('d M Y') . '</span>'
+                        : '<span class="badge bg-secondary">Belum Ada</span>',
                     'created_at' => $user->created_at->format('Y-m-d H:i'),
                     'action' => $action
                 ];

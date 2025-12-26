@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\VillageStatistic;
 use App\Models\VillageDemographic;
 use App\Models\VillageBoundary;
 use App\Models\Coordinate;
 use App\Models\User;
+use App\Models\NaturalResource;
+use App\Models\Infrastructure;
+use App\Models\EconomicActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -15,9 +17,6 @@ class MappingController extends Controller
 {
     public function index()
     {
-        // Get all statistics
-        $statistics = VillageStatistic::active()->ordered()->get();
-
         // Get all demographics
         $demographics = VillageDemographic::active()->ordered()->get();
 
@@ -32,6 +31,17 @@ class MappingController extends Controller
 
         // Get points of interest
         $pointsOfInterest = Coordinate::pointsOfInterest()->get();
+
+        // Get PODES Data
+        $naturalResources = NaturalResource::active()->get();
+        $infrastructures = Infrastructure::active()->get();
+        $economicActivities = EconomicActivity::active()->get();
+
+        // Calculate PODES stats
+        $podesStats = $this->calculatePodesStats($naturalResources, $infrastructures, $economicActivities);
+
+        // Create statistics from PODES data
+        $statistics = $this->createStatisticsFromPodes($podesStats);
 
         // Format boundary coordinates for JavaScript
         $boundaryCoordinates = null;
@@ -64,8 +74,90 @@ class MappingController extends Controller
             'demographics',
             'boundaryCoordinates',
             'pois',
-            'chartData'
+            'chartData',
+            'podesStats',
+            'naturalResources',
+            'infrastructures',
+            'economicActivities'
         ));
+    }
+
+    /**
+     * Create statistics array from PODES data
+     */
+    private function createStatisticsFromPodes($podesStats)
+    {
+        return [
+            (object)[
+                'value' => $podesStats['sda']['total'],
+                'label' => 'Sumber Daya Alam',
+                'subtext' => 'Total SDA terdata',
+                'icon' => 'fas fa-tree'
+            ],
+            (object)[
+                'value' => $podesStats['infrastruktur']['total'],
+                'label' => 'Infrastruktur',
+                'subtext' => 'Total infrastruktur',
+                'icon' => 'fas fa-building'
+            ],
+            (object)[
+                'value' => $podesStats['ekonomi']['total'],
+                'label' => 'Kegiatan Ekonomi',
+                'subtext' => 'Total kegiatan ekonomi',
+                'icon' => 'fas fa-store'
+            ],
+            (object)[
+                'value' => $podesStats['ekonomi']['umkm_count'],
+                'label' => 'UMKM',
+                'subtext' => 'Usaha Mikro Kecil Menengah',
+                'icon' => 'fas fa-briefcase'
+            ],
+        ];
+    }
+
+    /**
+     * Calculate PODES statistics
+     */
+    private function calculatePodesStats($naturalResources, $infrastructures, $economicActivities)
+    {
+        // SDA stats by category
+        $sdaByCategory = $naturalResources->groupBy('category')->map->count();
+        $totalLahan = $naturalResources->where('category', 'lahan')->sum('area_size');
+        
+        // Infrastructure stats
+        $infraByCategory = $infrastructures->groupBy('category')->map->count();
+        $avgCoverage = $infrastructures->whereNotNull('coverage_percentage')->avg('coverage_percentage');
+        $infraCondition = $infrastructures->groupBy('condition')->map->count();
+        
+        // Economic stats
+        $ecoByCategory = $economicActivities->groupBy('category')->map->count();
+        $totalEmployees = $economicActivities->sum('employee_count');
+        $totalRevenue = $economicActivities->sum('annual_revenue');
+        $umkmCount = $economicActivities->where('category', 'umkm')->count();
+        
+        return [
+            'sda' => [
+                'total' => $naturalResources->count(),
+                'by_category' => $sdaByCategory,
+                'total_lahan_ha' => $totalLahan,
+                'labels' => NaturalResource::getCategoryLabels(),
+            ],
+            'infrastruktur' => [
+                'total' => $infrastructures->count(),
+                'by_category' => $infraByCategory,
+                'avg_coverage' => round($avgCoverage ?? 0, 1),
+                'by_condition' => $infraCondition,
+                'labels' => Infrastructure::getCategoryLabels(),
+            ],
+            'ekonomi' => [
+                'total' => $economicActivities->count(),
+                'by_category' => $ecoByCategory,
+                'total_employees' => $totalEmployees,
+                'total_revenue' => $totalRevenue,
+                'umkm_count' => $umkmCount,
+                'labels' => EconomicActivity::getCategoryLabels(),
+            ],
+        ];
     }
 
     /**

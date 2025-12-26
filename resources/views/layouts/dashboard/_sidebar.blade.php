@@ -114,14 +114,6 @@
                         </div>
                     </div>
 
-                    <div class="menu-item {{ Route::is('admin.village-statistics.*') ? 'show' : '' }}">
-                        <a class="menu-link {{ Route::is('admin.village-statistics.*') ? 'active' : '' }}" href="{{ route('admin.village-statistics.index') }}">
-                            <span class="menu-icon">
-                                <i class="fas fa-chart-bar fs-4"></i>
-                            </span>
-                            <span class="menu-title">Statistik Desa</span>
-                        </a>
-                    </div>
 
                     <div class="menu-item {{ Route::is('admin.village-demographics.*') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('admin.village-demographics.*') ? 'active' : '' }}" href="{{ route('admin.village-demographics.index') }}">
@@ -141,6 +133,32 @@
                         </a>
                     </div>
 
+                    <div class="menu-item {{ Route::is('admin.natural-resources.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.natural-resources.*') ? 'active' : '' }}" href="{{ route('admin.natural-resources.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-leaf fs-4"></i>
+                            </span>
+                            <span class="menu-title">Sumber Daya Alam</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item {{ Route::is('admin.infrastructures.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.infrastructures.*') ? 'active' : '' }}" href="{{ route('admin.infrastructures.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-road fs-4"></i>
+                            </span>
+                            <span class="menu-title">Infrastruktur</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item {{ Route::is('admin.economic-activities.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.economic-activities.*') ? 'active' : '' }}" href="{{ route('admin.economic-activities.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-store fs-4"></i>
+                            </span>
+                            <span class="menu-title">Data Ekonomi</span>
+                        </a>
+                    </div>
 
                     {{-- Menu Alert Kesehatan dan Bank Soal dihilangkan karena belum ada data --}}
 

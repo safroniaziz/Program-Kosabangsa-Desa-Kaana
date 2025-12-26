@@ -15,6 +15,16 @@ class VillageStatisticController extends Controller
 
     public function getStatistics(Request $request)
     {
+        // Auto-update total_population dari data users
+        $totalPopulationStat = VillageStatistic::where('key', 'total_population')->first();
+        if ($totalPopulationStat) {
+            $totalUsers = \App\Models\User::where('role', 'user')->count();
+            if ($totalPopulationStat->value != $totalUsers) {
+                $totalPopulationStat->value = $totalUsers;
+                $totalPopulationStat->save();
+            }
+        }
+
         $query = VillageStatistic::query();
 
         // Search
@@ -95,6 +105,11 @@ class VillageStatisticController extends Controller
         $data['is_active'] = $request->has('is_active');
         $data['order'] = $data['order'] ?? VillageStatistic::max('order') + 1;
 
+        // Jika key adalah total_population, hitung otomatis dari data users
+        if ($data['key'] === 'total_population') {
+            $data['value'] = \App\Models\User::where('role', 'user')->count();
+        }
+
         VillageStatistic::create($data);
 
         return response()->json(['success' => 'Statistik desa berhasil ditambahkan!']);
@@ -121,6 +136,11 @@ class VillageStatisticController extends Controller
 
         $data = $request->all();
         $data['is_active'] = $request->has('is_active');
+
+        // Jika key adalah total_population, hitung otomatis dari data users
+        if ($data['key'] === 'total_population') {
+            $data['value'] = \App\Models\User::where('role', 'user')->count();
+        }
 
         $statistic->update($data);
 

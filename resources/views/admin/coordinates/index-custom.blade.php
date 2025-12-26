@@ -22,9 +22,6 @@
             <div class="card-header">
                 <h3 class="card-title">All Coordinates</h3>
                 <div class="card-tools">
-                    <a href="{{ route('admin.coordinates.map') }}" class="btn btn-info btn-sm">
-                        <i class="fas fa-map"></i> Map View
-                    </a>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                     </button>
@@ -33,15 +30,9 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-12">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCoordinateModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCoordinateModal">
                             <i class="fas fa-plus"></i> Add New Coordinate
                         </button>
-                        <button type="button" class="btn btn-success ml-2" data-toggle="modal" data-target="#importModal">
-                            <i class="fas fa-file-import"></i> Import CSV
-                        </button>
-                        <a href="{{ route('admin.coordinates.export') }}" class="btn btn-success float-right">
-                            <i class="fas fa-download"></i> Export
-                        </a>
                     </div>
                 </div>
 
@@ -135,16 +126,14 @@
 </div>
 
 <!-- Create Coordinate Modal -->
-<div class="modal fade" id="createCoordinateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="createCoordinateModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form id="createCoordinateForm">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Add New Coordinate</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -162,14 +151,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="latitude">Latitude *</label>
-                                <input type="number" step="any" class="form-control" id="latitude" name="latitude" required>
+                                <label for="latitude">Latitude * (-90 to 90)</label>
+                                <input type="number" step="any" class="form-control" id="latitude" name="latitude" min="-90" max="90" required>
+                                <small class="form-text text-muted">Must be between -90 and 90</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="longitude">Longitude *</label>
-                                <input type="number" step="any" class="form-control" id="longitude" name="longitude" required>
+                                <label for="longitude">Longitude * (-180 to 180)</label>
+                                <input type="number" step="any" class="form-control" id="longitude" name="longitude" min="-180" max="180" required>
+                                <small class="form-text text-muted">Must be between -180 and 180</small>
                             </div>
                         </div>
                     </div>
@@ -179,7 +170,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Create Coordinate</button>
                 </div>
             </form>
@@ -188,17 +179,15 @@
 </div>
 
 <!-- Edit Coordinate Modal -->
-<div class="modal fade" id="editCoordinateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="editCoordinateModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form id="editCoordinateForm">
                 @csrf
                 <input type="hidden" id="edit-coordinate-id" name="coordinate_id">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Coordinate</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -216,14 +205,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="edit-latitude">Latitude *</label>
-                                <input type="number" step="any" class="form-control" id="edit-latitude" name="latitude" required>
+                                <label for="edit-latitude">Latitude * (-90 to 90)</label>
+                                <input type="number" step="any" class="form-control" id="edit-latitude" name="latitude" min="-90" max="90" required>
+                                <small class="form-text text-muted">Must be between -90 and 90</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="edit-longitude">Longitude *</label>
-                                <input type="number" step="any" class="form-control" id="edit-longitude" name="longitude" required>
+                                <label for="edit-longitude">Longitude * (-180 to 180)</label>
+                                <input type="number" step="any" class="form-control" id="edit-longitude" name="longitude" min="-180" max="180" required>
+                                <small class="form-text text-muted">Must be between -180 and 180</small>
                             </div>
                         </div>
                     </div>
@@ -233,7 +224,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Update Coordinate</button>
                 </div>
             </form>
@@ -241,45 +232,13 @@
     </div>
 </div>
 
-<!-- Import Modal -->
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="importForm" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title">Import Coordinates</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="import-file">CSV File</label>
-                        <input type="file" class="form-control" id="import-file" name="file" accept=".csv" required>
-                        <small class="form-text text-muted">
-                            CSV format: Name, Address, Latitude, Longitude, Region, Description
-                        </small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Import</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <!-- Coordinate Detail Modal -->
-<div class="modal fade" id="coordinateDetailModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="coordinateDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Coordinate Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="coordinate-detail">
                 <!-- Content will be loaded via AJAX -->
@@ -291,7 +250,33 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    // Common helper functions
+    function showLoader() {
+        $('#loading-indicator').show();
+    }
+
+    function hideLoader() {
+        $('#loading-indicator').hide();
+    }
+
+    function showAlert(type, message) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: type,
+                title: message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        } else {
+            alert(message);
+        }
+    }
+
     let currentPage = 1;
     let perPage = 10;
     let searchQuery = '';
@@ -348,25 +333,37 @@
                 url: "{{ route('admin.coordinates.store') }}",
                 type: 'POST',
                 data: $(this).serialize(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function (response) {
                     showAlert('success', response.success);
-                    $('#createCoordinateModal').modal('hide');
-                    $(this)[0].reset();
+                    let modal = bootstrap.Modal.getInstance(document.getElementById('createCoordinateModal'));
+                    if (modal) {
+                        modal.hide();
+                    }
+                    $('#createCoordinateForm')[0].reset();
                     loadCoordinates();
                     hideLoader();
                 },
                 error: function (xhr) {
+                    hideLoader();
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let errorMessage = '';
                         for (let key in errors) {
-                            errorMessage += errors[key] + '\n';
+                            if (Array.isArray(errors[key])) {
+                                errorMessage += errors[key].join('\n') + '\n';
+                            } else {
+                                errorMessage += errors[key] + '\n';
+                            }
                         }
-                        showAlert('error', errorMessage);
+                        showAlert('error', errorMessage || 'Validation failed');
+                    } else if (xhr.responseJSON && xhr.responseJSON.error) {
+                        showAlert('error', xhr.responseJSON.error);
                     } else {
-                        showAlert('error', 'Failed to create coordinate');
+                        showAlert('error', xhr.responseJSON?.message || 'Failed to create coordinate');
                     }
-                    hideLoader();
                 }
             });
         });
@@ -385,7 +382,8 @@
                     $('#edit-latitude').val(coordinate.latitude);
                     $('#edit-longitude').val(coordinate.longitude);
                     $('#edit-description').val(coordinate.description || '');
-                    $('#editCoordinateModal').modal('show');
+                    let editModal = new bootstrap.Modal(document.getElementById('editCoordinateModal'));
+                    editModal.show();
                     hideLoader();
                 })
                 .fail(function () {
@@ -405,7 +403,10 @@
                 data: $(this).serialize(),
                 success: function (response) {
                     showAlert('success', response.success);
-                    $('#editCoordinateModal').modal('hide');
+                    let editModal = bootstrap.Modal.getInstance(document.getElementById('editCoordinateModal'));
+                    if (editModal) {
+                        editModal.hide();
+                    }
                     loadCoordinates();
                     hideLoader();
                 },
@@ -433,7 +434,8 @@
             $.get(`{{ route('admin.coordinates.show', ':id') }}`.replace(':id', id))
                 .done(function (data) {
                     $('#coordinate-detail').html(data);
-                    $('#coordinateDetailModal').modal('show');
+                    let detailModal = new bootstrap.Modal(document.getElementById('coordinateDetailModal'));
+                    detailModal.show();
                     hideLoader();
                 })
                 .fail(function () {
@@ -478,42 +480,6 @@
             });
         });
 
-        // Import coordinates
-        $('#importForm').submit(function (e) {
-            e.preventDefault();
-            showLoader();
-
-            let formData = new FormData(this);
-            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-
-            $.ajax({
-                url: "{{ route('admin.coordinates.import') }}",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    showAlert('success', response.success);
-                    $('#importModal').modal('hide');
-                    $(this)[0].reset();
-                    loadCoordinates();
-                    hideLoader();
-                },
-                error: function (xhr) {
-                    if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
-                        let errorMessage = '';
-                        for (let key in errors) {
-                            errorMessage += errors[key] + '\n';
-                        }
-                        showAlert('error', errorMessage);
-                    } else {
-                        showAlert('error', xhr.responseJSON.error || 'Failed to import coordinates');
-                    }
-                    hideLoader();
-                }
-            });
-        });
     });
 
     function loadCoordinates() {
@@ -527,7 +493,7 @@
             region: filterRegion
         });
 
-        $.get(`{{ route('admin.coordinates.index') }}/data?${params}`)
+        $.get(`{{ route('admin.coordinates.data') }}?${params}`)
             .done(function(response) {
                 renderTable(response.data);
                 renderPagination(response);

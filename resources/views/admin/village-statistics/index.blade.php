@@ -182,6 +182,9 @@
                     <div class="mb-3">
                         <label class="form-label required">Value</label>
                         <input type="number" class="form-control" id="edit_value" name="value" required>
+                        <small class="form-text text-muted" id="edit_value_hint" style="display: none;">
+                            <i class="fas fa-info-circle"></i> Nilai ini dihitung otomatis dari data warga yang terdaftar di sistem.
+                        </small>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Subtext</label>
@@ -282,6 +285,18 @@ $(function() {
             $('#edit_icon').val(data.icon);
             $('#edit_order').val(data.order);
             $('#edit_is_active').prop('checked', data.is_active);
+            
+            // Jika key adalah total_population, buat field value menjadi read-only
+            // dan update value dari data users terbaru
+            if (data.key === 'total_population') {
+                $('#edit_value').prop('readonly', true).addClass('bg-light');
+                $('#edit_value_hint').show();
+                // Update value dengan data terbaru dari users (akan di-sync oleh controller saat submit)
+            } else {
+                $('#edit_value').prop('readonly', false).removeClass('bg-light');
+                $('#edit_value_hint').hide();
+            }
+            
             $('#editModal').modal('show');
         });
     });
@@ -289,10 +304,19 @@ $(function() {
     $('#editForm').submit(function(e) {
         e.preventDefault();
         let id = $('#edit_id').val();
+        let key = $('#edit_key').val();
+        
+        // Jika key adalah total_population, ambil value terbaru dari server
+        let formData = $(this).serialize();
+        if (key === 'total_population') {
+            // Value akan di-override oleh controller, tapi kita tetap kirim untuk validasi
+            // Controller akan menghitung ulang dari data users
+        }
+        
         $.ajax({
             url: `{{ url('admin/village-statistics') }}/${id}`,
             type: 'PUT',
-            data: $(this).serialize(),
+            data: formData,
             success: function(response) {
                 Swal.fire('Berhasil', response.success, 'success');
                 $('#editModal').modal('hide');

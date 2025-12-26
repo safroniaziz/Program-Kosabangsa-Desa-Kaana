@@ -81,18 +81,22 @@ class CoordinateController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'region' => 'required|string',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
             'address' => 'nullable|string',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
             'description' => 'nullable|string',
         ]);
 
-        Coordinate::create($request->all());
-
-        return response()->json(['success' => 'Coordinate added successfully']);
+        try {
+            Coordinate::create($validated);
+            return response()->json(['success' => 'Coordinate added successfully']);
+        } catch (\Exception $e) {
+            \Log::error('Error creating coordinate: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to create coordinate: ' . $e->getMessage()], 500);
+        }
     }
 
     public function show($id)
@@ -104,24 +108,28 @@ class CoordinateController extends Controller
     public function edit($id)
     {
         $coordinate = Coordinate::findOrFail($id);
-        return view('admin.coordinates.edit', compact('coordinate'));
+        return response()->json($coordinate);
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'region' => 'required|string',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
             'address' => 'nullable|string',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
             'description' => 'nullable|string',
         ]);
 
-        $coordinate = Coordinate::findOrFail($id);
-        $coordinate->update($request->all());
-
-        return response()->json(['success' => 'Coordinate updated successfully']);
+        try {
+            $coordinate = Coordinate::findOrFail($id);
+            $coordinate->update($validated);
+            return response()->json(['success' => 'Coordinate updated successfully']);
+        } catch (\Exception $e) {
+            \Log::error('Error updating coordinate: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update coordinate: ' . $e->getMessage()], 500);
+        }
     }
 
     public function destroy($id)

@@ -15,73 +15,57 @@ class VillageBoundaryController extends Controller
 
     public function getBoundaries(Request $request)
     {
-        $query = VillageBoundary::query();
-
-        // Search
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('village_name', 'like', "%{$search}%");
+        // Get all boundaries
+        $allBoundaries = VillageBoundary::all();
+        
+        // Flatten all coordinates from all boundaries into a single list
+        $allCoordinates = [];
+        foreach ($allBoundaries as $item) {
+            if ($item->coordinates && is_array($item->coordinates) && count($item->coordinates) > 0) {
+                foreach ($item->coordinates as $coord) {
+                    if (is_array($coord) && count($coord) >= 2) {
+                        $allCoordinates[] = [
+                            'latitude' => number_format($coord[1], 6),
+                            'longitude' => number_format($coord[0], 6),
+                        ];
+                    }
+                }
+            }
         }
-
-        // Sort
-        $sortBy = $request->input('sort_by', 'created_at');
-        $sortOrder = $request->input('sort_order', 'desc');
-        $query->orderBy($sortBy, $sortOrder);
-
+        
+        // If no coordinates found, return empty array
+        if (empty($allCoordinates)) {
+            $allCoordinates[] = [
+                'latitude' => '-',
+                'longitude' => '-',
+            ];
+        }
+        
         // Pagination
         $perPage = $request->input('per_page', 10);
         $page = $request->input('page', 1);
-        $total = $query->count();
-        $results = $query->skip(($page - 1) * $perPage)->take($perPage)->get();
+        $total = count($allCoordinates);
+        $offset = ($page - 1) * $perPage;
+        $paginatedCoordinates = array_slice($allCoordinates, $offset, $perPage);
+        
+        // Add row numbers
+        $data = [];
+        foreach ($paginatedCoordinates as $index => $coord) {
+            $data[] = [
+                'no' => $offset + $index + 1,
+                'latitude' => $coord['latitude'],
+                'longitude' => $coord['longitude'],
+            ];
+        }
 
         return response()->json([
-            'data' => $results->map(function ($item) {
-                $statusBadge = $item->is_active 
-                    ? '<span class="badge badge-success">Aktif</span>' 
-                    : '<span class="badge badge-secondary">Nonaktif</span>';
-                
-                $center = number_format($item->center_latitude, 6) . ', ' . number_format($item->center_longitude, 6);
-                $colorPreview = '<span class="badge" style="background-color: ' . ($item->fill_color ?? '#007bff') . '; opacity: ' . ($item->fill_opacity ?? 0.3) . '; border: 2px solid ' . ($item->line_color ?? '#007bff') . '">&nbsp;&nbsp;&nbsp;</span>';
-                
-                $action = '<div class="btn-group" role="group">
-                    <button type="button" class="btn btn-sm btn-primary btn-preview" data-id="' . $item->id . '" title="Preview Map">
-                        <i class="fas fa-map"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-info btn-edit" data-id="' . $item->id . '" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-warning btn-toggle" data-id="' . $item->id . '" title="Toggle Status">
-                        <i class="fas fa-power-off"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="' . $item->id . '" title="Hapus">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>';
-
-                return [
-                    'id' => $item->id,
-                    'village_name' => $item->village_name,
-                    'center' => $center,
-                    'center_latitude' => $item->center_latitude,
-                    'center_longitude' => $item->center_longitude,
-                    'default_zoom' => $item->default_zoom,
-                    'fill_color' => $item->fill_color,
-                    'fill_opacity' => $item->fill_opacity,
-                    'line_color' => $item->line_color,
-                    'line_width' => $item->line_width,
-                    'coordinates' => $item->coordinates,
-                    'color_preview' => $colorPreview,
-                    'is_active' => $item->is_active,
-                    'status' => $statusBadge,
-                    'action' => $action
-                ];
-            })->values()->toArray(),
+            'data' => $data,
             'total' => $total,
             'per_page' => $perPage,
             'current_page' => $page,
             'last_page' => ceil($total / $perPage),
-            'from' => ($page - 1) * $perPage + 1,
-            'to' => min($page * $perPage, $total)
+            'from' => $offset + 1,
+            'to' => min($offset + $perPage, $total)
         ]);
     }
 

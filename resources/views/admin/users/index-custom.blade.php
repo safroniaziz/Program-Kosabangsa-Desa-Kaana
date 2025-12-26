@@ -33,9 +33,6 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
                             <i class="fas fa-plus"></i> Add New User
                         </button>
-                        <a href="{{ route('admin.users.export') }}" class="btn btn-success float-right">
-                            <i class="fas fa-download"></i> Export Users
-                        </a>
                     </div>
                 </div>
 
